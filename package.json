@@ -1,14 +1,19 @@
 {
   "name": "daba",
-  "version": "0.0.1",
-  "description": "",
-  "main": "index.js",
+  "version": "0.0.8",
+  "description": "daba's javascript library",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "prepublish": "tsc"
   },
+  "types": "dist/index.d.ts",
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "typescript": "^4.9.5"
+  },
+  "exports": {
+    ".": "./dist/index.js"
   }
 }
