@@ -1,6 +1,6 @@
 {
   "name": "daba",
-  "version": "0.0.8",
+  "version": "0.0.11",
   "description": "daba's javascript library",
   "main": "dist/index.js",
   "scripts": {
