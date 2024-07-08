@@ -52,7 +52,7 @@
     "autoprefixer": "^10.4.19",
     "electron": "^22.3.4",
     "electron-builder": "^23.6.0",
-    "electron-vite": "^1.0.21",
+    "electron-vite": "^2.3.0",
     "postcss": "^8.4.38",
     "prettier": "^3.2.5",
     "svelte": "^5.0.0-next.121",
