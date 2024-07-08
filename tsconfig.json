@@ -1,0 +1,21 @@
+{
+  "extends": "@electron-toolkit/tsconfig/tsconfig.json",
+  "include": [
+    "src/renderer/src/env.d.ts",
+    "src/renderer/src/**/*",
+    "src/renderer/src/**/*.svelte",
+    "src/preload/*.d.ts",
+    "src/shared/**/*",
+  ],
+  "compilerOptions": {
+    "useDefineForClassFields": true,
+    "strict": true,
+    "allowJs": true,
+    "checkJs": true,
+    "noImplicitReturns": false,
+    "lib": ["ESNext", "DOM", "DOM.Iterable"]
+  },
+  "references": [{ "path": "./tsconfig.node.json" }],
+  "exclude": ["src/main/templates/**/*"],
+
+}
