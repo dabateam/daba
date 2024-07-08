@@ -1,0 +1,53 @@
+services:
+  web:
+    depends_on:
+      - api
+    build: ./frontend
+    ports:
+      - "${WEB_PORT}:5173"
+
+    environment:
+      VITE_API_URL: http://localhost:${API_PORT}
+
+    develop:
+      watch:
+        - path: ./frontend/package.json
+          action: rebuild
+        - path: ./frontend/package-lock.json
+          action: rebuild
+        - path: ./frontend
+          target: /app
+          action: sync
+
+  api:
+    depends_on:
+      - db
+
+    build: ./backend
+    ports:
+      - "${API_PORT}:8000"
+
+    environment:
+      DB_URL: mongodb://db/anime
+
+    develop:
+      watch:
+        - path: ./backend/package.json
+          action: rebuild
+        - path: ./backend/package-lock.json
+          action: rebuild
+
+        - path: ./backend
+          target: /app
+          action: sync
+
+  db:
+    image: mongo:latest
+    ports:
+      - "${DB_PORT}:27017"
+
+    volumes:
+      - db_volume:/data/db
+
+volumes:
+  db_volume:
