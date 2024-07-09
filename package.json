@@ -20,6 +20,7 @@
     "build:mac": "npm run build && electron-builder --mac --config",
     "build:linux": "npm run build && electron-builder --linux --config"
   },
+  "repository": "https://github.com/dabateam/daba",
   "dependencies": {
     "@electron-toolkit/preload": "^1.0.3",
     "@electron-toolkit/utils": "^1.0.2",
@@ -28,7 +29,6 @@
     "animejs": "^3.2.2",
     "clsx": "^2.1.1",
     "dockerode": "^4.0.2",
-    "electron-updater": "^5.3.0",
     "electron-window-state": "^5.0.3",
     "fs-extra": "^11.2.0",
     "lodash": "^4.17.21",
@@ -52,6 +52,7 @@
     "autoprefixer": "^10.4.19",
     "electron": "^22.3.4",
     "electron-builder": "^23.6.0",
+    "electron-updater": "^6.2.1",
     "electron-vite": "^2.3.0",
     "postcss": "^8.4.38",
     "prettier": "^3.2.5",
