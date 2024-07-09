@@ -1,4 +1,4 @@
-import { ipcMain } from "electron"
+import { app, ipcMain } from "electron"
 import dockerode from "dockerode"
 import fs from "fs-extra"
 import path from "path"
@@ -325,12 +325,8 @@ Object.keys(invokeHandlers).forEach((key) => {
   ipcMain.handle(key, (_ev, ...args) => invokeHandlers[key](...args))
 })
 
-const sendHandlers = {
-  // getContainerLogs,
-}
-
-Object.keys(sendHandlers).forEach((key) => {
-  ipcMain.on(key, sendHandlers[key])
+ipcMain.on("get-app-version", (event) => {
+  event.returnValue = app.getVersion()
 })
 
 export type Handlers = typeof invokeHandlers

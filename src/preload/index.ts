@@ -29,6 +29,7 @@ const extraApi = {
     electronAPI.ipcRenderer.send("getContainerLogs", containerId)
     electronAPI.ipcRenderer.on(containerId + "_logs", (_, log) => callback(log))
   },
+  getAppVersion: () => electronAPI.ipcRenderer.sendSync("get-app-version"),
 } as const
 
 export type API = typeof api & typeof extraApi
@@ -39,7 +40,7 @@ export type API = typeof api & typeof extraApi
 if (process.contextIsolated) {
   try {
     contextBridge.exposeInMainWorld("electron", electronAPI)
-    contextBridge.exposeInMainWorld("api", api)
+    contextBridge.exposeInMainWorld("api", { ...api, ...extraApi })
   } catch (error) {
     console.error(error)
   }

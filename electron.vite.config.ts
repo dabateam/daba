@@ -1,6 +1,6 @@
-import { defineConfig, externalizeDepsPlugin } from "electron-vite";
-import { svelte } from "@sveltejs/vite-plugin-svelte";
-import fs from "fs-extra";
+import { defineConfig, externalizeDepsPlugin } from "electron-vite"
+import { svelte } from "@sveltejs/vite-plugin-svelte"
+import fs from "fs-extra"
 
 export default defineConfig({
   main: {
@@ -9,7 +9,7 @@ export default defineConfig({
       {
         name: "copy-custom-folder",
         writeBundle() {
-          fs.copySync("src/main/templates", "out/main/templates");
+          fs.copySync("src/main/templates", "out/main/templates")
         },
       },
     ],
@@ -18,6 +18,13 @@ export default defineConfig({
     plugins: [externalizeDepsPlugin()],
   },
   renderer: {
-    plugins: [svelte()],
+    plugins: [
+      svelte({
+        onwarn: (warning, handler) => {
+          if (warning.code.includes("a11y")) return
+          handler?.(warning)
+        },
+      }),
+    ],
   },
-});
+})
