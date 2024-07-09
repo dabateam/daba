@@ -1,12 +1,32 @@
-<script>
+<script lang="ts">
+  import DockerWarning from "./lib/components/DockerWarning.svelte"
   import MainNoProject from "./lib/components/MainNoProject.svelte"
   import NewProject from "./lib/components/NewProject/NewProject.svelte"
   import Project from "./lib/components/Project.svelte"
   import Sidemenu from "./lib/components/Sidemenu.svelte"
-  import { projectsState, routingState } from "./lib/store.svelte"
+  import { globalState, projectsState, routingState } from "./lib/store.svelte"
 
   $effect(() => {
     projectsState.refreshProjectsStates()
+  })
+
+  let interval = $state(0)
+
+  const getDockerStatus = async () => {
+    const isRunning = await window.api.isDockerRunning()
+    if (isRunning) {
+      if (!globalState.dockerRunning) {
+        window.location.reload()
+      }
+      globalState.dockerRunning = true
+    } else {
+      globalState.dockerRunning = false
+    }
+  }
+
+  $effect(() => {
+    interval = window.setInterval(getDockerStatus, 2000)
+    return () => clearInterval(interval)
   })
 </script>
 
@@ -30,3 +50,7 @@
     <MainNoProject />
   {/if}
 </div>
+
+{#if !globalState.dockerRunning}
+  <DockerWarning />
+{/if}

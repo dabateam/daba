@@ -2,6 +2,19 @@ import type { Project, ProjectState } from "../../../shared/types"
 import App from "../App.svelte"
 import { addProjectInDB, getProjectsFromDB, removeProjectInDB } from "./api"
 
+// globalState ========================================
+
+let dockerRunning = $state(true)
+
+export const globalState = {
+  get dockerRunning() {
+    return dockerRunning
+  },
+  set dockerRunning(val) {
+    dockerRunning = val
+  },
+}
+
 // projectsState ======================================
 
 let projects = $state<Project[]>(getProjectsFromDB())

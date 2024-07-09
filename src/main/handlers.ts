@@ -307,6 +307,19 @@ const restartProject = async (projectName: string) => {
   return
 }
 
+const isDockerRunning = async () => {
+  // const docker = new dockerode({
+  //   socketPath: "/Users/zak/.colima/default/docker.sock",
+  // })
+
+  try {
+    const info = await docker.info()
+    return info
+  } catch (error) {
+    return false
+  }
+}
+
 // =================================================================
 
 const invokeHandlers = {
@@ -319,6 +332,7 @@ const invokeHandlers = {
   restartProject,
   restartApp,
   getAllProjectsStates,
+  isDockerRunning,
 }
 
 Object.keys(invokeHandlers).forEach((key) => {

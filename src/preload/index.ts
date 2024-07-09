@@ -22,6 +22,7 @@ const api: Handlers = {
     electronAPI.ipcRenderer.invoke("restartApp", containerId),
   getAllProjectsStates: (projectNames: string[]) =>
     electronAPI.ipcRenderer.invoke("getAllProjectsStates", projectNames),
+  isDockerRunning: () => electronAPI.ipcRenderer.invoke("isDockerRunning"),
 }
 
 const extraApi = {
