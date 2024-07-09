@@ -44,4 +44,3 @@ publish:
   provider: github
   owner: dabateam
   repo: daba
-  token: ${{ secrets.GITHUB_TOKEN }}
