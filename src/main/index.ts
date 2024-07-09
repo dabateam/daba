@@ -5,6 +5,10 @@ import icon from "../../resources/icon.png?asset"
 import "./handlers"
 import windowStateManager from "electron-window-state"
 import { autoUpdater } from "electron-updater"
+import log from "electron-log/main"
+
+log.transports.file.level = "debug"
+autoUpdater.logger = log
 
 export let mainWindow: BrowserWindow | null = null
 
@@ -39,6 +43,39 @@ function createWindow(): void {
     backgroundColor: "#242424",
   })
 
+  function sendStatusToWindow(text) {
+    log.info(text)
+    mainWindow?.webContents.send("message", text)
+  }
+
+  autoUpdater.on("checking-for-update", () => {
+    sendStatusToWindow("Checking for update...")
+  })
+  autoUpdater.on("update-available", (_) => {
+    sendStatusToWindow("Update available.")
+  })
+  autoUpdater.on("update-not-available", (_) => {
+    sendStatusToWindow("Update not available.")
+  })
+  autoUpdater.on("error", (err) => {
+    sendStatusToWindow("Error in auto-updater. " + err)
+  })
+  autoUpdater.on("download-progress", (progressObj) => {
+    let log_message = "Download speed: " + progressObj.bytesPerSecond
+    log_message = log_message + " - Downloaded " + progressObj.percent + "%"
+    log_message =
+      log_message +
+      " (" +
+      progressObj.transferred +
+      "/" +
+      progressObj.total +
+      ")"
+    sendStatusToWindow(log_message)
+  })
+  autoUpdater.on("update-downloaded", (_) => {
+    sendStatusToWindow("Update downloaded")
+  })
+
   // initialize window state
   windowState.manage(mainWindow)
   // and save state when exiting
@@ -63,8 +100,6 @@ function createWindow(): void {
   } else {
     mainWindow.loadFile(join(__dirname, "../renderer/index.html"))
   }
-
-  autoUpdater.checkForUpdatesAndNotify()
 }
 
 // This method will be called when Electron has finished
@@ -82,6 +117,8 @@ app.whenReady().then(() => {
   })
 
   createWindow()
+
+  autoUpdater.checkForUpdatesAndNotify()
 
   app.on("activate", function () {
     // On macOS it's common to re-create a window in the app when the

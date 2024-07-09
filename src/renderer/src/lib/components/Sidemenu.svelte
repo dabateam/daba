@@ -1,6 +1,12 @@
 <script>
+  import { ipcRenderer } from "electron"
   import Projects from "../components/Projects.svelte"
-  console.log()
+
+  $effect(() => {
+    ipcRenderer.on("message", (_, message) => {
+      console.log(message)
+    })
+  })
 </script>
 
 <div
