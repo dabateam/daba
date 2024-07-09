@@ -1,6 +1,9 @@
 name: Build/release Electron app
 
 on:
+  push:
+    tags:
+      - "v*.*.*"
   workflow_dispatch:
 
 permissions:
