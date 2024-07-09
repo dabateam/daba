@@ -1,9 +1,9 @@
 <script>
-  import { ipcRenderer } from "electron"
+  // import { ipcRenderer } from "electron"
   import Projects from "../components/Projects.svelte"
 
   $effect(() => {
-    ipcRenderer.on("message", (_, message) => {
+    window.electron.ipcRenderer.on("message", (_, message) => {
       console.log(message)
     })
   })

@@ -13,7 +13,7 @@
 <img
   src="images/traffic-lights.svg"
   alt="traffic lights empty"
-  class="fixed top-[12px] left-[11px]"
+  class="fixed top-[12px] left-[11px] z-[1]"
 />
 <div
   class="fixed h-[35px] top-0 left-0 w-full [-webkit-app-region:drag] pointer-events-none"
