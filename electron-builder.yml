@@ -44,4 +44,3 @@ publish:
   provider: github
   owner: dabateam
   repo: daba
-  token: ${env.GH_TOKEN}
