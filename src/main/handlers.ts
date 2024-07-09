@@ -2,7 +2,7 @@ import { app, ipcMain } from "electron"
 import dockerode from "dockerode"
 import fs from "fs-extra"
 import path from "path"
-import { exec } from "child_process"
+import { exec, execSync } from "child_process"
 import {
   App,
   AppState,
@@ -12,6 +12,23 @@ import {
   ProjectState,
 } from "../shared/types"
 import { TEMPLATES } from "../shared/constants"
+
+function getDockerSocketPath() {
+  let socketPath = ""
+
+  try {
+    const output = execSync("docker context inspect", { encoding: "utf-8" })
+    socketPath = JSON.parse(output)[0].Endpoints.docker.Host.replace(
+      "unix://",
+      "",
+    )
+  } catch (error) {
+    console.error(`Error: ${(error as Error).message}`)
+  }
+  return socketPath
+}
+
+console.log("here:::::", getDockerSocketPath())
 
 const docker = new dockerode({
   socketPath: "/Users/zak/.colima/default/docker.sock",
