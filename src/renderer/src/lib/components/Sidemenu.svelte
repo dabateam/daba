@@ -11,6 +11,6 @@
   <div
     class="absolute bottom-[20px] w-full text-center text-[10px] opacity-30 pointer-events-none"
   >
-    {window.api.getAppVersion()}
+    Version: {window.api.getAppVersion()}
   </div>
 </div>
