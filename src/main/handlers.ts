@@ -28,10 +28,10 @@ function getDockerSocketPath() {
   return socketPath
 }
 
-console.log("here:::::", getDockerSocketPath())
+// console.log("here:::::", getDockerSocketPath())
 
 const docker = new dockerode({
-  socketPath: "/Users/zak/.colima/default/docker.sock",
+  socketPath: getDockerSocketPath(),
 })
 
 // HANDLERS ========================================================
