@@ -1,6 +1,6 @@
 {
   "name": "daba",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "Setup and deploy web apps in minutes.",
   "main": "./out/main/index.js",
   "author": "daba.so",
