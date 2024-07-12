@@ -28,15 +28,12 @@ function getDockerSocketPath() {
   return socketPath
 }
 
-// console.log("here:::::", getDockerSocketPath())
-
 const docker = new dockerode({
   socketPath: getDockerSocketPath(),
 })
 
 // HANDLERS ========================================================
 
-// TOOD: Refactor all projectName to projectId
 // TOOD: Refactor do-while to a setInterval to check for status change
 
 const stopApp = async (containerId: string) => {
@@ -325,10 +322,6 @@ const restartProject = async (projectName: string) => {
 }
 
 const isDockerRunning = async () => {
-  // const docker = new dockerode({
-  //   socketPath: "/Users/zak/.colima/default/docker.sock",
-  // })
-
   try {
     const info = await docker.info()
     return info
