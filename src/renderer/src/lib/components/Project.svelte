@@ -4,7 +4,7 @@
   import ThreeDots from "../assets/ThreeDots.svelte"
   import Trash from "../assets/Trash.svelte"
   import anime from "animejs"
-  import { projectsState, routingState } from "../store.svelte"
+  import { projectsState } from "../store.svelte"
   import { clickOutside, cn } from "../utils"
   import Start from "../assets/Start.svelte"
   import AppLine from "./AppLine.svelte"
@@ -118,15 +118,8 @@
 
       <div
         onclick={() => {
-          if (projectsState.currentProject) {
-            const currentProjectName = projectsState.currentProject.name
-            routingState.view = ""
-            projectsState.addDeleteLoading(currentProjectName)
-            window.api.deleteProject(currentProjectName).then(() => {
-              projectsState.removeProject(currentProjectName)
-              projectsState.refreshProjectsStates()
-            })
-          }
+          hideMenu()
+          projectsState.showDeleteWarning = true
         }}
         class="rounded-[3px] whitespace-nowrap mx-[4px] text-[10px] h-[26px] hover:bg-white/[0.1] active:bg-white/[0.13] px-[6px] pr-[16px] flex items-center"
       >

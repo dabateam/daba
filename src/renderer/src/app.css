@@ -116,6 +116,18 @@ button {
     inset 0px 0.5px 0px hsla(110, 74%, 60%, 0.15);
 }
 
+.__red_button:hover {
+  background: linear-gradient(to bottom, #e91616, #8f0a0a);
+}
+
+.__red_button,
+.__red_button:active {
+  background: linear-gradient(to bottom, #eb2929, #980b0b);
+  box-shadow:
+    inset 0px 0px 0px 1px rgba(255, 255, 255, 0.1),
+    inset 0px 1px 0px rgba(255, 255, 255, 0.1);
+}
+
 .__red_button_transparent:hover {
   background: linear-gradient(
     to bottom,

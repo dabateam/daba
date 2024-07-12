@@ -1,4 +1,5 @@
 <script lang="ts">
+  import DeleteWarning from "./lib/components/DeleteWarning.svelte"
   import DockerWarning from "./lib/components/DockerWarning.svelte"
   import MainNoProject from "./lib/components/MainNoProject.svelte"
   import NewProject from "./lib/components/NewProject/NewProject.svelte"
@@ -53,4 +54,8 @@
 
 {#if !globalState.dockerRunning}
   <DockerWarning />
+{/if}
+
+{#if projectsState.showDeleteWarning}
+  <DeleteWarning />
 {/if}

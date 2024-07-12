@@ -45,6 +45,20 @@ const removeDeleteLoading = (projectName: string) => {
   deleteLoadings = deleteLoadings.filter((d) => d !== projectName)
 }
 
+let showDeleteWarning = $state(false)
+
+const deleteCurrentProject = () => {
+  if (currentProject) {
+    const currentProjectName = currentProject.name
+    view = ""
+    addDeleteLoading(currentProjectName)
+    window.api.deleteProject(currentProjectName).then(() => {
+      removeProject(currentProjectName)
+      refreshProjectsStates()
+    })
+  }
+}
+
 const resetNewProject = () => {
   newProject = { ...defaultNewProject }
 }
@@ -86,12 +100,20 @@ export const projectsState = {
     return deleteLoadings
   },
 
+  get showDeleteWarning() {
+    return showDeleteWarning
+  },
+  set showDeleteWarning(val) {
+    showDeleteWarning = val
+  },
+
   addProject,
   resetNewProject,
   removeProject,
   addDeleteLoading,
   removeDeleteLoading,
   refreshProjectsStates,
+  deleteCurrentProject,
 }
 
 // currentAppState ====================================
