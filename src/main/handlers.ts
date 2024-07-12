@@ -92,7 +92,7 @@ const createProject = async (
   const ports = {}
   template.apps.forEach((app) => {
     const portKey = (app.name + "_port").toUpperCase()
-    ports[portKey] = Math.floor(Math.random() * 64512) + 1024
+    ports[portKey] = 0
   })
 
   const command = `docker compose -f ${projectPath}/compose.yml --project-name ${project.name} up -d`

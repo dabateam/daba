@@ -25,7 +25,7 @@ const startDocker = async () => {
   await execSync("dockerd &", { encoding: "utf-8" })
 }
 
-const getDockerSocketPath = async () => {
+export const getDockerSocketPath = async () => {
   let socketPath = ""
   try {
     const output = execSync("docker context inspect", { encoding: "utf-8" })
