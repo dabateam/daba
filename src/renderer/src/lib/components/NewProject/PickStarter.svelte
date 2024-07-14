@@ -1,44 +1,52 @@
 <script lang="ts">
   import { TEMPLATES } from "../../../../../shared/constants"
+  import Search from "../../assets/Search.svelte"
   import { newProjectState } from "../../store.svelte"
   import { cn } from "../../utils"
 
-  const TECHNOLOGIES = [
-    "React",
-    "Vue",
-    "Svelte",
-    "Node",
-    "Python",
-    "Go",
-    "Postgres",
-    "Mongo",
-    "MySQL",
-    "Redis",
-  ]
+  // const TECHNOLOGIES = [
+  //   "React",
+  //   "Vue",
+  //   "Svelte",
+  //   "Node",
+  //   "Python",
+  //   "Go",
+  //   "Postgres",
+  //   "Mongo",
+  //   "MySQL",
+  //   "Redis",
+  // ]
 
-  const PROJECT_TYPES = [
-    "Todo list",
-    "Chat",
-    "CRM",
-    "Dashboard",
-    "E-commerce",
-    "Trello",
-    "Notes",
-    "SaaS",
-  ]
+  // const PROJECT_TYPES = [
+  //   "Todo list",
+  //   "Chat",
+  //   "CRM",
+  //   "Dashboard",
+  //   "E-commerce",
+  //   "Trello",
+  //   "Notes",
+  //   "SaaS",
+  // ]
 
-  let selectedTechnologies = $state<string[]>([])
+  // let selectedTechnologies = $state<string[]>([])
 
-  let selectedProjectTypes = $state<string[]>([])
+  // let selectedProjectTypes = $state<string[]>([])
 </script>
 
-<div class="flex w-full px-[100px] gap-[80px] justify-center">
-  <div class="flex flex-col gap-[40px] max-w-[300px] w-full">
-    <div class="text-[14px]">Pick a starter</div>
+<div class="w-[320px]">
+  <div class="text-[14px] text-center mb-[60px]">Pick a starter</div>
+  <div class="relative mb-[28px]">
+    <Search class="absolute top-[50%] -translate-y-[50%] left-[14px]" />
+
     <input
-      class=" hover:border-white/15 focus:border-[hsla(208,100%,63%,1)] border rounded-[4px] h-[32px] px-[12px] border-white/10 cursor-text text-[11px] placeholder:text-white/30 focus:placeholder:text-white/50 w-full"
+      class="pl-[32px] hover:border-white/15 focus:border-[hsla(208,100%,63%,1)] border rounded-[4px] h-[32px] border-white/10 cursor-text text-[11px] placeholder:text-white/30 focus:placeholder:text-white/50 w-full"
       placeholder="Search starters by name, tech, description, ..."
     />
+  </div>
+
+  <!-- <div class="flex flex-col gap-[40px] max-w-[300px] w-full">
+    <div class="text-[14px]">Pick a starter</div>
+
     <div>
       <div
         class={cn(
@@ -103,14 +111,14 @@
         {/each}
       </div>
     </div>
-  </div>
-  <div class="flex flex-col gap-[20px] max-w-[400px] flex-1">
+  </div> -->
+  <div class="flex flex-col gap-[20px] flex-1">
     {#each TEMPLATES as template}
       <div
         class={cn(
           "w-full rounded-[8px] border border-white/10 p-[20px] flex flex-col active:bg-white/[0.03] hover:bg-white/[0.02]",
           newProjectState.selectedTemplate === template.name &&
-            "border-[#40AFFF] bg-white/[0.03] hover:bg-white/[0.03]",
+            "border-[#40AFFF]  hover:bg-white/[0.03]",
           newProjectState.selectedTemplate &&
             newProjectState.selectedTemplate !== template.name &&
             "opacity-70 ",

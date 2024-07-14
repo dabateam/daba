@@ -118,7 +118,7 @@
 
 <div class="flex-1 flex flex-col">
   <Header />
-  <div class="flex-1 flex items-center pt-[10vh] flex-col">
+  <div class="flex-1 flex items-center pt-[60px] flex-col">
     {#if routingState.view === "new-project"}
       <Method />
     {:else if routingState.view === "new-project.loading-create"}
