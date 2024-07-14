@@ -13,7 +13,7 @@
   }
 
   $effect(() => {
-    if (inputRef && !newProjectState.newProject.name) {
+    if (inputRef) {
       inputRef.focus()
     }
   })
@@ -37,6 +37,8 @@
             const correctValue = fixName(e.currentTarget.value)
             newProjectState.newProject.name = correctValue
           }}
+          autocorrect="off"
+          spellcheck="false"
           class={cn(
             " hover:border-white/15 focus:border-white/15 focus:bg-white/[0.02] border rounded-[4px] h-[32px] px-[12px] border-white/10 cursor-text placeholder:text-[11px] placeholder:text-white/30  w-[270px]",
           )}

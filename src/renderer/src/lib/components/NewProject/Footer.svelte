@@ -1,25 +1,12 @@
 <script>
   import CaretDown from "../../assets/CaretDown.svelte"
-  import { routingState } from "../../store.svelte"
-</script>
-
-<!-- <script lang="ts">
-  import { TEMPLATES } from "../../../../../shared/constants"
-  // import type { Project } from "../../../../../shared/types"
   import {
     newProjectState,
     projectsState,
     routingState,
   } from "../../store.svelte"
+  import { TEMPLATES } from "../../../../../shared/constants"
   import { cn } from "../../utils"
-
-  // let inputRef = $state<HTMLInputElement | null>(null)
-
-  // const reset = () => {
-  //   routingState.view = ""
-  //   projectName = ""
-  //   loading = false
-  // }
 
   const canSubmit = $derived(
     newProjectState.newProject.name && !newProjectState.nameAlreadyExists,
@@ -54,6 +41,25 @@
       })
     }
   }
+</script>
+
+<!-- <script lang="ts">
+  // import type { Project } from "../../../../../shared/types"
+  import {
+    newProjectState,
+    projectsState,
+    routingState,
+  } from "../../store.svelte"
+
+  // let inputRef = $state<HTMLInputElement | null>(null)
+
+  // const reset = () => {
+  //   routingState.view = ""
+  //   projectName = ""
+  //   loading = false
+  // }
+
+
 </script>
 
 {#if routingState.view !== "new-project.loading-create"}
@@ -156,31 +162,82 @@
 >
   {#if routingState.view === "new-project"}
     <button
+      onclick={() => {
+        newProjectState.reset()
+        routingState.view = ""
+      }}
       class=" text-white/40 rounded-[4px] px-[12px] py-[8px] hover:bg-white/[0.02] active:bg-white/[0.03]"
     >
       Cancel
     </button>
   {:else if routingState.view === "new-project.pick-starter"}
     <button
+      onclick={() => {
+        routingState.view = "new-project"
+      }}
       class="absolute left-[16px] top-[14.5px] flex items-center gap-[8px] text-white/40 rounded-[4px] px-[12px] py-[8px] hover:bg-white/[0.02] active:bg-white/[0.03]"
     >
       <CaretDown class="opacity-50 w-[8px] rotate-90" />
       New project flow
     </button>
-    <button
-      class="__green_button_transparent flex items-center gap-[8px] rounded-[4px] px-[12px] py-[8px]"
-    >
-      Project summary
-      <CaretDown class="opacity-50 w-[8px] -rotate-90" />
-    </button>
+
+    {#if newProjectState.selectedTemplate}
+      <button
+        onclick={() => {
+          if (
+            newProjectState.selectedTemplate !==
+            newProjectState.newProject.template
+          ) {
+            const template = TEMPLATES.find(
+              (t) => t.name === newProjectState.selectedTemplate,
+            )
+
+            if (!template) return
+
+            newProjectState.newProject.apps = template.apps.map((a) => ({
+              ...a,
+              containerId: "",
+              port: 0,
+            }))
+
+            newProjectState.newProject.name = template.name
+          }
+          newProjectState.newProject.template = newProjectState.selectedTemplate
+          routingState.view = "new-project.summary"
+
+          // todo: handle if change template -> reset apps
+        }}
+        class={cn(
+          "rounded-[4px] px-[12px] py-[8px] __green_button_transparent text-[#5ae73e] flex items-center gap-[8px] ",
+        )}
+      >
+        Summary
+        <CaretDown class="opacity-50 w-[8px] -rotate-90" />
+      </button>
+    {:else}
+      <button
+        class="__green_button_transparent flex items-center gap-[8px] rounded-[4px] px-[12px] py-[8px] text-[#5ae73e]/60 pointer-events-none"
+      >
+        Choose a starter
+      </button>
+    {/if}
   {:else if routingState.view === "new-project.summary"}
     <button
+      onclick={() => {
+        routingState.view = "new-project.pick-starter"
+      }}
       class="absolute left-[16px] top-[14.5px] flex items-center gap-[8px] text-white/40 rounded-[4px] px-[12px] py-[8px] hover:bg-white/[0.02] active:bg-white/[0.03]"
     >
       <CaretDown class="opacity-50 w-[8px] rotate-90" />
       Choose a starter
     </button>
-    <button class="__green_button rounded-[4px] px-[12px] py-[8px]">
+    <button
+      onclick={createProject}
+      class={cn(
+        "__green_button rounded-[4px] px-[12px] py-[8px]",
+        !canSubmit && "pointer-events-none opacity-70 text-white/70",
+      )}
+    >
       Install and run
     </button>
   {:else}
