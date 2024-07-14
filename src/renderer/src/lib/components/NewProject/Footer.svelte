@@ -250,7 +250,7 @@
       <button
         class="__green_button_transparent flex items-center gap-[8px] rounded-[4px] px-[12px] py-[8px] text-[#5ae73e]/60 pointer-events-none"
       >
-        Choose a starter
+        Pick a starter
       </button>
     {/if}
   {:else if routingState.view === "new-project.summary"}
@@ -261,7 +261,7 @@
       class="absolute left-[16px] top-[14.5px] flex items-center gap-[8px] text-white/40 rounded-[4px] px-[12px] py-[8px] hover:bg-white/[0.02] active:bg-white/[0.03]"
     >
       <CaretDown class="opacity-50 w-[8px] rotate-90" />
-      Choose a starter
+      Pick a starter
     </button>
     <button
       onclick={createProject}
