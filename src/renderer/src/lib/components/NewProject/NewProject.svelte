@@ -111,7 +111,7 @@
   import Footer from "./Footer.svelte"
   import Header from "./Header.svelte"
   import LoadingCreate from "./LoadingCreate.svelte"
-  import Method from "./Method.svelte"
+  import Method from "./NewProjectFlow.svelte"
   import PickStarter from "./PickStarter.svelte"
   import Summary from "./Summary.svelte"
 </script>

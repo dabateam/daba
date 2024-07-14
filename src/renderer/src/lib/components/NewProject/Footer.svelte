@@ -1,4 +1,9 @@
-<script lang="ts">
+<script>
+  import CaretDown from "../../assets/CaretDown.svelte"
+  import { routingState } from "../../store.svelte"
+</script>
+
+<!-- <script lang="ts">
   import { TEMPLATES } from "../../../../../shared/constants"
   // import type { Project } from "../../../../../shared/types"
   import {
@@ -142,25 +147,45 @@
           {newProjectState.newProject.template ? "Go back" : "Cancel"}
         </button>
       {/if}
-
-      <!-- <button
-          class="text-white/50 rounded-[4px] px-[12px] py-[8px] hover:bg-white/[0.02] active:bg-white/[0.03]"
-          onclick={() => {
-            routingState.view = "new-project.summary"
-          }}
-        >
-          Go back
-        </button> -->
-    {:else}
-      <!-- <button
-          class="text-white/50 rounded-[4px] px-[12px] py-[8px] hover:bg-white/[0.02] active:bg-white/[0.03]"
-          onclick={() => {
-            newProjectState.reset()
-            routingState.view = ""
-          }}
-        >
-          Cancel
-        </button> -->
     {/if}
   </div>
-{/if}
+{/if} -->
+
+<div
+  class="h-[56px] flex relative items-center justify-center px-[16px] border-t border-white/5 gap-[8px] text-[11px]"
+>
+  {#if routingState.view === "new-project"}
+    <button
+      class=" text-white/50 rounded-[4px] px-[12px] py-[8px] hover:bg-white/[0.02] active:bg-white/[0.03]"
+    >
+      Cancel
+    </button>
+  {:else if routingState.view === "new-project.pick-starter"}
+    <button
+      class="absolute left-[16px] top-[14.5px] flex items-center gap-[8px] text-white/50 rounded-[4px] px-[12px] py-[8px] hover:bg-white/[0.02] active:bg-white/[0.03]"
+    >
+      <CaretDown class="opacity-40 w-[8px] rotate-90" />
+      New project flow
+    </button>
+    <button
+      class="__green_button_transparent flex items-center gap-[8px] rounded-[4px] px-[12px] py-[8px]"
+    >
+      Project summary
+      <CaretDown class="opacity-40 w-[8px] -rotate-90" />
+    </button>
+  {:else if routingState.view === "new-project.summary"}
+    <button
+      class="absolute left-[16px] top-[14.5px] flex items-center gap-[8px] text-white/50 rounded-[4px] px-[12px] py-[8px] hover:bg-white/[0.02] active:bg-white/[0.03]"
+    >
+      <CaretDown class="opacity-40 w-[8px] rotate-90" />
+      Choose a starter
+    </button>
+    <button class="__green_button rounded-[4px] px-[12px] py-[8px]">
+      Install and run
+    </button>
+  {:else}
+    <div class="text-white/40 text-[11px]">
+      This process might take a few minutes, please don't close this window.
+    </div>
+  {/if}
+</div>

@@ -2,7 +2,8 @@
   import DeleteWarning from "./lib/components/DeleteWarning.svelte"
   import DockerWarning from "./lib/components/DockerWarning.svelte"
   import MainNoProject from "./lib/components/MainNoProject.svelte"
-  import NewProject from "./lib/components/NewProject/NewProject.svelte"
+  // import NewProject from "./lib/components/NewProject/NewProject.svelte"
+  import NewProjectModal from "./lib/components/NewProjectModal.svelte"
   import Project from "./lib/components/Project.svelte"
   import Sidemenu from "./lib/components/Sidemenu.svelte"
   import { globalState, projectsState, routingState } from "./lib/store.svelte"
@@ -44,7 +45,8 @@
   <Sidemenu />
 
   {#if routingState.view.startsWith("new-project")}
-    <NewProject />
+    <!-- <NewProject /> -->
+    <NewProjectModal />
   {:else if routingState.view === "project"}
     <Project />
   {:else}

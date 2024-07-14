@@ -1,9 +1,10 @@
 <script>
   import CaretDown from "../../assets/CaretDown.svelte"
   import { routingState } from "../../store.svelte"
+  // import { routingState } from "../../store.svelte"
 </script>
 
-{#if routingState.view !== "new-project.loading-create"}
+<!-- {#if routingState.view !== "new-project.loading-create"}
   <div
     class="h-[34px] flex items-center justify-center text-[10px] border-b border-white/5"
   >
@@ -42,4 +43,49 @@
       <div class="p-[12px]">Project</div>
     {/if}
   </div>
-{/if}
+{/if} -->
+
+<div
+  class="h-[56px] flex items-center justify-center border-b border-white/5 gap-[8px] text-[11px]"
+>
+  <div
+    onclick={() => {
+      routingState.view = "new-project"
+    }}
+    class="text-white/40 p-[12px] text-white"
+  >
+    <!-- 1.&nbsp;&nbsp;&nbsp;Flow:&nbsp;&nbsp;
+    <span class="py-[3px] border-b border-white/10">Starters</span> -->
+    1.&nbsp;&nbsp;&nbsp;New project flow
+  </div>
+  <CaretDown class="opacity-30 w-[7px] -rotate-90" />
+
+  <div
+    onclick={() => {
+      routingState.view = "new-project.pick-starter"
+    }}
+    class="text-white/40 p-[12px] hover:text-white/60"
+  >
+    2.&nbsp;&nbsp;&nbsp;Project setup
+  </div>
+  <CaretDown class="opacity-30 w-[7px] -rotate-90" />
+
+  <div
+    onclick={() => {
+      routingState.view = "new-project.summary"
+    }}
+    class="text-white/40 p-[12px] hover:text-white/60"
+  >
+    3.&nbsp;&nbsp;&nbsp;Summary
+  </div>
+  <CaretDown class="opacity-30 w-[7px] -rotate-90" />
+
+  <div
+    onclick={() => {
+      routingState.view = "new-project.loading-create"
+    }}
+    class="text-white/40 p-[12px] hover:text-white/60"
+  >
+    4.&nbsp;&nbsp;&nbsp;Install and run
+  </div>
+</div>
