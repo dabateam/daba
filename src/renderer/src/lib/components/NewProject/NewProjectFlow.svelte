@@ -7,7 +7,7 @@
 </script>
 
 <div class="flex flex-col gap-[8px]">
-  <div class="text-[13px] text-center mb-[32px] text-white/40">
+  <div class="text-[13px] text-center my-[7vh] text-white/40">
     Choose a flow
   </div>
 

@@ -25,8 +25,8 @@
 </script>
 
 <div>
+  <div class="text-[13px] text-center my-[7vh]">Summary</div>
   <div class="flex flex-col gap-[40px]">
-    <div class="text-[13px] text-center mb-[20px]">Summary</div>
     <div>
       <div class="text-[10px] mb-[12px]">Project</div>
 
@@ -38,7 +38,7 @@
             newProjectState.newProject.name = correctValue
           }}
           class={cn(
-            " hover:border-white/15 focus:border-[hsla(208,100%,63%,1)] border rounded-[4px] h-[32px] px-[12px] border-white/10 cursor-text placeholder:text-[11px] placeholder:text-white/30 focus:placeholder:text-white/50 w-[270px]",
+            " hover:border-white/15 focus:border-white/15 focus:bg-white/[0.02] border rounded-[4px] h-[32px] px-[12px] border-white/10 cursor-text placeholder:text-[11px] placeholder:text-white/30  w-[270px]",
           )}
           placeholder="Project name"
           bind:value={newProjectState.newProject.name}

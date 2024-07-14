@@ -76,7 +76,7 @@
         "text-white hover:text-white",
     )}
   >
-    2.&nbsp;&nbsp;&nbsp;Project setup
+    2.&nbsp;&nbsp;&nbsp;Pick a starter
   </div>
   <CaretDown class="opacity-30 w-[7px] -rotate-90" />
 

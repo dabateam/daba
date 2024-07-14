@@ -34,12 +34,12 @@
 </script>
 
 <div class="w-[320px]">
-  <div class="text-[14px] text-center mb-[60px]">Pick a starter</div>
+  <div class="text-[14px] text-center my-[7vh]">Pick a starter</div>
   <div class="relative mb-[28px]">
     <Search class="absolute top-[50%] -translate-y-[50%] left-[14px]" />
 
     <input
-      class="pl-[32px] hover:border-white/15 focus:border-[hsla(208,100%,63%,1)] border rounded-[4px] h-[32px] border-white/10 cursor-text text-[11px] placeholder:text-white/30 focus:placeholder:text-white/50 w-full"
+      class="pl-[32px] hover:border-white/15 focus:border-white/15 focus:bg-white/[0.02] border rounded-[4px] h-[32px] border-white/10 cursor-text text-[11px] placeholder:text-white/30 w-full"
       placeholder="Search starters by name, tech, description, ..."
     />
   </div>
