@@ -7,6 +7,10 @@
 </script>
 
 <div class="flex flex-col gap-[8px]">
+  <div class="text-[13px] text-center mb-[32px] text-white/40">
+    Choose a flow
+  </div>
+
   <div
     class="rounded-[8px] h-[100px] flex items-center hover:bg-white/[0.02] active:bg-white/[0.03] w-[380px] gap-[20px] px-[20px]"
     onclick={() => {

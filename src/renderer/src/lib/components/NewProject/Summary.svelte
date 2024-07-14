@@ -26,7 +26,7 @@
 
 <div>
   <div class="flex flex-col gap-[40px]">
-    <div class="text-[13px] text-center text-white/50">Summary</div>
+    <div class="text-[13px] text-center mb-[20px]">Summary</div>
     <div>
       <div class="text-[10px] mb-[12px]">Project</div>
 

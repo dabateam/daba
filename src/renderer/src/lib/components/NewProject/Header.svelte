@@ -1,6 +1,7 @@
 <script>
   import CaretDown from "../../assets/CaretDown.svelte"
   import { routingState } from "../../store.svelte"
+  import { cn } from "../../utils"
   // import { routingState } from "../../store.svelte"
 </script>
 
@@ -52,7 +53,11 @@
     onclick={() => {
       routingState.view = "new-project"
     }}
-    class="text-white/40 p-[12px] text-white"
+    class={cn(
+      "text-white/40 p-[12px] hover:text-white/60",
+
+      routingState.view === "new-project" && "text-white hover:text-white",
+    )}
   >
     <!-- 1.&nbsp;&nbsp;&nbsp;Flow:&nbsp;&nbsp;
     <span class="py-[3px] border-b border-white/10">Starters</span> -->
@@ -64,7 +69,12 @@
     onclick={() => {
       routingState.view = "new-project.pick-starter"
     }}
-    class="text-white/40 p-[12px] hover:text-white/60"
+    class={cn(
+      "text-white/40 p-[12px] hover:text-white/60",
+
+      routingState.view === "new-project.pick-starter" &&
+        "text-white hover:text-white",
+    )}
   >
     2.&nbsp;&nbsp;&nbsp;Project setup
   </div>
@@ -74,7 +84,12 @@
     onclick={() => {
       routingState.view = "new-project.summary"
     }}
-    class="text-white/40 p-[12px] hover:text-white/60"
+    class={cn(
+      "text-white/40 p-[12px] hover:text-white/60",
+
+      routingState.view === "new-project.summary" &&
+        "text-white hover:text-white",
+    )}
   >
     3.&nbsp;&nbsp;&nbsp;Summary
   </div>
@@ -84,7 +99,12 @@
     onclick={() => {
       routingState.view = "new-project.loading-create"
     }}
-    class="text-white/40 p-[12px] hover:text-white/60"
+    class={cn(
+      "text-white/40 p-[12px] hover:text-white/60",
+
+      routingState.view === "new-project.loading-create" &&
+        "text-white hover:text-white",
+    )}
   >
     4.&nbsp;&nbsp;&nbsp;Install and run
   </div>

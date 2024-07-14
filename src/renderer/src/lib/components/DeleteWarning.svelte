@@ -15,7 +15,6 @@
   <div
     class="text-white text-center bg-[#242424] rounded-[10px] p-[40px] px-[50px] pb-[28px] shadow-2xl flex items-center justify-center flex-col border border-white/[0.05]"
   >
-    <!-- <Loader class="h-[24px] opacity-30 mb-[20px] mt-[-20px]" stroke="0" /> -->
     <div class="text-[13px] mb-[16px]">
       Are you sure you want to delete this project ?
     </div>
