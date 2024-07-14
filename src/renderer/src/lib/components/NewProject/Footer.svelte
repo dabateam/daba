@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import CaretDown from "../../assets/CaretDown.svelte"
   import {
     newProjectState,
@@ -39,6 +39,15 @@
           routingState.view = "project"
         }
       })
+    }
+  }
+
+  const generateAndAssignProjectName = (templateName: string) => {
+    let counter = 1
+    newProjectState.newProject.name = templateName
+    while (newProjectState.doesNameAlreadyExist()) {
+      counter++
+      newProjectState.newProject.name = `${templateName}-${counter}`
     }
   }
 </script>
@@ -163,13 +172,36 @@
   {#if routingState.view === "new-project"}
     <button
       onclick={() => {
-        newProjectState.reset()
         routingState.view = ""
+        newProjectState.reset()
       }}
-      class=" text-white/40 rounded-[4px] px-[12px] py-[8px] hover:bg-white/[0.02] active:bg-white/[0.03]"
+      class="absolute left-[16px] top-[14.5px] flex items-center gap-[8px] text-white/40 rounded-[4px] px-[12px] py-[8px] hover:bg-white/[0.02] active:bg-white/[0.03]"
     >
       Cancel
     </button>
+
+    {#if newProjectState.selectedFlow}
+      <button
+        onclick={() => {
+          // todo: handle for each flow
+          routingState.view = "new-project.pick-starter"
+          newProjectState.flow = newProjectState.selectedFlow
+        }}
+        class={cn(
+          "rounded-[4px] px-[12px] py-[8px] __green_button_transparent text-[#5ae73e] flex items-center gap-[8px] ",
+        )}
+      >
+        <!-- todo: different text for each flow -->
+        Pick a starter
+        <CaretDown class="opacity-50 w-[8px] -rotate-90" />
+      </button>
+    {:else}
+      <button
+        class="__green_button_transparent flex items-center gap-[8px] rounded-[4px] px-[12px] py-[8px] text-[#5ae73e]/60 pointer-events-none"
+      >
+        Choose a flow
+      </button>
+    {/if}
   {:else if routingState.view === "new-project.pick-starter"}
     <button
       onclick={() => {
@@ -200,7 +232,7 @@
               port: 0,
             }))
 
-            newProjectState.newProject.name = template.name
+            generateAndAssignProjectName(template.name)
           }
           newProjectState.newProject.template = newProjectState.selectedTemplate
           routingState.view = "new-project.summary"

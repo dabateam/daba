@@ -3,7 +3,8 @@
   import Cubes from "../../assets/Cubes.svelte"
   import ImportExistingProject from "../../assets/ImportExistingProject.svelte"
   import Settings from "../../assets/Settings.svelte"
-  import { newProjectState, routingState } from "../../store.svelte"
+  import { newProjectState } from "../../store.svelte"
+  import { cn } from "../../utils"
 </script>
 
 <div class="flex flex-col gap-[8px]">
@@ -12,10 +13,14 @@
   </div>
 
   <div
-    class="rounded-[8px] h-[100px] flex items-center hover:bg-white/[0.02] active:bg-white/[0.03] w-[380px] gap-[20px] px-[20px]"
+    class={cn(
+      "border border-transparent rounded-[8px] h-[100px] flex items-center hover:bg-white/[0.02] active:bg-white/[0.03] w-[380px] gap-[20px] px-[20px]",
+      newProjectState.selectedFlow === "Starters" &&
+        "bg-white/[0.03] hover:bg-white/[0.03] border-white/10",
+    )}
     onclick={() => {
-      newProjectState.method = "starter"
-      routingState.view = "new-project.pick-starter"
+      newProjectState.selectedFlow = "Starters"
+      // routingState.view = "new-project.pick-starter"
     }}
   >
     <div
@@ -32,10 +37,14 @@
     </div>
   </div>
   <div
-    class="rounded-[8px] h-[100px] flex items-center hover:bg-white/[0.02] active:bg-white/[0.03] w-[380px] gap-[20px] px-[20px] opacity-50 pointer-events-none"
+    class={cn(
+      "border border-transparent rounded-[8px] h-[100px] flex items-center hover:bg-white/[0.02] active:bg-white/[0.03] w-[380px] gap-[20px] px-[20px] opacity-50 pointer-events-none",
+      newProjectState.selectedFlow === "DIY" &&
+        "bg-white/[0.03] hover:bg-white/[0.03] border-white/10",
+    )}
     onclick={() => {
-      newProjectState.method = "starter"
-      routingState.view = "new-project.pick-starter"
+      newProjectState.selectedFlow = "DIY"
+      // routingState.view = "new-project.pick-starter"
     }}
   >
     <div
@@ -52,10 +61,14 @@
     </div>
   </div>
   <div
-    class="rounded-[8px] h-[100px] flex items-center hover:bg-white/[0.02] active:bg-white/[0.03] w-[380px] gap-[20px] px-[20px] opacity-50 pointer-events-none"
+    class={cn(
+      "border border-transparent rounded-[8px] h-[100px] flex items-center hover:bg-white/[0.02] active:bg-white/[0.03] w-[380px] gap-[20px] px-[20px] opacity-50 pointer-events-none",
+      newProjectState.selectedFlow === "Clone / Import" &&
+        "bg-white/[0.03] hover:bg-white/[0.03] border-white/10",
+    )}
     onclick={() => {
-      newProjectState.method = "starter"
-      routingState.view = "new-project.pick-starter"
+      newProjectState.selectedFlow = "Clone / Import"
+      // routingState.view = "new-project.pick-starter"
     }}
   >
     <div
@@ -72,10 +85,14 @@
     </div>
   </div>
   <div
-    class="rounded-[8px] h-[100px] flex items-center hover:bg-white/[0.02] active:bg-white/[0.03] w-[380px] gap-[20px] px-[20px] opacity-50 pointer-events-none"
+    class={cn(
+      "border border-transparent rounded-[8px] h-[100px] flex items-center hover:bg-white/[0.02] active:bg-white/[0.03] w-[380px] gap-[20px] px-[20px] opacity-50 pointer-events-none",
+      newProjectState.selectedFlow === "AI Starter" &&
+        "bg-white/[0.03] hover:bg-white/[0.03] border-white/10",
+    )}
     onclick={() => {
-      newProjectState.method = "starter"
-      routingState.view = "new-project.pick-starter"
+      newProjectState.selectedFlow = "AI Starter"
+      // routingState.view = "new-project.pick-starter"
     }}
   >
     <div

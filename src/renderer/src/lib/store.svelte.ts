@@ -153,7 +153,7 @@ export const routingState = {
 
 // newProjectState ====================================
 
-type Method = "starter" | "diy" | "ai" | "clone" | ""
+type Flow = "Starters" | "DIY" | "AI Starter" | "Clone / Import" | ""
 
 const defaultNewProject: Project = {
   name: "",
@@ -163,17 +163,23 @@ const defaultNewProject: Project = {
 
 let newProject = $state<Project>({ ...defaultNewProject })
 
-let method = $state<Method>("")
+let flow = $state<Flow>("")
+let selectedFlow = $state<Flow>("")
 
 const nameAlreadyExists = $derived(
   projects.some((p) => p.name === newProject.name),
 )
 
+const doesNameAlreadyExist = () => {
+  return projects.some((p) => p.name === newProject.name)
+}
+
 let selectedTemplate = $state("")
 
 const reset = () => {
   newProject = { ...defaultNewProject }
-  method = ""
+  flow = ""
+  selectedFlow = ""
   selectedTemplate = ""
 }
 
@@ -193,14 +199,24 @@ export const newProjectState = {
     selectedTemplate = val
   },
 
-  get method() {
-    return method
+  get flow() {
+    return flow
   },
-  set method(val) {
-    method = val
+  set flow(val) {
+    flow = val
   },
+
+  get selectedFlow() {
+    return selectedFlow
+  },
+  set selectedFlow(val) {
+    selectedFlow = val
+  },
+
   get nameAlreadyExists() {
     return nameAlreadyExists
   },
+
+  doesNameAlreadyExist,
   reset,
 }
