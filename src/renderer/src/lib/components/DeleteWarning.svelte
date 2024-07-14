@@ -38,7 +38,7 @@
       class={cn(
         "rounded-[4px] px-[12px] py-[8px] __red_button",
         value !== projectsState.currentProject?.name &&
-          "pointer-events-none opacity-60 text-white/60",
+          "pointer-events-none opacity-70 text-white/70",
       )}>Delete this project</button
     >
   </div>
