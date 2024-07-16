@@ -1,14 +1,15 @@
 <script lang="ts">
-  import anime from "animejs"
   import TechLoader from "./TechLoader.svelte"
 
-  let progress = $state({
-    value: 0,
-  })
+  const DURATION = 3000
+
+  let progress = $state(0)
+
+  let duration = $state(DURATION)
+
+  let timeout: NodeJS.Timeout | null = null
 
   let counter = 1
-
-  const TIME_INCREMENT = 3000
 
   const getProgress = () => {
     let multiplier = 0
@@ -17,49 +18,35 @@
       .forEach((_, c) => {
         multiplier += 1 / 2 ** c
       })
-
     return multiplier * 50
   }
 
   const animate = () => {
-    anime.remove(progress)
-    anime({
-      targets: progress,
-      value: getProgress(),
-      easing: "linear",
-      duration: TIME_INCREMENT + (TIME_INCREMENT / 2) * (counter - 1),
-      complete: () => {
-        counter++
-        animate()
-      },
-    })
+    timeout && clearTimeout(timeout)
+    progress = getProgress()
+    duration = DURATION + (DURATION / 2) * (counter - 1)
+
+    console.log("setting:", { progress, duration })
+    timeout = setTimeout(() => {
+      counter++
+      animate()
+    }, duration)
   }
 
   const finish = () => {
-    anime.remove(progress)
-    anime({
-      targets: progress,
-      value: 100,
-      easing: "linear",
-      duration: 1000,
-    })
+    timeout && clearTimeout(timeout)
+    progress = 100
+    duration = 500
   }
 
-  // $effect(() => {
-  //   return () => clearTimeout(timeout)
-  // })
+  $effect(() => {
+    return () => timeout && clearTimeout(timeout)
+  })
 </script>
 
 <div class="flex flex-col gap-[20px] p-[100px] items-center justify-center">
-  <TechLoader tech="postgres" />
-  <TechLoader tech="mongo" />
-  <TechLoader tech="mysql" />
-  <TechLoader tech="redis" />
-  <TechLoader tech="go" />
+  <TechLoader tech="postgres" {progress} {duration} />
 
-  <div id="progress">
-    {progress.value.toFixed(0)}%
-  </div>
   <button
     class="rounded-[4px] hover:bg-white/[0.02] active:bg-white/[0.03] px-[10px] py-[6px] inline-block min-w-0"
     onclick={animate}

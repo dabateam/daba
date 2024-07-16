@@ -12,6 +12,7 @@ import {
   ProjectState,
 } from "../shared/types"
 import { TEMPLATES } from "../shared/constants"
+import { mainWindow } from "."
 
 function getDockerSocketPath() {
   let socketPath = ""
@@ -95,30 +96,44 @@ const createProject = async (
     ports[portKey] = 0
   })
 
-  const command = `docker-compose -f ${projectPath}/compose.yml --project-name ${project.name} up -d`
+  const command = `docker-compose --progress plain -f ${projectPath}/compose.yml --project-name ${project.name} up -d`
 
-  await new Promise((resolve, reject) =>
-    exec(
-      command,
-      {
+  await new Promise((resolve, reject) => {
+    try {
+      const composeProcess = exec(command, {
         env: {
           ...process.env,
           ...ports,
         },
-      },
-      (error, _, stderr) => {
-        if (error) {
-          console.error(`Error: ${error.message}`)
-          reject(error.message)
-          return
-        }
-        if (stderr) {
-          console.error(`Stderr: ${stderr}`)
-        }
+      })
+
+      composeProcess.stdout?.on("data", (data) => {
+        // send line by line to main window
+        data
+          .toString()
+          .split("\n")
+          .forEach((line) => {
+            mainWindow?.webContents.send("docker-compose-log", line)
+          })
+      })
+
+      composeProcess.stderr?.on("data", (data) => {
+        data
+          .toString()
+          .split("\n")
+          .forEach((line) => {
+            mainWindow?.webContents.send("docker-compose-log", line)
+          })
+      })
+
+      composeProcess.on("close", (code) => {
+        console.log(`child process exited with code ${code}`)
         resolve(null)
-      },
-    ),
-  )
+      })
+    } catch (err) {
+      reject(err)
+    }
+  })
 
   const containers: App[] = (await docker.listContainers())
     .filter(

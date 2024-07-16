@@ -37,6 +37,7 @@
           projectsState.currentProject = project
           projectsState.refreshProjectsStates()
           routingState.view = "project"
+          console.log("project created", project)
         }
       })
     }
