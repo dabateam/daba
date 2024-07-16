@@ -32,12 +32,12 @@
       const newProject = $state.snapshot(newProjectState.newProject)
       window.api.createProject(newProject).then((project) => {
         if (project) {
-          newProjectState.reset()
           projectsState.addProject(project)
           projectsState.currentProject = project
           projectsState.refreshProjectsStates()
-          routingState.view = "project"
           console.log("project created", project)
+          // newProjectState.reset()
+          // routingState.view = "project"
         }
       })
     }

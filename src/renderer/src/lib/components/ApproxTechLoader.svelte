@@ -1,5 +1,12 @@
 <script lang="ts">
+  import { untrack } from "svelte"
   import TechLoader from "./TechLoader.svelte"
+
+  const {
+    tech,
+    started = false,
+    completed = false,
+  }: { tech: string; started?: boolean; completed?: boolean } = $props()
 
   const DURATION = 3000
 
@@ -41,21 +48,14 @@
   $effect(() => {
     return () => timeout && clearTimeout(timeout)
   })
+
+  $effect(() => {
+    if (started) untrack(() => animate())
+  })
+
+  $effect(() => {
+    if (started && completed) untrack(() => finish())
+  })
 </script>
 
-<div class="flex flex-col gap-[20px] p-[100px] items-center justify-center">
-  <TechLoader tech="postgres" {progress} {duration} />
-
-  <button
-    class="rounded-[4px] hover:bg-white/[0.02] active:bg-white/[0.03] px-[10px] py-[6px] inline-block min-w-0"
-    onclick={animate}
-  >
-    start
-  </button>
-  <button
-    class="rounded-[4px] hover:bg-white/[0.02] active:bg-white/[0.03] px-[10px] py-[6px] inline-block min-w-0"
-    onclick={finish}
-  >
-    finish
-  </button>
-</div>
+<TechLoader {tech} {progress} {duration} />
