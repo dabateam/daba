@@ -137,6 +137,7 @@ type View =
   | "new-project.summary"
   | "new-project.pick-starter"
   | "project"
+  | "__sandbox"
   | ""
 
 let view = $state<View>("")

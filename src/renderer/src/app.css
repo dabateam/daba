@@ -199,3 +199,42 @@ button {
 #xterm-container {
   -webkit-font-smoothing: subpixel-antialiased !important;
 }
+/* 
+.__test-anim {
+  animation: test-anim 1s linear infinite;
+}
+
+@keyframes test-anim {
+  0% {
+    transform: translateX(-80%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.__test-anim-2 {
+  animation: test-anim-2 4s linear infinite;
+}
+
+@keyframes test-anim-2 {
+  0% {
+    transform: translateY(0%);
+  }
+  100% {
+    transform: translateY(-90%);
+  }
+}
+
+.__test-anim-3 {
+  animation: test-anim-3 4s linear infinite;
+}
+
+@keyframes test-anim-3 {
+  0% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+} */

@@ -5,6 +5,7 @@
   // import NewProject from "./lib/components/NewProject/NewProject.svelte"
   import NewProjectModal from "./lib/components/NewProjectModal.svelte"
   import Project from "./lib/components/Project.svelte"
+  import Sandbox from "./lib/components/Sandbox.svelte"
   import Sidemenu from "./lib/components/Sidemenu.svelte"
   import { globalState, projectsState, routingState } from "./lib/store.svelte"
 
@@ -49,6 +50,8 @@
     <NewProjectModal />
   {:else if routingState.view === "project"}
     <Project />
+  {:else if routingState.view === "__sandbox"}
+    <Sandbox />
   {:else}
     <MainNoProject />
   {/if}

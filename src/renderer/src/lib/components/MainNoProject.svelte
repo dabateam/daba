@@ -3,6 +3,8 @@
 
   let inputRef = $state<HTMLInputElement | null>(null)
 
+  const showSandbox = true
+
   $effect(() => {
     if (inputRef) {
       inputRef.focus()
@@ -19,6 +21,16 @@
   >
     Start a new project
   </button>
+
+  {#if showSandbox}
+    <button
+      onclick={() => {
+        routingState.view = "__sandbox"
+      }}
+    >
+      Sandbox
+    </button>
+  {/if}
   <!-- 
   <button
     class="text-center rounded-[4px] px-[14px] w-[150px] py-[10px] bg-[#333333] __gray_button"
