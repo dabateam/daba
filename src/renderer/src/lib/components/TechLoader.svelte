@@ -133,7 +133,7 @@
           id={`__${tech}-progress`}
           class=" tracking-wider text-white/70 w-[28px] text-left text-[10px]"
         >
-          <span class="translate-y-[-4px] inline-block">...</span>
+          <span class="translate-y-[-2px] inline-block">...</span>
         </div>
       {:else}
         <div

@@ -274,7 +274,7 @@
       Install and run
     </button>
   {:else}
-    <div class="text-white/40 text-[11px]">
+    <div class="text-white/40 text-[10px]">
       This process might take a few minutes, please don't close this window.
     </div>
   {/if}

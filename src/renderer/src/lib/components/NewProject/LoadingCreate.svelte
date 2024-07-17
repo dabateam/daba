@@ -1,7 +1,10 @@
 <script lang="ts">
   import { newProjectState } from "../../store.svelte"
+  import { cn } from "../../utils"
   import ApproxTechLoader from "../ApproxTechLoader.svelte"
   import TechLoader from "../TechLoader.svelte"
+
+  let logs = $state<string[]>([])
 
   let log = $state("")
 
@@ -96,12 +99,21 @@
       if (_log) {
         processLog(_log)
         log = _log
+        logs.push(log)
       }
     })
   })
+
+  let showLogs = $state(true)
+
+  let logsContainer: HTMLDivElement | null = $state(null)
+
+  $effect(() => {
+    if (logsContainer) logsContainer.scrollTop = logsContainer.scrollHeight
+  })
 </script>
 
-<div class="size-full flex items-center justify-center relative">
+<div class="size-full flex items-center justify-center relative overflow-auto">
   <div class="flex gap-[80px] mb-[15vh]">
     {#each Object.keys(appsProgressMap) as app}
       {@const progress = appsProgressMap[app]}
@@ -119,17 +131,44 @@
       {/if}
     {/each}
   </div>
-  <div
-    class="absolute bottom-[20px] text-[10px] text-white/40 w-full left-0 text-center"
-  >
-    {log}
+
+  {#if showLogs}
+    <div
+      bind:this={logsContainer}
+      class="bg-[#242424] text-left text-white/50 overflow-auto absolute bottom-[59px] w-full h-[calc(100%-40px)] left-0 pt-[54px] text-[10px]"
+    >
+      <div class="w-fit mx-auto">
+        {#each logs as l, i}
+          <div
+            class={cn(
+              "text-white/40 mb-[12px]",
+              i === logs.length - 1 && "text-white/70 mb-0",
+            )}
+          >
+            {l}
+          </div>
+        {/each}
+      </div>
+    </div>
+  {/if}
+
+  <div class="absolute bottom-[20px] text-[10px] w-full left-0 text-center">
+    <div class="w-fit mx-auto mb-[16px]">
+      {#if !showLogs}
+        <div
+          class="overflow-hidden whitespace-nowrap overflow-ellipsis text-center text-white/25"
+        >
+          {log}
+        </div>
+      {/if}
+    </div>
+    <button
+      class="text-white/40 rounded-[4px] px-[10px] py-[6px] border border-white/10 hover:bg-white/[0.02] active:bg-white/[0.03]"
+      onclick={() => {
+        showLogs = !showLogs
+      }}
+    >
+      {showLogs ? "Hide logs" : "Show logs"}
+    </button>
   </div>
 </div>
-
-<!-- <div class="ring size-full flex items-center justify-center relative">
-  <div class="flex gap-[60px] mb-[15vh]">
-    <ApproxTechLoader tech="mongodb" started={true} completed={false} />
-    <ApproxTechLoader tech="postgres" started={true} completed={false} />
-    <ApproxTechLoader tech="react" started={true} completed={false} />
-  </div>
-</div> -->
