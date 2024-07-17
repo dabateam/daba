@@ -14,6 +14,11 @@ import {
 import { TEMPLATES } from "../shared/constants"
 import { mainWindow } from "."
 
+import log from "electron-log/main"
+
+log.transports.file.level = "debug"
+console.log = log.log
+
 function getDockerSocketPath() {
   let socketPath = ""
 
@@ -23,6 +28,7 @@ function getDockerSocketPath() {
       "unix://",
       "",
     )
+    console.log("docker socket path", socketPath)
   } catch (error) {
     console.error(`Error: ${(error as Error).message}`)
   }
