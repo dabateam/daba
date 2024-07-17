@@ -1,7 +1,7 @@
 import { app, shell, BrowserWindow, nativeTheme } from "electron"
 import { join } from "path"
 import { electronApp, optimizer, is } from "@electron-toolkit/utils"
-import icon from "../../resources/icon.png?asset"
+// import icon from "../../resources/icon.png?asset"
 import "./handlers"
 import windowStateManager from "electron-window-state"
 import { autoUpdater } from "electron-updater"
@@ -23,7 +23,7 @@ function createWindow(): void {
     y: windowState.y,
     show: false,
     autoHideMenuBar: true,
-    ...(process.platform === "linux" ? { icon } : {}),
+    // ...(process.platform === "linux" ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, "../preload/index.js"),
       sandbox: false,
