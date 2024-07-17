@@ -36,8 +36,8 @@
           projectsState.currentProject = project
           projectsState.refreshProjectsStates()
           console.log("project created", project)
-          // newProjectState.reset()
-          // routingState.view = "project"
+          newProjectState.reset()
+          routingState.view = "project"
         }
       })
     }
@@ -52,120 +52,6 @@
     }
   }
 </script>
-
-<!-- <script lang="ts">
-  // import type { Project } from "../../../../../shared/types"
-  import {
-    newProjectState,
-    projectsState,
-    routingState,
-  } from "../../store.svelte"
-
-  // let inputRef = $state<HTMLInputElement | null>(null)
-
-  // const reset = () => {
-  //   routingState.view = ""
-  //   projectName = ""
-  //   loading = false
-  // }
-
-
-</script>
-
-{#if routingState.view !== "new-project.loading-create"}
-  <div
-    class="h-[60px] flex items-center justify-center border-t border-white/5 relative"
-  >
-    {#if routingState.view === "new-project.summary"}
-      <button
-        class="absolute left-0 top-[50%] -translate-y-[50%] ml-[16px] text-white/50 rounded-[4px] px-[12px] py-[8px] hover:bg-white/[0.02] active:bg-white/[0.03]"
-        onclick={() => {
-          newProjectState.reset()
-          routingState.view = ""
-        }}
-      >
-        Cancel
-      </button>
-      <button
-        onclick={createProject}
-        class={cn(
-          "rounded-[4px] px-[12px] py-[8px] __green_button",
-          !canSubmit && "pointer-events-none opacity-70 text-white/60",
-        )}
-      >
-        Create project
-      </button>
-    {:else if routingState.view === "new-project"}
-      <button
-        class="text-white/50 rounded-[4px] px-[12px] py-[8px] hover:bg-white/[0.02] active:bg-white/[0.03]"
-        onclick={() => {
-          newProjectState.reset()
-          routingState.view = ""
-        }}
-      >
-        Cancel
-      </button>
-    {:else if routingState.view === "new-project.pick-starter"}
-      {#if newProjectState.selectedTemplate}
-        <button
-          class="absolute left-0 top-[50%] -translate-y-[50%] ml-[16px] text-white/50 rounded-[4px] px-[12px] py-[8px] hover:bg-white/[0.02] active:bg-white/[0.03]"
-          onclick={() => {
-            if (newProjectState.newProject.template) {
-              routingState.view = "new-project.summary"
-            } else {
-              newProjectState.reset()
-              routingState.view = ""
-            }
-          }}
-        >
-          {!newProjectState.newProject.template ? "Cancel" : "Go back"}
-        </button>
-        <button
-          onclick={() => {
-            if (
-              newProjectState.selectedTemplate !==
-              newProjectState.newProject.template
-            ) {
-              newProjectState.newProject.apps = (
-                TEMPLATES.find(
-                  (t) => t.name === newProjectState.selectedTemplate,
-                )?.apps || []
-              ).map((a) => ({
-                ...a,
-                containerId: "",
-                port: 0,
-              }))
-            }
-            newProjectState.newProject.template =
-              newProjectState.selectedTemplate
-            routingState.view = "new-project.summary"
-
-            // todo: handle if change template -> reset apps
-          }}
-          class={cn(
-            "rounded-[4px] px-[12px] py-[8px] __green_button_transparent",
-          )}
-        >
-          Pick {newProjectState.selectedTemplate}
-        </button>
-      {:else}
-        <button
-          class="text-white/50 rounded-[4px] px-[12px] py-[8px] hover:bg-white/[0.02] active:bg-white/[0.03]"
-          onclick={() => {
-            if (newProjectState.newProject.template) {
-              routingState.view = "new-project.summary"
-            } else {
-              newProjectState.reset()
-              routingState.view = ""
-            }
-          }}
-        >
-          {newProjectState.newProject.template ? "Go back" : "Cancel"}
-        </button>
-      {/if}
-    {/if}
-  </div>
-{/if} -->
 
 <div
   class="h-[56px] flex relative items-center justify-center px-[16px] border-t border-white/5 gap-[8px] text-[11px]"
