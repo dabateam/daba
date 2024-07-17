@@ -112,6 +112,12 @@
   $effect(() => {
     if (logsContainer) logsContainer.scrollTop = logsContainer.scrollHeight
   })
+
+  const highlightLine = (l: string, i: number) => {
+    if (!!l.trim() && i === logs.length - 1) return true
+    if (i === logs.length - 2 && !logs[i + 1].trim()) return true
+    return false
+  }
 </script>
 
 <div class="size-full flex items-center justify-center relative overflow-auto">
@@ -136,14 +142,14 @@
   {#if showLogs}
     <div
       bind:this={logsContainer}
-      class="bg-[#242424] text-left text-white/50 overflow-auto absolute bottom-[59px] w-full h-[calc(100%-40px)] left-0 pt-[54px] text-[10px]"
+      class="bg-[#242424] text-left text-white/50 overflow-auto absolute bottom-[59px] w-full h-[calc(100%-40px)] left-0 pt-[54px] text-[10px] px-[50px]"
     >
       <div class="w-fit mx-auto">
         {#each logs as l, i}
           <div
             class={cn(
               "text-white/40 mb-[12px]",
-              i === logs.length - 1 && "text-white/70 mb-0",
+              highlightLine(l, i) && "text-white/70 mb-0",
             )}
           >
             {l}
