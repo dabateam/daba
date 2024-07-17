@@ -8,7 +8,7 @@
     completed = false,
   }: { tech: string; started?: boolean; completed?: boolean } = $props()
 
-  const DURATION = 6000
+  const DURATION = 10000
 
   let progress = $state(0)
 

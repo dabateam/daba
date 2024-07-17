@@ -96,15 +96,16 @@
 
   $effect(() => {
     window.electron.ipcRenderer.on("docker-compose-log", (_, _log) => {
+      logs.push(_log)
+
       if (_log) {
         processLog(_log)
         log = _log
-        logs.push(log)
       }
     })
   })
 
-  let showLogs = $state(true)
+  let showLogs = $state(false)
 
   let logsContainer: HTMLDivElement | null = $state(null)
 
@@ -156,7 +157,7 @@
     <div class="w-fit mx-auto mb-[16px]">
       {#if !showLogs}
         <div
-          class="overflow-hidden whitespace-nowrap overflow-ellipsis text-center text-white/25"
+          class="overflow-hidden whitespace-nowrap overflow-ellipsis max-w-[300px] text-center text-white/25"
         >
           {log}
         </div>
