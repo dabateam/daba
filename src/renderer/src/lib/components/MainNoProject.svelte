@@ -3,7 +3,7 @@
 
   let inputRef = $state<HTMLInputElement | null>(null)
 
-  const showSandbox = true
+  const showSandbox = false
 
   $effect(() => {
     if (inputRef) {

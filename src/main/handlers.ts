@@ -102,7 +102,7 @@ const createProject = async (
     ports[portKey] = 0
   })
 
-  const command = `docker-compose --progress plain -f ${projectPath}/compose.yml --project-name ${project.name} up -d`
+  const command = `docker compose --progress plain -f ${projectPath}/compose.yml --project-name ${project.name} up -d`
 
   await new Promise((resolve, reject) => {
     try {
@@ -221,7 +221,7 @@ const getAllProjectsStates = async (projectNames: string[]) => {
 
 const deleteProject = async (projectName: string) => {
   const projectPath = path.join("/Users/zak/Documents/Projects/", projectName)
-  const command = `docker-compose -f ${projectPath}/compose.yml down -v --remove-orphans`
+  const command = `docker compose -f ${projectPath}/compose.yml down -v --remove-orphans`
 
   await new Promise((resolve, reject) =>
     exec(command, {}, (error, stdout, stderr) => {
@@ -246,7 +246,7 @@ const deleteProject = async (projectName: string) => {
 const stopProject = async (projectName: string) => {
   const projectPath = path.join("/Users/zak/Documents/Projects/", projectName)
 
-  const command = `docker-compose -f ${projectPath}/compose.yml stop`
+  const command = `docker compose -f ${projectPath}/compose.yml stop`
 
   await new Promise((resolve, reject) =>
     exec(command, {}, (error, stdout, stderr) => {
@@ -279,7 +279,7 @@ const stopProject = async (projectName: string) => {
 const startProject = async (projectName: string) => {
   const projectPath = path.join("/Users/zak/Documents/Projects/", projectName)
 
-  const command = `docker-compose -f ${projectPath}/compose.yml --project-name ${projectName} up -d`
+  const command = `docker compose -f ${projectPath}/compose.yml --project-name ${projectName} up -d`
 
   await new Promise((resolve, reject) =>
     exec(command, {}, (error, stdout, stderr) => {
@@ -312,7 +312,7 @@ const startProject = async (projectName: string) => {
 const restartProject = async (projectName: string) => {
   const projectPath = path.join("/Users/zak/Documents/Projects/", projectName)
 
-  const command = `docker-compose -f ${projectPath}/compose.yml --project-name ${projectName} restart -d`
+  const command = `docker compose -f ${projectPath}/compose.yml --project-name ${projectName} restart -d`
 
   await new Promise((resolve, reject) =>
     exec(command, {}, (error, stdout, stderr) => {
