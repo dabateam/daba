@@ -14,11 +14,6 @@ import {
 import { TEMPLATES } from "../shared/constants"
 import { mainWindow } from "."
 
-import log from "electron-log/main"
-
-log.transports.file.level = "debug"
-console.log = log.log
-
 function getDockerSocketPath() {
   let socketPath = ""
 

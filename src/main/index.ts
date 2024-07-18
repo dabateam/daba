@@ -6,11 +6,19 @@ import "./handlers"
 import windowStateManager from "electron-window-state"
 import { autoUpdater } from "electron-updater"
 import { setAutoUpdaterNotifiers } from "./autoUpdater"
-import * as Sentry from "@sentry/electron/main"
+// import * as Sentry from "@sentry/electron/main"
 
-Sentry.init({
-  dsn: "https://edda02cbb30d167fcbaeabdfa0c08e65@o4507617273970688.ingest.us.sentry.io/4507617285439488",
-})
+// todo: only enable sentry in production
+// Sentry.init({
+//   dsn: "https://edda02cbb30d167fcbaeabdfa0c08e65@o4507617273970688.ingest.us.sentry.io/4507617285439488",
+// })
+
+import log from "electron-log/main"
+
+log.transports.file.level = "debug"
+console.log = log.log
+
+log.info("✅ in main, log setup")
 
 export let mainWindow: BrowserWindow | null = null
 

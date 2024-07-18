@@ -1,13 +1,9 @@
 import { autoUpdater } from "electron-updater"
-import log from "electron-log/main"
 import { BrowserWindow } from "electron"
-
-log.transports.file.level = "debug"
-autoUpdater.logger = log
 
 export const setAutoUpdaterNotifiers = (window: BrowserWindow) => {
   function sendStatusToWindow(text) {
-    log.info(text)
+    // log.info(text)
     window.webContents.send("message", text)
   }
 
