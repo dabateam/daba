@@ -15,24 +15,32 @@ import { TEMPLATES } from "../shared/constants"
 import { mainWindow } from "."
 
 function getDockerSocketPath() {
+  console.log("✅ start of getDockerSocketPath")
+
   let socketPath = ""
 
   try {
+    console.log("✅ start of getDockerSocketPath try block")
+
     const output = execSync("docker context inspect", { encoding: "utf-8" })
     socketPath = JSON.parse(output)[0].Endpoints.docker.Host.replace(
       "unix://",
       "",
     )
-    console.log("docker socket path", socketPath)
+    console.log("✅ got socket path: ", socketPath)
   } catch (error) {
     console.error(`Error: ${(error as Error).message}`)
   }
   return socketPath
 }
 
+console.log("✅ before new dockerode")
+
 const docker = new dockerode({
   socketPath: getDockerSocketPath(),
 })
+
+console.log("✅ after new dockerode")
 
 // HANDLERS ========================================================
 
