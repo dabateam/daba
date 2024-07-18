@@ -18,13 +18,9 @@ import { setupHandlers } from "./handlers"
 log.transports.file.level = "debug"
 console.log = log.log
 
-console.log("✅ in main, log setup")
-
 export let mainWindow: BrowserWindow | null = null
 
 function createWindow(): void {
-  console.log("✅ in createWindow")
-
   nativeTheme.themeSource = "dark"
 
   const windowState = windowStateManager({
@@ -53,11 +49,7 @@ function createWindow(): void {
     backgroundColor: "#242424",
   })
 
-  console.log("✅ created mainWindow")
-
   setAutoUpdaterNotifiers(mainWindow)
-
-  console.log("✅ after setAutoUpdaterNotifiers")
 
   // initialize window state
   windowState.manage(mainWindow)
@@ -67,11 +59,7 @@ function createWindow(): void {
   })
 
   mainWindow.on("ready-to-show", () => {
-    console.log("✅ on ready to show")
-
     mainWindow?.show()
-
-    console.log("✅ after mainWindow?.show()")
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
@@ -84,41 +72,26 @@ function createWindow(): void {
   if (is.dev && process.env["ELECTRON_RENDERER_URL"]) {
     mainWindow.loadURL(process.env["ELECTRON_RENDERER_URL"])
     mainWindow.webContents.openDevTools()
-
-    console.log("✅ end of is.dev && process.env[ELECTRON_RENDERER_URL]")
   } else {
     mainWindow.loadFile(join(__dirname, "../renderer/index.html"))
-    console.log("✅ end of mainWindow.loadFile(join(__dirname...")
   }
 }
 
 app.whenReady().then(() => {
-  console.log("✅ start of app.whenReady().then")
-
   electronApp.setAppUserModelId("com.electron")
 
   app.on("browser-window-created", (_, window) => {
-    console.log("✅ start of browser-window-created")
-
     optimizer.watchWindowShortcuts(window)
   })
 
-  console.log("✅ setting up handlers")
-
   setupHandlers()
-  console.log("✅ after setting up handlers")
 
   createWindow()
-  console.log("✅ after createWindow")
 
   autoUpdater.checkForUpdatesAndNotify()
 
-  console.log("✅ after autoUpdater.checkForUpdatesAndNotify")
-
   app.on("activate", function () {
-    console.log("✅ start of app.on(activate")
     if (BrowserWindow.getAllWindows().length === 0) {
-      console.log("✅ start of if (BrowserWindow.getAllWindows().length")
       createWindow()
     }
   })

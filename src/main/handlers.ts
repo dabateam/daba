@@ -1,5 +1,5 @@
 import { app, ipcMain } from "electron"
-import dockerode from "dockerode"
+import Dockerode from "dockerode"
 import fs from "fs-extra"
 import path from "path"
 import { exec, execSync } from "child_process"
@@ -14,8 +14,6 @@ import {
 import { TEMPLATES } from "../shared/constants"
 import { mainWindow } from "."
 
-console.log("✅ IN HANDLERS FILE!!!")
-
 function getDockerSocketPath() {
   console.log("✅ start of getDockerSocketPath")
 
@@ -29,20 +27,16 @@ function getDockerSocketPath() {
       "unix://",
       "",
     )
-    console.log("✅ got socket path: ", socketPath)
+    console.log("✅ got socket path: ", output)
   } catch (error) {
     console.error(`Error: ${(error as Error).message}`)
   }
   return socketPath
 }
 
-console.log("✅ before new dockerode")
+console.log("✅ before new Dockerode")
 
-const docker = new dockerode({
-  socketPath: getDockerSocketPath(),
-})
-
-console.log("✅ after new dockerode")
+let docker: Dockerode
 
 // HANDLERS ========================================================
 
@@ -52,7 +46,7 @@ const stopApp = async (containerId: string) => {
   if (!containerId) throw new Error("containerId is required")
   const container = docker.getContainer(containerId)
   await container.stop()
-  let inspectData: dockerode.ContainerInspectInfo
+  let inspectData: Dockerode.ContainerInspectInfo
   do {
     inspectData = await container.inspect()
   } while (inspectData.State.Running)
@@ -65,7 +59,7 @@ const startApp = async (containerId: string) => {
   const container = docker.getContainer(containerId)
   await container.start()
 
-  let inspectData: dockerode.ContainerInspectInfo
+  let inspectData: Dockerode.ContainerInspectInfo
   do {
     inspectData = await container.inspect()
   } while (!inspectData.State.Running)
@@ -78,7 +72,7 @@ const restartApp = async (containerId: string) => {
   const container = docker.getContainer(containerId)
   await container.restart()
 
-  let inspectData: dockerode.ContainerInspectInfo
+  let inspectData: Dockerode.ContainerInspectInfo
   do {
     inspectData = await container.inspect()
   } while (!inspectData.State.Running)
@@ -351,7 +345,7 @@ const isDockerRunning = async () => {
   console.log("✅ calling isDockerRunning")
   try {
     const info = await docker.info()
-    console.log("✅ calling isDockerRunning, after info: ", info)
+    console.log("✅ calling isDockerRunning, after info")
 
     return info
   } catch (error) {
@@ -377,6 +371,12 @@ const invokeHandlers = {
 }
 
 export const setupHandlers = () => {
+  docker = new Dockerode({
+    socketPath: getDockerSocketPath(),
+  })
+
+  console.log("✅ after new Dockerode")
+
   Object.keys(invokeHandlers).forEach((key) => {
     ipcMain.handle(key, (_ev, ...args) => invokeHandlers[key](...args))
   })
