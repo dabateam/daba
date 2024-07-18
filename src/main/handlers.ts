@@ -2,7 +2,7 @@ import { app, ipcMain } from "electron"
 import Dockerode from "dockerode"
 import fs from "fs-extra"
 import path from "path"
-import { exec, execSync } from "child_process"
+import { exec } from "child_process"
 import {
   App,
   AppState,
@@ -14,27 +14,27 @@ import {
 import { TEMPLATES } from "../shared/constants"
 import { mainWindow } from "."
 
-function getDockerSocketPath() {
-  console.log("✅ start of getDockerSocketPath")
+// function getDockerSocketPath() {
+//   console.log("✅ start of getDockerSocketPath")
 
-  let socketPath = ""
+//   let socketPath = ""
 
-  try {
-    console.log("✅ start of getDockerSocketPath try block")
+//   try {
+//     console.log("✅ start of getDockerSocketPath try block")
 
-    const output = execSync("docker context inspect", { encoding: "utf-8" })
-    socketPath = JSON.parse(output)[0].Endpoints.docker.Host.replace(
-      "unix://",
-      "",
-    )
-    console.log("✅ got socket path: ", output)
-  } catch (error) {
-    console.error(`Error: ${(error as Error).message}`)
-  }
-  return socketPath
-}
+//     const output = execSync("docker context inspect", { encoding: "utf-8" })
+//     socketPath = JSON.parse(output)[0].Endpoints.docker.Host.replace(
+//       "unix://",
+//       "",
+//     )
+//     console.log("✅ got socket path: ", output)
+//   } catch (error) {
+//     console.error(`Error: ${(error as Error).message}`)
+//   }
+//   return socketPath
+// }
 
-console.log("✅ before new Dockerode")
+console.log("✅ in handlers file ==================")
 
 let docker: Dockerode
 
@@ -342,7 +342,6 @@ const restartProject = async (projectName: string) => {
 }
 
 const isDockerRunning = async () => {
-  console.log("✅ calling isDockerRunning")
   try {
     const info = await docker.info()
     console.log("✅ calling isDockerRunning, after info")
@@ -371,11 +370,7 @@ const invokeHandlers = {
 }
 
 export const setupHandlers = () => {
-  docker = new Dockerode({
-    socketPath: getDockerSocketPath(),
-  })
-
-  console.log("✅ after new Dockerode")
+  docker = new Dockerode()
 
   Object.keys(invokeHandlers).forEach((key) => {
     ipcMain.handle(key, (_ev, ...args) => invokeHandlers[key](...args))
