@@ -14,6 +14,8 @@ import {
 import { TEMPLATES } from "../shared/constants"
 import { mainWindow } from "."
 
+console.log("✅ IN HANDLERS FILE!!!")
+
 function getDockerSocketPath() {
   console.log("✅ start of getDockerSocketPath")
 
@@ -346,10 +348,15 @@ const restartProject = async (projectName: string) => {
 }
 
 const isDockerRunning = async () => {
+  console.log("✅ calling isDockerRunning")
   try {
     const info = await docker.info()
+    console.log("✅ calling isDockerRunning, after info: ", info)
+
     return info
   } catch (error) {
+    console.log("❌ in isDockerRunning, error: ", error)
+
     return false
   }
 }
@@ -369,12 +376,14 @@ const invokeHandlers = {
   isDockerRunning,
 }
 
-Object.keys(invokeHandlers).forEach((key) => {
-  ipcMain.handle(key, (_ev, ...args) => invokeHandlers[key](...args))
-})
+export const setupHandlers = () => {
+  Object.keys(invokeHandlers).forEach((key) => {
+    ipcMain.handle(key, (_ev, ...args) => invokeHandlers[key](...args))
+  })
 
-ipcMain.on("get-app-version", (event) => {
-  event.returnValue = app.getVersion()
-})
+  ipcMain.on("get-app-version", (event) => {
+    event.returnValue = app.getVersion()
+  })
+}
 
 export type Handlers = typeof invokeHandlers

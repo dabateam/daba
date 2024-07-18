@@ -2,7 +2,6 @@ import { app, shell, BrowserWindow, nativeTheme } from "electron"
 import { join } from "path"
 import { electronApp, optimizer, is } from "@electron-toolkit/utils"
 // import icon from "../../resources/icon.png?asset"
-import "./handlers"
 import windowStateManager from "electron-window-state"
 import { autoUpdater } from "electron-updater"
 import { setAutoUpdaterNotifiers } from "./autoUpdater"
@@ -14,6 +13,7 @@ import { setAutoUpdaterNotifiers } from "./autoUpdater"
 // })
 
 import log from "electron-log/main"
+import { setupHandlers } from "./handlers"
 
 log.transports.file.level = "debug"
 console.log = log.log
@@ -102,6 +102,11 @@ app.whenReady().then(() => {
 
     optimizer.watchWindowShortcuts(window)
   })
+
+  console.log("✅ setting up handlers")
+
+  setupHandlers()
+  console.log("✅ after setting up handlers")
 
   createWindow()
   console.log("✅ after createWindow")
