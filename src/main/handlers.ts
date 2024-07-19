@@ -111,16 +111,36 @@ const createProject = async (
     ports[portKey] = 0
   })
 
+  // print docker version to test docker
+  await new Promise((resolve, reject) => {
+    exec("docker version", {}, (err, stdout, stderr) => {
+      if (err) {
+        console.log("❌ error running docker version: ", err)
+      }
+      if (stderr) {
+        console.log("❌ error running docker version: ", stderr)
+      }
+      console.log("docker version: ", stdout)
+      resolve(null)
+    })
+  })
+
   const command = `docker compose -f ${projectPath}/compose.yml --project-name ${project.name} up -d`
 
   await new Promise((resolve, reject) => {
     try {
-      const composeProcess = exec(command, {
-        env: {
-          ...process.env,
-          ...ports,
+      const composeProcess = exec(
+        command,
+        {
+          env: {
+            ...process.env,
+            ...ports,
+          },
         },
-      })
+        (err) => {
+          console.log("❌ error running docker compose 1: ", err)
+        },
+      )
 
       composeProcess.stdout?.on("data", (data) => {
         // send line by line to main window
@@ -141,8 +161,14 @@ const createProject = async (
           })
       })
 
-      composeProcess.on("close", (code) => {
-        console.log(`child process exited with code ${code}`)
+      composeProcess.on("error", (err) => {
+        console.log("❌ error running docker compose 2: ", err)
+      })
+
+      composeProcess.on("close", (code, signal) => {
+        console.log(
+          `child process exited with code ${code} and signal ${signal}`,
+        )
         resolve(null)
       })
     } catch (err) {
