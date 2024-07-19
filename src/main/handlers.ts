@@ -15,28 +15,21 @@ import { TEMPLATES } from "../shared/constants"
 import { mainWindow } from "."
 
 // function getDockerSocketPath() {
-//   console.log("✅ start of getDockerSocketPath")
-
 //   let socketPath = ""
 
 //   try {
-//     console.log("✅ start of getDockerSocketPath try block")
-
 //     const output = execSync("docker context inspect", { encoding: "utf-8" })
 //     socketPath = JSON.parse(output)[0].Endpoints.docker.Host.replace(
 //       "unix://",
 //       "",
 //     )
-//     console.log("✅ got socket path: ", output)
 //   } catch (error) {
 //     console.error(`Error: ${(error as Error).message}`)
 //   }
 //   return socketPath
 // }
 
-console.log("✅ in handlers file ==================")
-
-let docker: Dockerode
+const docker = new Dockerode()
 
 // HANDLERS ========================================================
 
@@ -83,13 +76,22 @@ const restartApp = async (containerId: string) => {
 const createProject = async (
   project: Project,
 ): Promise<Project | undefined> => {
-  if (!project.name) return undefined
+  if (!project.name) {
+    console.log("project name is required")
+    return undefined
+  }
 
   const template = TEMPLATES.find((t) => t.name === project.template)
-  if (!template) return undefined
+  if (!template) {
+    console.log("template is required")
+    return undefined
+  }
 
-  const projectPath = path.join("/Users/zak/Documents/Projects/", project.name)
-  await fs.mkdir(projectPath).catch(console.error)
+  const projectPath = path.join("~/Documents/Projects/", project.name)
+
+  await fs.mkdir(projectPath).catch((err) => {
+    console.error("error creating project path", err)
+  })
 
   await fs
     .copy(path.join(__dirname, "templates", template.path), projectPath)
@@ -219,7 +221,7 @@ const getAllProjectsStates = async (projectNames: string[]) => {
 }
 
 const deleteProject = async (projectName: string) => {
-  const projectPath = path.join("/Users/zak/Documents/Projects/", projectName)
+  const projectPath = path.join("~/Documents/Projects/", projectName)
   const command = `docker compose -f ${projectPath}/compose.yml down -v --remove-orphans`
 
   await new Promise((resolve, reject) =>
@@ -243,7 +245,7 @@ const deleteProject = async (projectName: string) => {
 }
 
 const stopProject = async (projectName: string) => {
-  const projectPath = path.join("/Users/zak/Documents/Projects/", projectName)
+  const projectPath = path.join("~/Documents/Projects/", projectName)
 
   const command = `docker compose -f ${projectPath}/compose.yml stop`
 
@@ -276,7 +278,7 @@ const stopProject = async (projectName: string) => {
 }
 
 const startProject = async (projectName: string) => {
-  const projectPath = path.join("/Users/zak/Documents/Projects/", projectName)
+  const projectPath = path.join("~/Documents/Projects/", projectName)
 
   const command = `docker compose -f ${projectPath}/compose.yml --project-name ${projectName} up -d`
 
@@ -309,7 +311,7 @@ const startProject = async (projectName: string) => {
 }
 
 const restartProject = async (projectName: string) => {
-  const projectPath = path.join("/Users/zak/Documents/Projects/", projectName)
+  const projectPath = path.join("~/Documents/Projects/", projectName)
 
   const command = `docker compose -f ${projectPath}/compose.yml --project-name ${projectName} restart -d`
 
@@ -344,7 +346,6 @@ const restartProject = async (projectName: string) => {
 const isDockerRunning = async () => {
   try {
     const info = await docker.info()
-    console.log("✅ calling isDockerRunning, after info")
 
     return info
   } catch (error) {
@@ -370,8 +371,6 @@ const invokeHandlers = {
 }
 
 export const setupHandlers = () => {
-  docker = new Dockerode()
-
   Object.keys(invokeHandlers).forEach((key) => {
     ipcMain.handle(key, (_ev, ...args) => invokeHandlers[key](...args))
   })

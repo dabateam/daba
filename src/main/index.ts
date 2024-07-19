@@ -13,10 +13,11 @@ import { setAutoUpdaterNotifiers } from "./autoUpdater"
 // })
 
 import log from "electron-log/main"
-import { setupHandlers } from "./handlers"
 
 log.transports.file.level = "debug"
 console.log = log.log
+
+import { setupHandlers } from "./handlers"
 
 export let mainWindow: BrowserWindow | null = null
 
