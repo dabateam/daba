@@ -111,21 +111,7 @@ const createProject = async (
     ports[portKey] = 0
   })
 
-  // print docker version to test docker
-  await new Promise((resolve) => {
-    exec("docker version", {}, (err, stdout, stderr) => {
-      if (err) {
-        console.log("❌ error running docker version: ", err)
-      }
-      if (stderr) {
-        console.log("❌ error running docker version: ", stderr)
-      }
-      console.log("docker version: ", stdout)
-      resolve(null)
-    })
-  })
-
-  const command = `docker compose -f ${projectPath}/compose.yml --project-name ${project.name} up -d`
+  const command = `/usr/local/bin/docker compose -f ${projectPath}/compose.yml --project-name ${project.name} up -d`
 
   await new Promise((resolve, reject) => {
     try {
@@ -266,7 +252,7 @@ const deleteProject = async (projectName: string) => {
     projectName,
   )
 
-  const command = `docker compose -f ${projectPath}/compose.yml down -v --remove-orphans`
+  const command = `/usr/local/bin/docker compose -f ${projectPath}/compose.yml down -v --remove-orphans`
 
   await new Promise((resolve, reject) =>
     exec(command, {}, (error, stdout, stderr) => {
@@ -296,7 +282,7 @@ const stopProject = async (projectName: string) => {
     projectName,
   )
 
-  const command = `docker compose -f ${projectPath}/compose.yml stop`
+  const command = `/usr/local/bin/docker compose -f ${projectPath}/compose.yml stop`
 
   await new Promise((resolve, reject) =>
     exec(command, {}, (error, stdout, stderr) => {
@@ -334,7 +320,7 @@ const startProject = async (projectName: string) => {
     projectName,
   )
 
-  const command = `docker compose -f ${projectPath}/compose.yml --project-name ${projectName} up -d`
+  const command = `/usr/local/bin/docker compose -f ${projectPath}/compose.yml --project-name ${projectName} up -d`
 
   await new Promise((resolve, reject) =>
     exec(command, {}, (error, stdout, stderr) => {
@@ -372,7 +358,7 @@ const restartProject = async (projectName: string) => {
     projectName,
   )
 
-  const command = `docker compose -f ${projectPath}/compose.yml --project-name ${projectName} restart -d`
+  const command = `/usr/local/bin/docker compose -f ${projectPath}/compose.yml --project-name ${projectName} restart -d`
 
   await new Promise((resolve, reject) =>
     exec(command, {}, (error, stdout, stderr) => {
@@ -430,6 +416,53 @@ const invokeHandlers = {
 }
 
 export const setupHandlers = () => {
+  // print docker version to test docker
+  new Promise((resolve) => {
+    exec("/usr/local/bin/docker version", {}, (err, stdout, stderr) => {
+      if (err) {
+        console.log("❌ error running docker version: ", err)
+      }
+      if (stderr) {
+        console.log("❌ error running docker version: ", stderr)
+      }
+      console.log("docker version: ", stdout)
+      resolve(null)
+    })
+  })
+
+  new Promise((resolve) => {
+    exec("/usr/local/bin/docker version", {}, (err, stdout, stderr) => {
+      if (err) {
+        console.log("❌ error running docker version (explicit path): ", err)
+      }
+      if (stderr) {
+        console.log("❌ error running docker version: ", stderr)
+      }
+      console.log("docker version: ", stdout)
+      resolve(null)
+    })
+  })
+
+  exec("docker version", { shell: "/bin/bash" }, (error, stdout) => {
+    if (error) {
+      console.error(
+        `❌ error running docker version (setting shell: bash): ${error}`,
+      )
+      return
+    }
+    console.log(`Docker Version: ${stdout}`)
+  })
+
+  exec("docker version", { shell: "/bin/zsh" }, (error, stdout) => {
+    if (error) {
+      console.error(
+        `❌ error running docker version (setting shell: zsh): ${error}`,
+      )
+      return
+    }
+    console.log(`Docker Version: ${stdout}`)
+  })
+
   Object.keys(invokeHandlers).forEach((key) => {
     ipcMain.handle(key, (_ev, ...args) => invokeHandlers[key](...args))
   })

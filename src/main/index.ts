@@ -18,6 +18,8 @@ log.transports.file.level = "debug"
 console.log = log.log
 console.error = log.error
 
+console.log("⭐ process.env.PATH = ", process.env.PATH)
+
 import { setupHandlers } from "./handlers"
 
 export let mainWindow: BrowserWindow | null = null
