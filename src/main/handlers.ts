@@ -95,14 +95,14 @@ const createProject = async (
     project.name,
   )
 
-  await fs.mkdir(projectPath).catch((err) => {
-    console.error("error creating project path", err)
+  await fs.mkdir(projectPath, { recursive: true }).catch((err) => {
+    console.error("❌ error creating project path", err)
   })
 
   await fs
     .copy(path.join(__dirname, "templates", template.path), projectPath)
     .catch((err) => {
-      console.error("error copying template", err)
+      console.error("❌ error copying template", err)
     })
 
   const ports = {}
@@ -111,7 +111,7 @@ const createProject = async (
     ports[portKey] = 0
   })
 
-  const command = `docker compose --progress plain -f ${projectPath}/compose.yml --project-name ${project.name} up -d`
+  const command = `docker compose -f ${projectPath}/compose.yml --project-name ${project.name} up -d`
 
   await new Promise((resolve, reject) => {
     try {
