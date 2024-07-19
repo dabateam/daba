@@ -13,6 +13,7 @@ import {
 } from "../shared/types"
 import { TEMPLATES } from "../shared/constants"
 import { mainWindow } from "."
+import os from "os"
 
 // function getDockerSocketPath() {
 //   let socketPath = ""
@@ -87,7 +88,12 @@ const createProject = async (
     return undefined
   }
 
-  const projectPath = path.join("~/Documents/Projects/", project.name)
+  const projectPath = path.join(
+    os.homedir(),
+    "Documents",
+    "Projects",
+    project.name,
+  )
 
   await fs.mkdir(projectPath).catch((err) => {
     console.error("error creating project path", err)
@@ -226,7 +232,14 @@ const getAllProjectsStates = async (projectNames: string[]) => {
 }
 
 const deleteProject = async (projectName: string) => {
-  const projectPath = path.join("~/Documents/Projects/", projectName)
+  // const projectPath = path.join("~/Documents/Projects/", projectName)
+  const projectPath = path.join(
+    os.homedir(),
+    "Documents",
+    "Projects",
+    projectName,
+  )
+
   const command = `docker compose -f ${projectPath}/compose.yml down -v --remove-orphans`
 
   await new Promise((resolve, reject) =>
@@ -250,7 +263,12 @@ const deleteProject = async (projectName: string) => {
 }
 
 const stopProject = async (projectName: string) => {
-  const projectPath = path.join("~/Documents/Projects/", projectName)
+  const projectPath = path.join(
+    os.homedir(),
+    "Documents",
+    "Projects",
+    projectName,
+  )
 
   const command = `docker compose -f ${projectPath}/compose.yml stop`
 
@@ -283,7 +301,12 @@ const stopProject = async (projectName: string) => {
 }
 
 const startProject = async (projectName: string) => {
-  const projectPath = path.join("~/Documents/Projects/", projectName)
+  const projectPath = path.join(
+    os.homedir(),
+    "Documents",
+    "Projects",
+    projectName,
+  )
 
   const command = `docker compose -f ${projectPath}/compose.yml --project-name ${projectName} up -d`
 
@@ -316,7 +339,12 @@ const startProject = async (projectName: string) => {
 }
 
 const restartProject = async (projectName: string) => {
-  const projectPath = path.join("~/Documents/Projects/", projectName)
+  const projectPath = path.join(
+    os.homedir(),
+    "Documents",
+    "Projects",
+    projectName,
+  )
 
   const command = `docker compose -f ${projectPath}/compose.yml --project-name ${projectName} restart -d`
 
