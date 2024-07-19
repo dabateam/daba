@@ -95,7 +95,9 @@ const createProject = async (
 
   await fs
     .copy(path.join(__dirname, "templates", template.path), projectPath)
-    .catch(console.error)
+    .catch((err) => {
+      console.error("error copying template", err)
+    })
 
   const ports = {}
   template.apps.forEach((app) => {
@@ -138,6 +140,7 @@ const createProject = async (
         resolve(null)
       })
     } catch (err) {
+      console.error("error running docker compose", err)
       reject(err)
     }
   })
@@ -160,6 +163,8 @@ const createProject = async (
         ) || 0,
       status: el.State === "running" ? "running" : "stopped",
     }))
+
+  console.log("successfully create project with containers", containers)
 
   return { ...project, apps: containers }
 }

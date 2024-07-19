@@ -16,6 +16,7 @@ import log from "electron-log/main"
 
 log.transports.file.level = "debug"
 console.log = log.log
+console.error = log.error
 
 import { setupHandlers } from "./handlers"
 
