@@ -112,7 +112,7 @@ const createProject = async (
   })
 
   // print docker version to test docker
-  await new Promise((resolve, reject) => {
+  await new Promise((resolve) => {
     exec("docker version", {}, (err, stdout, stderr) => {
       if (err) {
         console.log("❌ error running docker version: ", err)
