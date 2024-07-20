@@ -20,7 +20,7 @@
     "build:win": "npm run build && electron-builder --win --config",
     "build:mac": "npm run build && electron-builder --mac --config -- --publish=never",
     "build:linux": "npm run build && electron-builder --linux --config",
-    "publish": "npm version patch -m 'Upgrade to %s' && git push origin main --follow-tags"
+    "publish-patch": "npm version patch -m 'Upgrade to %s' && git push origin main --follow-tags"
   },
   "repository": "https://github.com/dabateam/daba",
   "dependencies": {
