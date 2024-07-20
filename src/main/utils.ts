@@ -1,6 +1,6 @@
 // const net = require('net');
 
-import net from "net"
+import net from "node:net"
 
 export const getRandomPort = async () => {
   let port = 0

@@ -1,8 +1,8 @@
 import { app, ipcMain } from "electron"
 import Dockerode from "dockerode"
 import fs from "fs-extra"
-import path from "path"
-import { exec } from "child_process"
+import path from "node:path"
+import { exec } from "node:child_process"
 import {
   App,
   AppState,
@@ -13,7 +13,10 @@ import {
 } from "../shared/types"
 import { TEMPLATES } from "../shared/constants"
 import { mainWindow } from "."
-import os from "os"
+import os from "node:os"
+
+import { execa } from "execa"
+import { getStarter } from "./download"
 
 // function getDockerSocketPath() {
 //   let socketPath = ""
@@ -99,11 +102,13 @@ const createProject = async (
     console.error("❌ error creating project path", err)
   })
 
-  await fs
-    .copy(path.join(__dirname, "templates", template.path), projectPath)
-    .catch((err) => {
-      console.error("❌ error copying template", err)
-    })
+  // await fs
+  //   .copy(path.join(__dirname, "templates", template.path), projectPath)
+  //   .catch((err) => {
+  //     console.error("❌ error copying template", err)
+  //   })
+
+  // download from github repo
 
   const ports = {}
   template.apps.forEach((app) => {
@@ -111,57 +116,72 @@ const createProject = async (
     ports[portKey] = 0
   })
 
-  const command = `/usr/local/bin/docker compose -f ${projectPath}/compose.yml --project-name ${project.name} up -d`
+  // await new Promise((resolve, reject) => {
+  //   try {
+  //     const composeProcess = exec(
+  //       command,
+  //       {
+  //         env: {
+  //           ...process.env,
+  //           ...ports,
+  //         },
+  //       },
+  //       (err) => {
+  //         console.log("❌ error running docker compose 1: ", err)
+  //       },
+  //     )
 
-  await new Promise((resolve, reject) => {
-    try {
-      const composeProcess = exec(
-        command,
-        {
-          env: {
-            ...process.env,
-            ...ports,
-          },
-        },
-        (err) => {
-          console.log("❌ error running docker compose 1: ", err)
-        },
-      )
+  //     composeProcess.stdout?.on("data", (data) => {
+  //       // send line by line to main window
+  //       data
+  //         .toString()
+  //         .split("\n")
+  //         .forEach((line) => {
+  //           mainWindow?.webContents.send("docker-compose-log", line)
+  //         })
+  //     })
 
-      composeProcess.stdout?.on("data", (data) => {
-        // send line by line to main window
-        data
-          .toString()
-          .split("\n")
-          .forEach((line) => {
-            mainWindow?.webContents.send("docker-compose-log", line)
-          })
-      })
+  //     composeProcess.stderr?.on("data", (data) => {
+  //       data
+  //         .toString()
+  //         .split("\n")
+  //         .forEach((line) => {
+  //           mainWindow?.webContents.send("docker-compose-log", line)
+  //         })
+  //     })
 
-      composeProcess.stderr?.on("data", (data) => {
-        data
-          .toString()
-          .split("\n")
-          .forEach((line) => {
-            mainWindow?.webContents.send("docker-compose-log", line)
-          })
-      })
+  //     composeProcess.on("error", (err) => {
+  //       console.log("❌ error running docker compose 2: ", err)
+  //     })
 
-      composeProcess.on("error", (err) => {
-        console.log("❌ error running docker compose 2: ", err)
-      })
+  //     composeProcess.on("close", (code, signal) => {
+  //       console.log(
+  //         `child process exited with code ${code} and signal ${signal}`,
+  //       )
+  //       resolve(null)
+  //     })
+  //   } catch (err) {
+  //     console.error("error running docker compose", err)
+  //     reject(err)
+  //   }
+  // })
 
-      composeProcess.on("close", (code, signal) => {
-        console.log(
-          `child process exited with code ${code} and signal ${signal}`,
-        )
-        resolve(null)
-      })
-    } catch (err) {
-      console.error("error running docker compose", err)
-      reject(err)
+  // download starter
+  // downloadRepo
+  try {
+    await getStarter("mern-docker", project.name)
+  } catch (err) {
+    console.error("error downloading starter", err)
+  }
+
+  try {
+    // todo: careful of docker-compose.yml vs compose.yml vs ...
+    for await (const line of execa`docker compose -f ${projectPath}/compose.yml --project-name ${project.name} up -d`) {
+      mainWindow?.webContents.send("docker-compose-log", line)
     }
-  })
+  } catch (err) {
+    console.error("error running docker compose", err)
+  }
 
   const containers: App[] = (await docker.listContainers())
     .filter(
@@ -252,7 +272,7 @@ const deleteProject = async (projectName: string) => {
     projectName,
   )
 
-  const command = `/usr/local/bin/docker compose -f ${projectPath}/compose.yml down -v --remove-orphans`
+  const command = `docker compose -f ${projectPath}/compose.yml down -v --remove-orphans`
 
   await new Promise((resolve, reject) =>
     exec(command, {}, (error, stdout, stderr) => {
@@ -282,7 +302,7 @@ const stopProject = async (projectName: string) => {
     projectName,
   )
 
-  const command = `/usr/local/bin/docker compose -f ${projectPath}/compose.yml stop`
+  const command = `docker compose -f ${projectPath}/compose.yml stop`
 
   await new Promise((resolve, reject) =>
     exec(command, {}, (error, stdout, stderr) => {
@@ -320,7 +340,7 @@ const startProject = async (projectName: string) => {
     projectName,
   )
 
-  const command = `/usr/local/bin/docker compose -f ${projectPath}/compose.yml --project-name ${projectName} up -d`
+  const command = `docker compose -f ${projectPath}/compose.yml --project-name ${projectName} up -d`
 
   await new Promise((resolve, reject) =>
     exec(command, {}, (error, stdout, stderr) => {
@@ -358,7 +378,7 @@ const restartProject = async (projectName: string) => {
     projectName,
   )
 
-  const command = `/usr/local/bin/docker compose -f ${projectPath}/compose.yml --project-name ${projectName} restart -d`
+  const command = `docker compose -f ${projectPath}/compose.yml --project-name ${projectName} restart -d`
 
   await new Promise((resolve, reject) =>
     exec(command, {}, (error, stdout, stderr) => {
@@ -416,53 +436,6 @@ const invokeHandlers = {
 }
 
 export const setupHandlers = () => {
-  // print docker version to test docker
-  new Promise((resolve) => {
-    exec("/usr/local/bin/docker version", {}, (err, stdout, stderr) => {
-      if (err) {
-        console.log("❌ error running docker version: ", err)
-      }
-      if (stderr) {
-        console.log("❌ error running docker version: ", stderr)
-      }
-      console.log("docker version: ", stdout)
-      resolve(null)
-    })
-  })
-
-  new Promise((resolve) => {
-    exec("/usr/local/bin/docker version", {}, (err, stdout, stderr) => {
-      if (err) {
-        console.log("❌ error running docker version (explicit path): ", err)
-      }
-      if (stderr) {
-        console.log("❌ error running docker version: ", stderr)
-      }
-      console.log("docker version: ", stdout)
-      resolve(null)
-    })
-  })
-
-  exec("docker version", { shell: "/bin/bash" }, (error, stdout) => {
-    if (error) {
-      console.error(
-        `❌ error running docker version (setting shell: bash): ${error}`,
-      )
-      return
-    }
-    console.log(`Docker Version: ${stdout}`)
-  })
-
-  exec("docker version", { shell: "/bin/zsh" }, (error, stdout) => {
-    if (error) {
-      console.error(
-        `❌ error running docker version (setting shell: zsh): ${error}`,
-      )
-      return
-    }
-    console.log(`Docker Version: ${stdout}`)
-  })
-
   Object.keys(invokeHandlers).forEach((key) => {
     ipcMain.handle(key, (_ev, ...args) => invokeHandlers[key](...args))
   })

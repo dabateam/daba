@@ -1,18 +1,11 @@
 // import { sentryVitePlugin } from "@sentry/vite-plugin"
 import { defineConfig, externalizeDepsPlugin } from "electron-vite"
 import { svelte } from "@sveltejs/vite-plugin-svelte"
-import fs from "fs-extra"
 
 export default defineConfig({
   main: {
     plugins: [
       externalizeDepsPlugin(),
-      {
-        name: "copy-custom-folder",
-        writeBundle() {
-          fs.copySync("src/main/templates", "out/main/templates")
-        },
-      },
       // sentryVitePlugin({
       //   org: "daba-cb",
       //   project: "electron",
@@ -21,10 +14,24 @@ export default defineConfig({
     // build: {
     //   sourcemap: true,
     // },
+    build: {
+      rollupOptions: {
+        output: {
+          format: "es",
+        },
+      },
+    },
   },
 
   preload: {
     plugins: [externalizeDepsPlugin()],
+    build: {
+      rollupOptions: {
+        output: {
+          format: "es",
+        },
+      },
+    },
   },
 
   renderer: {
@@ -43,5 +50,12 @@ export default defineConfig({
     // build: {
     //   sourcemap: true,
     // },
+    build: {
+      rollupOptions: {
+        output: {
+          format: "es",
+        },
+      },
+    },
   },
 })

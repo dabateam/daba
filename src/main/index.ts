@@ -1,5 +1,5 @@
 import { app, shell, BrowserWindow, nativeTheme } from "electron"
-import { join } from "path"
+import { join } from "node:path"
 import { electronApp, optimizer, is } from "@electron-toolkit/utils"
 // import icon from "../../resources/icon.png?asset"
 import windowStateManager from "electron-window-state"
@@ -12,13 +12,14 @@ import { setAutoUpdaterNotifiers } from "./autoUpdater"
 //   dsn: "https://edda02cbb30d167fcbaeabdfa0c08e65@o4507617273970688.ingest.us.sentry.io/4507617285439488",
 // })
 
-import log from "electron-log/main"
+import log from "electron-log"
+import fixPath from "fix-path"
+
+fixPath()
 
 log.transports.file.level = "debug"
 console.log = log.log
 console.error = log.error
-
-console.log("⭐ process.env.PATH = ", process.env.PATH)
 
 import { setupHandlers } from "./handlers"
 
@@ -40,7 +41,7 @@ function createWindow(): void {
     autoHideMenuBar: true,
     // ...(process.platform === "linux" ? { icon } : {}),
     webPreferences: {
-      preload: join(__dirname, "../preload/index.js"),
+      preload: join(__dirname, "../preload/index.mjs"),
       sandbox: false,
     },
     frame: false,
@@ -71,8 +72,6 @@ function createWindow(): void {
     return { action: "deny" }
   })
 
-  // HMR for renderer base on electron-vite cli.
-  // Load the remote URL for development or the local html file for production.
   if (is.dev && process.env["ELECTRON_RENDERER_URL"]) {
     mainWindow.loadURL(process.env["ELECTRON_RENDERER_URL"])
     mainWindow.webContents.openDevTools()
