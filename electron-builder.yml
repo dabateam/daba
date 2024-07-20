@@ -11,7 +11,7 @@ files:
   - "!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}"
 asarUnpack:
   - resources/**
-afterSign: build/notarize.js
+afterSign: build/notarize.cjs
 win:
   executableName: daba
 nsis:
