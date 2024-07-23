@@ -127,12 +127,14 @@
       {#if appsProgressMap[app].approx}
         <ApproxTechLoader
           tech={appTechMap[app]}
+          {app}
           started={!!progress.progress}
           completed={progress.completed}
         />
       {:else}
         <TechLoader
           tech={appTechMap[app]}
+          {app}
           progress={getProgress(progress.progress)}
         />
       {/if}

@@ -56,38 +56,6 @@
 <div
   class="h-[56px] flex relative items-center justify-center px-[16px] border-t border-white/5 gap-[8px] text-[11px]"
 >
-  <!-- {#if routingState.view === "new-project"}
-    <button
-      onclick={() => {
-        routingState.view = ""
-        newProjectState.reset()
-      }}
-      class="absolute left-[16px] top-[14.5px] flex items-center gap-[8px] text-white/40 rounded-[4px] px-[12px] py-[8px] hover:bg-white/[0.02] active:bg-white/[0.03]"
-    >
-      Cancel
-    </button>
-
-    {#if newProjectState.selectedFlow}
-      <button
-        onclick={() => {
-          // todo: handle for each flow
-          routingState.view = "new-project.pick-starter"
-          newProjectState.flow = newProjectState.selectedFlow
-        }}
-        class={cn(
-          "rounded-[4px] px-[12px] py-[8px] __green_button_transparent text-[#5ae73e] flex items-center gap-[8px] ",
-        )}
-      >
-        Pick a starter
-        <CaretDown class="opacity-50 w-[8px] -rotate-90" />
-      </button>
-    {:else}
-      <button
-        class="__green_button_transparent flex items-center gap-[8px] rounded-[4px] px-[12px] py-[8px] text-[#5ae73e]/60 pointer-events-none"
-      >
-        Choose a flow
-      </button>
-    {/if} -->
   {#if newProjectState.step === "starter"}
     {#if newProjectState.selectedTemplate}
       <button

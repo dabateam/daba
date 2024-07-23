@@ -7,7 +7,13 @@
     tech,
     progress = 0,
     duration = 1000,
-  }: { tech: string; progress?: number; duration?: number } = $props()
+    app,
+  }: {
+    tech: string
+    progress?: number
+    duration?: number
+    app: string
+  } = $props()
 
   let w = $state(0)
   let h = $state(0)
@@ -126,7 +132,7 @@
   <div
     class="flex items-center justify-center w-full gap-[6px] mt-[20px] text-[11px]"
   >
-    {tech}
+    {app}
     <div class="w-[10px]">
       {#if !done}
         <div

@@ -6,7 +6,13 @@
     tech,
     started = false,
     completed = false,
-  }: { tech: string; started?: boolean; completed?: boolean } = $props()
+    app,
+  }: {
+    tech: string
+    started?: boolean
+    completed?: boolean
+    app: string
+  } = $props()
 
   const DURATION = 10000
 
@@ -58,4 +64,4 @@
   })
 </script>
 
-<TechLoader {tech} {progress} {duration} />
+<TechLoader {tech} {progress} {duration} {app} />
