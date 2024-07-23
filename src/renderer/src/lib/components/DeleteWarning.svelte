@@ -1,9 +1,19 @@
-<script>
+<script lang="ts">
   import { projectsState } from "../store.svelte"
 
   import { cn } from "../utils"
 
   let value = $state("")
+
+  $effect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        projectsState.showDeleteWarning = false
+      }
+    }
+    document.addEventListener("keydown", handleEscape)
+    return () => document.removeEventListener("keydown", handleEscape)
+  })
 </script>
 
 <div
