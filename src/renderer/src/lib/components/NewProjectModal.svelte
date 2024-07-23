@@ -1,40 +1,28 @@
-<script>
-  import { newProjectState, routingState } from "../store.svelte"
+<script lang="ts">
+  import { newProjectState } from "../store.svelte"
   import { cn } from "../utils"
   import NewProject from "./NewProject/NewProject.svelte"
 
   $effect(() => {
-    document.addEventListener("keydown", (e) => {
+    const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         if (newProjectState.showCancelWarning) {
           newProjectState.showCancelWarning = false
           return
         }
 
-        if (newProjectState.shouldShowCancelWarning) {
-          newProjectState.showCancelWarning = true
-          return
-        }
-
-        newProjectState.reset()
-        routingState.view = ""
-
-        console.log("escape pressed")
+        newProjectState.cancelNewProject()
       }
-    })
+    }
+    document.addEventListener("keydown", handleEscape)
+    return () => document.removeEventListener("keydown", handleEscape)
   })
 </script>
 
 <div
   onclick={(e) => {
     if (e.target === e.currentTarget) {
-      console.log("click outside")
-      if (newProjectState.shouldShowCancelWarning)
-        newProjectState.showCancelWarning = true
-      else {
-        newProjectState.reset()
-        routingState.view = ""
-      }
+      newProjectState.cancelNewProject()
     }
   }}
   class="fixed top-0 left-0 size-full bg-black/30 flex justify-center items-center p-[40px]"
@@ -63,10 +51,7 @@
         You have some changes that will be discarded.
       </div>
       <button
-        onclick={() => {
-          newProjectState.reset()
-          routingState.view = ""
-        }}
+        onclick={newProjectState.cancelNewProject}
         class={cn("rounded-[4px] px-[12px] py-[8px] __red_button mt-[28px]")}
       >
         Yes, leave

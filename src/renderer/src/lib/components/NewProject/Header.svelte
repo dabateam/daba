@@ -1,5 +1,6 @@
 <script>
   import CaretDown from "../../assets/CaretDown.svelte"
+  import Cross from "../../assets/Cross.svelte"
   import { newProjectState, routingState } from "../../store.svelte"
   import { cn } from "../../utils"
 
@@ -7,8 +8,14 @@
 </script>
 
 <div
-  class="h-[56px] flex items-center justify-center border-b border-white/5 gap-[8px] text-[11px]"
+  class="h-[56px] flex items-center justify-center border-b border-white/5 gap-[8px] text-[11px] relative"
 >
+  <div
+    onclick={newProjectState.cancelNewProject}
+    class="absolute size-[28px] flex items-center justify-center top-[50%] translate-y-[-50%] right-[14px] rounded-[4px] hover:bg-white/[0.03] active:bg-white/[0.04]"
+  >
+    <Cross class="opacity-30" />
+  </div>
   <div
     onclick={() => {
       routingState.view = "new-project"

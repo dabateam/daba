@@ -188,6 +188,16 @@ const reset = () => {
   showCancelWarning = false
 }
 
+const cancelNewProject = () => {
+  if (!showCancelWarning && shouldShowCancelWarning) {
+    showCancelWarning = true
+    return
+  }
+
+  newProjectState.reset()
+  routingState.view = ""
+}
+
 const shouldShowCancelWarning = $derived(
   !isEqual(newProject, defaultNewProject),
 )
@@ -239,4 +249,5 @@ export const newProjectState = {
 
   doesNameAlreadyExist,
   reset,
+  cancelNewProject,
 }
