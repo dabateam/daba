@@ -2,7 +2,7 @@
   import DeleteWarning from "./lib/components/DeleteWarning.svelte"
   import DockerWarning from "./lib/components/DockerWarning.svelte"
   import MainNoProject from "./lib/components/MainNoProject.svelte"
-  // import NewProject from "./lib/components/NewProject/NewProject.svelte"
+  import NewProjectFlowModal from "./lib/components/NewProjectFlowModal.svelte"
   import NewProjectModal from "./lib/components/NewProjectModal.svelte"
   import Project from "./lib/components/Project.svelte"
   import Sandbox from "./lib/components/Sandbox.svelte"
@@ -58,6 +58,10 @@
     <MainNoProject />
   {/if}
 </div>
+
+{#if newProjectState.showFlowModal}
+  <NewProjectFlowModal />
+{/if}
 
 {#if newProjectState.show}
   <NewProjectModal />

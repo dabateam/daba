@@ -16,7 +16,7 @@
   <button
     class="rounded-[4px] mb-[12px] px-[12px] py-[8px] __green_button"
     onclick={() => {
-      newProjectState.show = true
+      newProjectState.showFlowModal = true
     }}
   >
     Start a new project

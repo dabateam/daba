@@ -158,10 +158,11 @@ const defaultNewProject: Project = {
 
 let show = $state(false)
 
+let showFlowModal = $state(false)
+
 let newProject = $state<Project>({ ...defaultNewProject })
 
 let flow = $state<Flow>("")
-let selectedFlow = $state<Flow>("")
 
 const nameAlreadyExists = $derived(
   projects.some((p) => p.name === newProject.name),
@@ -180,7 +181,6 @@ let step = $state<"starter" | "summary" | "loading">("starter")
 const reset = () => {
   newProject = { ...defaultNewProject }
   flow = ""
-  selectedFlow = ""
   selectedTemplate = ""
   showCancelWarning = false
   step = "starter"
@@ -207,6 +207,13 @@ export const newProjectState = {
   },
   set newProject(val) {
     newProject = val
+  },
+
+  get showFlowModal() {
+    return showFlowModal
+  },
+  set showFlowModal(val) {
+    showFlowModal = val
   },
 
   get selectedTemplate() {
@@ -236,13 +243,6 @@ export const newProjectState = {
   },
   set show(val) {
     show = val
-  },
-
-  get selectedFlow() {
-    return selectedFlow
-  },
-  set selectedFlow(val) {
-    selectedFlow = val
   },
 
   get nameAlreadyExists() {
