@@ -16,7 +16,7 @@
           content: "Create a new project",
           duration: [0, 0],
         }}
-        onclick={() => (newProjectState.show = true)}
+        onclick={() => (newProjectState.showFlowModal = true)}
         class="size-[20px] flex items-center justify-center hover:bg-white/15 active:bg-white/25 rounded-[4px]"
       >
         <Plus />
