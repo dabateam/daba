@@ -2,6 +2,27 @@
   import { newProjectState, routingState } from "../store.svelte"
   import { cn } from "../utils"
   import NewProject from "./NewProject/NewProject.svelte"
+
+  $effect(() => {
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        if (newProjectState.showCancelWarning) {
+          newProjectState.showCancelWarning = false
+          return
+        }
+
+        if (newProjectState.shouldShowCancelWarning) {
+          newProjectState.showCancelWarning = true
+          return
+        }
+
+        newProjectState.reset()
+        routingState.view = ""
+
+        console.log("escape pressed")
+      }
+    })
+  })
 </script>
 
 <div
