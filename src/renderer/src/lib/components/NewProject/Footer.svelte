@@ -26,7 +26,7 @@
         containerId: "",
       }))
 
-      routingState.view = "new-project.loading-create"
+      newProjectState.step = "loading"
       console.log("creating project")
 
       const newProject = $state.snapshot(newProjectState.newProject)
@@ -56,7 +56,7 @@
 <div
   class="h-[56px] flex relative items-center justify-center px-[16px] border-t border-white/5 gap-[8px] text-[11px]"
 >
-  {#if routingState.view === "new-project"}
+  <!-- {#if routingState.view === "new-project"}
     <button
       onclick={() => {
         routingState.view = ""
@@ -78,7 +78,6 @@
           "rounded-[4px] px-[12px] py-[8px] __green_button_transparent text-[#5ae73e] flex items-center gap-[8px] ",
         )}
       >
-        <!-- todo: different text for each flow -->
         Pick a starter
         <CaretDown class="opacity-50 w-[8px] -rotate-90" />
       </button>
@@ -88,18 +87,8 @@
       >
         Choose a flow
       </button>
-    {/if}
-  {:else if routingState.view === "new-project.pick-starter"}
-    <button
-      onclick={() => {
-        routingState.view = "new-project"
-      }}
-      class="absolute left-[16px] top-[14.5px] flex items-center gap-[8px] text-white/40 rounded-[4px] px-[12px] py-[8px] hover:bg-white/[0.02] active:bg-white/[0.03]"
-    >
-      <CaretDown class="opacity-50 w-[8px] rotate-90" />
-      New project flow
-    </button>
-
+    {/if} -->
+  {#if newProjectState.step === "starter"}
     {#if newProjectState.selectedTemplate}
       <button
         onclick={() => {
@@ -122,7 +111,7 @@
             generateAndAssignProjectName(template.name)
           }
           newProjectState.newProject.template = newProjectState.selectedTemplate
-          routingState.view = "new-project.summary"
+          newProjectState.step = "summary"
 
           // todo: handle if change template -> reset apps
         }}
@@ -140,10 +129,10 @@
         Pick a starter
       </button>
     {/if}
-  {:else if routingState.view === "new-project.summary"}
+  {:else if newProjectState.step === "summary"}
     <button
       onclick={() => {
-        routingState.view = "new-project.pick-starter"
+        newProjectState.step = "starter"
       }}
       class="absolute left-[16px] top-[14.5px] flex items-center gap-[8px] text-white/40 rounded-[4px] px-[12px] py-[8px] hover:bg-white/[0.02] active:bg-white/[0.03]"
     >

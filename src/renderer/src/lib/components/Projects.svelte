@@ -1,7 +1,7 @@
 <script lang="ts">
   import Loader from "../assets/Loader.svelte"
   import Plus from "../assets/Plus.svelte"
-  import { projectsState, routingState } from "../store.svelte"
+  import { newProjectState, projectsState, routingState } from "../store.svelte"
   import { cn, tippy } from "../utils"
 </script>
 
@@ -16,7 +16,7 @@
           content: "Create a new project",
           duration: [0, 0],
         }}
-        onclick={() => (routingState.view = "new-project")}
+        onclick={() => (newProjectState.show = true)}
         class="size-[20px] flex items-center justify-center hover:bg-white/15 active:bg-white/25 rounded-[4px]"
       >
         <Plus />

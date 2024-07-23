@@ -132,14 +132,7 @@ export const currentAppState = $state({
 
 // routingState =======================================
 
-type View =
-  | "new-project"
-  | "new-project.loading-create"
-  | "new-project.summary"
-  | "new-project.pick-starter"
-  | "project"
-  | "__sandbox"
-  | ""
+type View = "project" | "__sandbox" | ""
 
 let view = $state<View>("")
 
@@ -163,6 +156,8 @@ const defaultNewProject: Project = {
   apps: [],
 }
 
+let show = $state(false)
+
 let newProject = $state<Project>({ ...defaultNewProject })
 
 let flow = $state<Flow>("")
@@ -180,12 +175,16 @@ let selectedTemplate = $state("")
 
 let showCancelWarning = $state(false)
 
+let step = $state<"starter" | "summary" | "loading">("starter")
+
 const reset = () => {
   newProject = { ...defaultNewProject }
   flow = ""
   selectedFlow = ""
   selectedTemplate = ""
   showCancelWarning = false
+  step = "starter"
+  show = false
 }
 
 const cancelNewProject = () => {
@@ -223,6 +222,20 @@ export const newProjectState = {
   },
   set flow(val) {
     flow = val
+  },
+
+  get step() {
+    return step
+  },
+  set step(val) {
+    step = val
+  },
+
+  get show() {
+    return show
+  },
+  set show(val) {
+    show = val
   },
 
   get selectedFlow() {

@@ -7,7 +7,12 @@
   import Project from "./lib/components/Project.svelte"
   import Sandbox from "./lib/components/Sandbox.svelte"
   import Sidemenu from "./lib/components/Sidemenu.svelte"
-  import { globalState, projectsState, routingState } from "./lib/store.svelte"
+  import {
+    globalState,
+    newProjectState,
+    projectsState,
+    routingState,
+  } from "./lib/store.svelte"
 
   $effect(() => {
     projectsState.refreshProjectsStates()
@@ -45,10 +50,7 @@
 <div class="flex h-screen w-screen">
   <Sidemenu />
 
-  {#if routingState.view.startsWith("new-project")}
-    <!-- <NewProject /> -->
-    <NewProjectModal />
-  {:else if routingState.view === "project"}
+  {#if routingState.view === "project"}
     <Project />
   {:else if routingState.view === "__sandbox"}
     <Sandbox />
@@ -56,6 +58,10 @@
     <MainNoProject />
   {/if}
 </div>
+
+{#if newProjectState.show}
+  <NewProjectModal />
+{/if}
 
 {#if !globalState.dockerRunning}
   <DockerWarning />

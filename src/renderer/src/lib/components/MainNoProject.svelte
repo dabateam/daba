@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { routingState } from "../store.svelte"
+  import { newProjectState, routingState } from "../store.svelte"
 
   let inputRef = $state<HTMLInputElement | null>(null)
 
@@ -16,7 +16,7 @@
   <button
     class="rounded-[4px] mb-[12px] px-[12px] py-[8px] __green_button"
     onclick={() => {
-      routingState.view = "new-project"
+      newProjectState.show = true
     }}
   >
     Start a new project

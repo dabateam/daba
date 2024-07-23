@@ -1,6 +1,6 @@
 <script lang="ts">
   import { TEMPLATES } from "../../../../../shared/constants"
-  import { newProjectState, routingState } from "../../store.svelte"
+  import { newProjectState } from "../../store.svelte"
   import { cn } from "../../utils"
 
   let inputRef = $state<HTMLInputElement | null>(null)
@@ -57,7 +57,7 @@
     <div>
       <div class="text-[10px] mb-[12px]">Starter</div>
       <div
-        onclick={() => (routingState.view = "new-project.pick-starter")}
+        onclick={() => (newProjectState.step = "starter")}
         class="px-[12px] h-[32px] flex items-center rounded-[4px] border border-white/10 hover:bg-white/[0.02] active:bg-white/[0.03] justify-between"
       >
         <div>
