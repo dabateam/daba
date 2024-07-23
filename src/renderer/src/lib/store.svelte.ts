@@ -1,3 +1,4 @@
+import { isEqual } from "lodash"
 import type { Project, ProjectState } from "../../../shared/types"
 import App from "../App.svelte"
 import { addProjectInDB, getProjectsFromDB, removeProjectInDB } from "./api"
@@ -177,12 +178,19 @@ const doesNameAlreadyExist = () => {
 
 let selectedTemplate = $state("")
 
+let showCancelWarning = $state(false)
+
 const reset = () => {
   newProject = { ...defaultNewProject }
   flow = ""
   selectedFlow = ""
   selectedTemplate = ""
+  showCancelWarning = false
 }
+
+const shouldShowCancelWarning = $derived(
+  !isEqual(newProject, defaultNewProject),
+)
 
 export const newProjectState = {
   get newProject() {
@@ -216,6 +224,17 @@ export const newProjectState = {
 
   get nameAlreadyExists() {
     return nameAlreadyExists
+  },
+
+  get showCancelWarning() {
+    return showCancelWarning
+  },
+  set showCancelWarning(val) {
+    showCancelWarning = val
+  },
+
+  get shouldShowCancelWarning() {
+    return shouldShowCancelWarning
   },
 
   doesNameAlreadyExist,

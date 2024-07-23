@@ -102,72 +102,12 @@ const createProject = async (
     console.error("❌ error creating project path", err)
   })
 
-  // await fs
-  //   .copy(path.join(__dirname, "templates", template.path), projectPath)
-  //   .catch((err) => {
-  //     console.error("❌ error copying template", err)
-  //   })
-
-  // download from github repo
-
   const ports = {}
   template.apps.forEach((app) => {
     const portKey = (app.name + "_port").toUpperCase()
     ports[portKey] = 0
   })
 
-  // await new Promise((resolve, reject) => {
-  //   try {
-  //     const composeProcess = exec(
-  //       command,
-  //       {
-  //         env: {
-  //           ...process.env,
-  //           ...ports,
-  //         },
-  //       },
-  //       (err) => {
-  //         console.log("❌ error running docker compose 1: ", err)
-  //       },
-  //     )
-
-  //     composeProcess.stdout?.on("data", (data) => {
-  //       // send line by line to main window
-  //       data
-  //         .toString()
-  //         .split("\n")
-  //         .forEach((line) => {
-  //           mainWindow?.webContents.send("docker-compose-log", line)
-  //         })
-  //     })
-
-  //     composeProcess.stderr?.on("data", (data) => {
-  //       data
-  //         .toString()
-  //         .split("\n")
-  //         .forEach((line) => {
-  //           mainWindow?.webContents.send("docker-compose-log", line)
-  //         })
-  //     })
-
-  //     composeProcess.on("error", (err) => {
-  //       console.log("❌ error running docker compose 2: ", err)
-  //     })
-
-  //     composeProcess.on("close", (code, signal) => {
-  //       console.log(
-  //         `child process exited with code ${code} and signal ${signal}`,
-  //       )
-  //       resolve(null)
-  //     })
-  //   } catch (err) {
-  //     console.error("error running docker compose", err)
-  //     reject(err)
-  //   }
-  // })
-
-  // download starter
-  // downloadRepo
   try {
     await getStarter("mern-docker", project.name)
   } catch (err) {
@@ -176,9 +116,28 @@ const createProject = async (
 
   try {
     // todo: careful of docker-compose.yml vs compose.yml vs ...
-    for await (const line of execa`docker compose -f ${projectPath}/compose.yml --project-name ${project.name} up -d`) {
-      mainWindow?.webContents.send("docker-compose-log", line)
-    }
+
+    const p = execa`docker compose -f ${projectPath}/compose.yml --project-name ${project.name} up -d`
+
+    p.stderr.on("data", (data) => {
+      data
+        .toString()
+        .split("\n")
+        .forEach((line) => {
+          mainWindow?.webContents.send("docker-compose-log", line)
+        })
+    })
+
+    p.stdout.on("data", (data) => {
+      data
+        .toString()
+        .split("\n")
+        .forEach((line) => {
+          mainWindow?.webContents.send("docker-compose-log", line)
+        })
+    })
+
+    await p
   } catch (err) {
     console.error("error running docker compose", err)
   }

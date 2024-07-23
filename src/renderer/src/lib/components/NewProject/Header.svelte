@@ -2,6 +2,8 @@
   import CaretDown from "../../assets/CaretDown.svelte"
   import { newProjectState, routingState } from "../../store.svelte"
   import { cn } from "../../utils"
+
+  $inspect(newProjectState.shouldShowCancelWarning)
 </script>
 
 <div
