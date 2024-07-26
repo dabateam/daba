@@ -142,12 +142,12 @@
         </div>
         <div
           onclick={showMenu}
-          class="size-[24px] mr-[6px] rounded-[4px] hover:bg-white/[0.04] active:bg-white/[0.07] flex items-center justify-center text-white/30 hover:text-white/50"
+          class="size-[24px] mr-[6px] rounded-[4px] hover:bg-white/[0.04] active:bg-white/[0.07] flex items-center justify-center text-white/50"
         >
           {#if loading}
             <Loader class="size-[12px] text-white/70" />
           {:else}
-            <ThreeDots class="w-[8px]" />
+            <ThreeDots class="w-full h-[4px]" />
           {/if}
         </div>
       </div>
