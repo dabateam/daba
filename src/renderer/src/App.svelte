@@ -31,6 +31,12 @@
     interval = window.setInterval(getDockerStatus, 2000)
     return () => clearInterval(interval)
   })
+
+  $effect(() => {
+    window.electron.ipcRenderer.on("message", (_, message) => {
+      console.log(message)
+    })
+  })
 </script>
 
 <img

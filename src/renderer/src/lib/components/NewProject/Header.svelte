@@ -1,5 +1,4 @@
 <script>
-  import { template } from "lodash"
   import CaretDown from "../../assets/CaretDown.svelte"
   import Cross from "../../assets/Cross.svelte"
   import { newProjectState } from "../../store.svelte"
