@@ -1,4 +1,5 @@
 <script>
+  import { template } from "lodash"
   import CaretDown from "../../assets/CaretDown.svelte"
   import Cross from "../../assets/Cross.svelte"
   import { newProjectState } from "../../store.svelte"
@@ -16,27 +17,6 @@
   >
     <Cross class="opacity-30" />
   </div>
-  <!-- <div
-    onclick={() => {
-      routingState.view = "new-project"
-    }}
-    class={cn(
-      "text-white/40 p-[12px] hover:text-white/60",
-
-      routingState.view === "new-project" && "text-white hover:text-white",
-    )}
-  >
-    {#if routingState.view === "new-project"}
-      1.&nbsp;&nbsp;&nbsp;New project flow
-    {:else}
-      1.&nbsp;&nbsp;&nbsp;Flow:&nbsp;
-      <span class="py-[3px] border-b border-white/10"
-        >{newProjectState.flow}</span
-      >
-    {/if}
-  </div> 
-  <CaretDown class="opacity-30 w-[7px] -rotate-90" /> -->
-
   <div
     onclick={() => {
       newProjectState.step = "starter"
@@ -60,11 +40,11 @@
 
   <div
     onclick={() => {
-      newProjectState.step = "summary"
+      if (newProjectState.newProject.template) newProjectState.step = "summary"
     }}
     class={cn(
-      "text-white/40 p-[12px] hover:text-white/60",
-
+      "text-white/40 p-[12px] ",
+      !!newProjectState.newProject.template && "hover:text-white/60",
       newProjectState.step === "summary" && "text-white hover:text-white",
     )}
   >
@@ -73,11 +53,8 @@
   <CaretDown class="opacity-30 w-[7px] -rotate-90" />
 
   <div
-    onclick={() => {
-      newProjectState.step = "loading"
-    }}
     class={cn(
-      "text-white/40 p-[12px] hover:text-white/60",
+      "text-white/40 p-[12px]",
 
       newProjectState.step === "loading" && "text-white hover:text-white",
     )}
