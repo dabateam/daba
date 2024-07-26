@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { fade, scale } from "svelte/transition"
   import AiGeneratedStarter from "../assets/AIGeneratedStarter.svelte"
   import Cubes from "../assets/Cubes.svelte"
   import ImportExistingProject from "../assets/ImportExistingProject.svelte"
@@ -19,13 +20,18 @@
 
 {#if newProjectState.showFlowModal}
   <div
-    onclick={(e) => {
-      if (e.target === e.currentTarget) newProjectState.showFlowModal = false
-    }}
-    class="fixed top-0 left-0 size-full bg-black/30 flex justify-center items-center pl-[270px]"
+    class="fixed top-0 left-0 size-full flex justify-center items-center pl-[270px]"
   >
     <div
-      class="text-white bg-[#242424] rounded-[10px] shadow-2xl flex items-center justify-center flex-col border border-white/[0.05]"
+      transition:fade={{ duration: 200 }}
+      onclick={(e) => {
+        if (e.target === e.currentTarget) newProjectState.showFlowModal = false
+      }}
+      class="absolute top-0 left-0 size-full bg-black/30"
+    ></div>
+    <div
+      transition:scale={{ start: 0.97, duration: 150 }}
+      class="relative text-white bg-[#242424] rounded-[10px] shadow-2xl flex items-center justify-center flex-col border border-white/[0.05]"
     >
       <div class="flex flex-col">
         <div
