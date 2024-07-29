@@ -1,7 +1,7 @@
 <script lang="ts">
   import anime from "animejs"
-  import Check from "../assets/Check.svelte"
-  import { cn } from "../utils"
+  import Check from "../../assets/Check.svelte"
+  import { cn } from "../../utils"
 
   const {
     tech,

@@ -7,6 +7,7 @@
   } from "../../store.svelte"
   import { TEMPLATES } from "../../../../../shared/constants"
   import { cn } from "../../utils"
+  import { NEW_PROJECT_APPS_WIDTH } from "../../constants"
 
   const canSubmit = $derived(
     newProjectState.newProject.name && !newProjectState.nameAlreadyExists,
@@ -54,7 +55,10 @@
 </script>
 
 <div
-  class="h-[56px] flex relative items-center justify-center px-[16px] border-t border-white/5 gap-[8px] text-[11px]"
+  class={cn(
+    "h-[56px] shrink-0 flex relative items-center justify-center px-[16px] border-t border-white/5 gap-[8px] text-[11px]",
+    newProjectState.flow === "DIY" && `ml-[${NEW_PROJECT_APPS_WIDTH}px]`,
+  )}
 >
   {#if newProjectState.step === "starter"}
     {#if newProjectState.selectedTemplate}
@@ -116,9 +120,11 @@
     >
       Install and run
     </button>
-  {:else}
+  {:else if newProjectState.step === "loading"}
     <div class="text-white/40 text-[10px]">
       This process might take a few minutes, please don't close this window.
     </div>
+  {:else if newProjectState.step === "apps"}
+    <div class="text-white/40 text-[10px]">hi there</div>
   {/if}
 </div>

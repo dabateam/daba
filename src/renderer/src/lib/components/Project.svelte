@@ -22,7 +22,7 @@
       anime({
         targets: menuRef,
         opacity: 1,
-        duration: 75,
+        duration: 150,
         translateX: [0, 10],
         scaleX: [0.9, 1],
         easing: "easeOutBack",

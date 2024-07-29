@@ -1,11 +1,11 @@
 <script lang="ts">
   import { fade, scale } from "svelte/transition"
-  import AiGeneratedStarter from "../assets/AIGeneratedStarter.svelte"
-  import Cubes from "../assets/Cubes.svelte"
-  import ImportExistingProject from "../assets/ImportExistingProject.svelte"
-  import Settings from "../assets/Settings.svelte"
-  import { newProjectState } from "../store.svelte"
-  import { cn } from "../utils"
+  import AiGeneratedStarter from "../../assets/AIGeneratedStarter.svelte"
+  import Cubes from "../../assets/Cubes.svelte"
+  import ImportExistingProject from "../../assets/ImportExistingProject.svelte"
+  import Settings from "../../assets/Settings.svelte"
+  import { newProjectState } from "../../store.svelte"
+  import { cn } from "../../utils"
 
   $effect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -16,6 +16,14 @@
     document.addEventListener("keydown", handleEscape)
     return () => document.removeEventListener("keydown", handleEscape)
   })
+
+  const chooseFlow = (flow: typeof newProjectState.flow) => {
+    newProjectState.flow = flow
+    newProjectState.showFlowModal = false
+    newProjectState.show = true
+    if (flow === "DIY") newProjectState.step = "apps"
+    else if (flow === "Starters") newProjectState.step = "starter"
+  }
 </script>
 
 {#if newProjectState.showFlowModal}
@@ -38,12 +46,7 @@
           class={cn(
             " border-b border-white/5 last:border-b-0 flex items-center hover:bg-white/[0.02] active:bg-white/[0.03] gap-[20px] py-[28px] pl-[24px] pr-[52px]",
           )}
-          onclick={() => {
-            newProjectState.flow = "Starters"
-            newProjectState.showFlowModal = false
-            newProjectState.show = true
-            // routingState.view = "new-project.pick-starter"
-          }}
+          onclick={() => chooseFlow("Starters")}
         >
           <div
             class="size-[56px] bg-white/5 rounded-full shrink-0 flex items-center justify-center text-[#66BFFF]"
@@ -60,13 +63,9 @@
         </div>
         <div
           class={cn(
-            "opacity-30 border-b border-white/15 last:border-b-0 flex items-center hover:bg-white/[0.02] active:bg-white/[0.03] gap-[20px] py-[28px] pl-[24px] pr-[52px] pointer-events-none",
+            " border-b border-white/5 last:border-b-0 flex items-center hover:bg-white/[0.02] active:bg-white/[0.03] gap-[20px] py-[28px] pl-[24px] pr-[52px]",
           )}
-          onclick={() => {
-            newProjectState.flow = "DIY"
-
-            // routingState.view = "new-project.pick-starter"
-          }}
+          onclick={() => chooseFlow("DIY")}
         >
           <div
             class="size-[56px] bg-white/5 rounded-full shrink-0 flex items-center justify-center text-[#5878EA]"
@@ -76,12 +75,6 @@
           <div>
             <div class="text-[13px] mb-[6px]">
               Build my own tech stack / DIY
-
-              <span
-                class="inline-block uppercase text-[8px] ml-[2px] tracking-wider p-[4px] px-[6px] translate-y-[-1px] bg-black/50 opacity-60 rounded-[3px] border border-white/20"
-              >
-                Coming soon
-              </span>
             </div>
             <div class="text-[11px] leading-[17px] text-white/50">
               Compose your app from a list of<br />
@@ -91,7 +84,7 @@
         </div>
         <div
           class={cn(
-            "opacity-30 border-b border-white/15 last:border-b-0 flex items-center hover:bg-white/[0.02] active:bg-white/[0.03] gap-[20px] py-[28px] px-[24px] pointer-events-none",
+            "opacity-40 border-b border-white/15 last:border-b-0 flex items-center hover:bg-white/[0.02] active:bg-white/[0.03] gap-[20px] py-[28px] px-[24px] pointer-events-none",
           )}
           onclick={() => {
             newProjectState.flow = "Clone / Import"
@@ -120,7 +113,7 @@
         </div>
         <div
           class={cn(
-            "opacity-30 border-b border-white/15 last:border-b-0 flex items-center hover:bg-white/[0.02] active:bg-white/[0.03] gap-[20px] py-[28px] pl-[24px] pr-[52px] pointer-events-none",
+            "opacity-40 border-b border-white/15 last:border-b-0 flex items-center hover:bg-white/[0.02] active:bg-white/[0.03] gap-[20px] py-[28px] pl-[24px] pr-[52px] pointer-events-none",
           )}
           onclick={() => {
             newProjectState.flow = "AI Starter"

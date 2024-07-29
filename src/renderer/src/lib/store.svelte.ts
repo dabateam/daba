@@ -176,14 +176,14 @@ let selectedTemplate = $state("")
 
 let showCancelWarning = $state(false)
 
-let step = $state<"starter" | "summary" | "loading">("starter")
+let step = $state<"apps" | "starter" | "summary" | "loading" | "">("")
 
 const reset = () => {
   newProject = { ...defaultNewProject }
   flow = ""
   selectedTemplate = ""
   showCancelWarning = false
-  step = "starter"
+  step = ""
   show = false
 }
 

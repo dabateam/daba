@@ -1,8 +1,8 @@
 <script lang="ts">
   import { fade, scale } from "svelte/transition"
-  import { newProjectState } from "../store.svelte"
-  import { cn } from "../utils"
-  import NewProject from "./NewProject/NewProject.svelte"
+  import { newProjectState } from "../../store.svelte"
+  import { cn } from "../../utils"
+  import NewProject from "./NewProject.svelte"
 
   $effect(() => {
     const handleEscape = (e: KeyboardEvent) => {

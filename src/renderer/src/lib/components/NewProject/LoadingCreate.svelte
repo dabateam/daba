@@ -1,8 +1,8 @@
 <script lang="ts">
   import { newProjectState } from "../../store.svelte"
   import { cn } from "../../utils"
-  import ApproxTechLoader from "../ApproxTechLoader.svelte"
-  import TechLoader from "../TechLoader.svelte"
+  import ApproxTechLoader from "./ApproxTechLoader.svelte"
+  import TechLoader from "./TechLoader.svelte"
 
   let logs = $state<string[]>([])
 
@@ -118,6 +118,10 @@
     if (i === logs.length - 2 && !logs[i + 1].trim()) return true
     return false
   }
+
+  $inspect(newProjectState.step, appsProgressMap)
+
+  console.log("HERE")
 </script>
 
 <div class="size-full flex items-center justify-center relative overflow-auto">

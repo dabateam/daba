@@ -10,7 +10,9 @@
 // import Sms from ".images/Sms.svelte";
 // import Events from ".images/Events.svelte";
 // import Jobs from ".images/Jobs.svelte";
-import type { Technology } from "./types";
+import type { Technology } from "./types"
+
+export const NEW_PROJECT_APPS_WIDTH = 180
 
 // export const APP_TYPES: AppType[] = [
 //   {
@@ -161,4 +163,4 @@ export const TECHNOLOGIES: Technology[] = [
     image: "images/redis.png",
     category: "database",
   },
-];
+]

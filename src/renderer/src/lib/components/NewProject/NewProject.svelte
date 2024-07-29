@@ -1,25 +1,24 @@
 <script lang="ts">
   import { newProjectState } from "../../store.svelte"
+  import ChooseApps from "./ChooseApps.svelte"
   import Footer from "./Footer.svelte"
   import Header from "./Header.svelte"
   import LoadingCreate from "./LoadingCreate.svelte"
-  // import Method from "./NewProjectFlow.svelte"
+  import NewProjectApps from "./NewProjectApps.svelte"
   import PickStarter from "./PickStarter.svelte"
   import Summary from "./Summary.svelte"
 </script>
 
-<div class="flex-1 flex flex-col">
+<div class="flex-1 flex flex-col max-h-full relative">
   <Header />
-  <div class="flex-1 flex items-center flex-col">
-    <!-- {#if newProjectState.step === "new-project"}
-      <Method /> -->
+  <div class="flex-1 flex items-center flex-col shrink-0 overflow-auto">
+    <NewProjectApps />
     {#if newProjectState.step === "loading"}
       <LoadingCreate />
-    {:else if newProjectState.step === "summary"}
-      <Summary />
-    {:else if newProjectState.step === "starter"}
-      <PickStarter />
     {/if}
+    <Summary />
+    <PickStarter />
+    <ChooseApps />
   </div>
   <Footer />
 </div>
