@@ -1,4 +1,4 @@
-<script lang="ts">
+<!-- <script lang="ts">
   import anime from "animejs"
   import type { App } from "../../../../shared/types"
   import PulsingGreenDot from "../assets/PulsingGreenDot.svelte"
@@ -209,4 +209,4 @@
       />
     {/if}
   </div>
-</div>
+</div> -->

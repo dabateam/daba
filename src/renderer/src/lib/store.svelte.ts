@@ -1,6 +1,5 @@
 import { isEqual } from "lodash"
 import type { Project, ProjectState } from "../../../shared/types"
-import App from "../App.svelte"
 import { addProjectInDB, getProjectsFromDB, removeProjectInDB } from "./api"
 
 // globalState ========================================
@@ -117,19 +116,6 @@ export const projectsState = {
   deleteCurrentProject,
 }
 
-// currentAppState ====================================
-
-let currentApp = $state<App | null>(null)
-
-export const currentAppState = $state({
-  get currentApp() {
-    return currentApp
-  },
-  set currentApp(val) {
-    currentApp = val
-  },
-})
-
 // routingState =======================================
 
 type View = "project" | "__sandbox" | ""
@@ -152,15 +138,19 @@ type Flow = "Starters" | "DIY" | "AI Starter" | "Clone / Import" | ""
 
 const defaultNewProject: Project = {
   name: "",
-  template: "",
   apps: [],
 }
+
+let currentApp = $state<string>("")
 
 let show = $state(false)
 
 let showFlowModal = $state(false)
 
-let newProject = $state<Project>({ ...defaultNewProject })
+let newProject = $state<Project>({
+  name: "",
+  apps: [],
+})
 
 let flow = $state<Flow>("")
 
@@ -179,7 +169,10 @@ let showCancelWarning = $state(false)
 let step = $state<"apps" | "starter" | "summary" | "loading" | "">("")
 
 const reset = () => {
-  newProject = { ...defaultNewProject }
+  newProject = {
+    name: "",
+    apps: [],
+  }
   flow = ""
   selectedTemplate = ""
   showCancelWarning = false
@@ -222,6 +215,14 @@ export const newProjectState = {
 
   set selectedTemplate(val) {
     selectedTemplate = val
+  },
+
+  get currentApp() {
+    return currentApp
+  },
+
+  set currentApp(val) {
+    currentApp = val
   },
 
   get flow() {

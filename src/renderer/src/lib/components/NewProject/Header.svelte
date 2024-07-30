@@ -7,10 +7,10 @@
 </script>
 
 <div
-  class={cn(
-    "h-[56px] flex items-center justify-center border-b border-white/5 gap-[8px] text-[11px] relative",
-    newProjectState.flow === "DIY" && `ml-[${NEW_PROJECT_APPS_WIDTH}px]`,
-  )}
+  class="h-[56px] flex items-center justify-center border-b border-white/5 gap-[8px] text-[11px] relative"
+  style:margin-left={newProjectState.flow === "DIY"
+    ? NEW_PROJECT_APPS_WIDTH + "px"
+    : "unset"}
 >
   <div
     onclick={newProjectState.cancelNewProject}

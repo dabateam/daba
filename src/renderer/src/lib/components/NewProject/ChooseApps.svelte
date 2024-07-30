@@ -1,34 +1,16 @@
 <script lang="ts">
+  import { TECHNOLOGIES } from "../../../../../shared/constants"
   import Search from "../../assets/Search.svelte"
   import { newProjectState } from "../../store.svelte"
   import { cn } from "../../utils"
 
-  const TECHNOLOGIES = [
-    "React",
-    "Vue",
-    "Svelte",
-    "Node",
-    "Python",
-    "Postgres",
-    "MongoDB",
-    "MySQL",
-    "Redis",
-  ]
-
-  let selectedTechnologies = $state<string[]>([])
-
-  const addTechnology = (technology: string) => {
-    if (selectedTechnologies.includes(technology)) {
-      selectedTechnologies = selectedTechnologies.filter(
-        (t) => t !== technology,
-      )
-    } else {
-      selectedTechnologies.push(technology)
-    }
-  }
+  const isSelected = (technology: string) =>
+    newProjectState.newProject.apps.find(
+      (a) => a.technology.name === technology,
+    )?.name
 </script>
 
-{#if newProjectState.step === "apps"}
+{#if newProjectState.step === "apps" && !newProjectState.currentApp}
   <div class="w-[480px] ml-[180px]">
     <div class="text-[14px] text-center mt-[7vh]">Choose one or more apps</div>
     <div class="text-[11px] text-white/40 text-center mt-[16px] mb-[7vh]">
@@ -46,24 +28,39 @@
     <div class="flex gap-[20px] flex-1 flex-wrap">
       {#each TECHNOLOGIES as tech}
         <div
-          onclick={() => addTechnology(tech)}
+          onclick={() => {
+            if (
+              newProjectState.newProject.apps.find(
+                (a) => a.technology.name === tech.name,
+              )
+            )
+              newProjectState.newProject.apps =
+                newProjectState.newProject.apps.filter(
+                  (a) => a.technology.name !== tech.name,
+                )
+            else
+              newProjectState.newProject.apps.push({
+                name: tech.defaultLabel || "",
+                technology: tech,
+              })
+          }}
           class={cn(
             "active:bg-white/[0.02] hover:bg-white/[0.01] size-[80px] rounded-[8px] border border-white/10 flex items-center justify-center gap-[12px] flex-col",
 
-            selectedTechnologies.includes(tech) &&
+            isSelected(tech.name) &&
               "ring-[2px] ring-[#40AFFF]/80 border-transparent bg-white/[0.02] hover:bg-white/[0.02]",
           )}
         >
           <img
-            src="images/{tech.toLowerCase()}.png"
+            src="images/{tech.defaultIcon}"
             alt=""
             class={cn(
               "h-[16px]",
 
-              // selectedTechnologies.includes(tech) && "opacity-100",
+              isSelected(tech.name) && "opacity-100",
             )}
           />
-          <div class="text-[11px]">{tech}</div>
+          <div class="text-[11px]">{tech.name}</div>
         </div>
       {/each}
     </div>

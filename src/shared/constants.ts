@@ -1,4 +1,4 @@
-import type { Template } from "./types"
+import type { Technology, Template } from "./types"
 
 export const TEMPLATES: Template[] = [
   {
@@ -9,56 +9,43 @@ export const TEMPLATES: Template[] = [
     apps: [
       {
         name: "web",
-        tech: "react",
+        technology: {
+          name: "React",
+          defaultIcon: "react.png",
+        },
       },
       {
         name: "api",
-        tech: "node",
+        technology: {
+          name: "Node",
+          defaultIcon: "node.png",
+        },
       },
       {
         name: "db",
-        tech: "mongodb",
+        technology: {
+          name: "MongoDB",
+          defaultIcon: "mongodb.png",
+        },
       },
     ],
   },
+]
+
+export const TECHNOLOGIES: Technology[] = [
   {
-    name: "react-node-pg",
-    path: "mern-docker",
-    image: "mern-logo.png",
-    description: "react, node and postgres starter!",
-    apps: [
-      {
-        name: "web",
-        tech: "react",
-      },
-      {
-        name: "api",
-        tech: "node",
-      },
-      {
-        name: "db",
-        tech: "postgres",
-      },
-    ],
+    defaultLabel: "web",
+    defaultIcon: "react.png",
+    name: "React",
   },
   {
-    name: "mean-stack",
-    path: "mern-docker",
-    image: "mern-logo.png",
-    description: "For those who enjoy pain.",
-    apps: [
-      {
-        name: "web",
-        tech: "angular",
-      },
-      {
-        name: "api",
-        tech: "node",
-      },
-      {
-        name: "db",
-        tech: "mongodb",
-      },
-    ],
+    defaultLabel: "db",
+    defaultIcon: "postgres.png",
+    name: "Postgres",
+  },
+  {
+    defaultLabel: "api",
+    defaultIcon: "node.png",
+    name: "Node",
   },
 ]

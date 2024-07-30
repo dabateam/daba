@@ -1,4 +1,4 @@
-<script lang="ts">
+<!-- <script lang="ts">
   import Reload from "../assets/Reload.svelte"
   import Stop from "../assets/Stop.svelte"
   import ThreeDots from "../assets/ThreeDots.svelte"
@@ -152,24 +152,7 @@
         </div>
       </div>
       <div class="rounded-[6px] ring-[1px] ring-[#3A3A3A] text-[11px] relative">
-        <!-- <div
-        class="h-[32px] flex items-center pl-[12px] pr-[6px] text-[#40AFFF] text-[10px] justify-between"
-      >
-        <div class="flex items-center">
-          <div
-            class="h-[14px] w-[14px] flex items-center justify-center mr-[8px]"
-          >
-            <Computer class="object-contain size-[10px] " />
-          </div>
-          Local
-        </div>
-        <div
-          onclick={showMenu}
-          class="w-[24px] h-[20px] rounded-[4px] hover:bg-white/[0.04] active:bg-white/[0.07] flex items-center justify-center text-white/30 hover:text-white/50"
-        >
-          <ThreeDots class="w-[8px]" />
-        </div>
-      </div> -->
+
         <div class="rounded-[6px] ring-[1px] ring-[#3A3A3A] py-[6px]">
           {#each projectsState.currentProject.apps as app}
             <AppLine {app} />
@@ -178,4 +161,4 @@
       </div>
     </div>
   </div>
-{/if}
+{/if} -->

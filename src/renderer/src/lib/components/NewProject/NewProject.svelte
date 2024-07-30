@@ -1,6 +1,7 @@
 <script lang="ts">
   import { newProjectState } from "../../store.svelte"
   import ChooseApps from "./ChooseApps.svelte"
+  import ConfigureApp from "./ConfigureApp.svelte"
   import Footer from "./Footer.svelte"
   import Header from "./Header.svelte"
   import LoadingCreate from "./LoadingCreate.svelte"
@@ -18,7 +19,9 @@
     {/if}
     <Summary />
     <PickStarter />
+
     <ChooseApps />
+    <ConfigureApp />
   </div>
   <Footer />
 </div>

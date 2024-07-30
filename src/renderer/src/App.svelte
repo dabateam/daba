@@ -4,7 +4,7 @@
   import MainNoProject from "./lib/components/MainNoProject.svelte"
   import NewProjectFlowModal from "./lib/components/NewProject/NewProjectFlowModal.svelte"
   import NewProjectModal from "./lib/components/NewProject/NewProjectModal.svelte"
-  import Project from "./lib/components/Project.svelte"
+  // import Project from "./lib/components/Project.svelte"
   import Sandbox from "./lib/components/Sandbox.svelte"
   import Sidemenu from "./lib/components/Sidemenu.svelte"
   import { globalState, projectsState, routingState } from "./lib/store.svelte"
@@ -51,7 +51,8 @@
 <div class="flex h-screen w-screen">
   <Sidemenu />
   {#if routingState.view === "project"}
-    <Project />
+    <!-- <Project /> -->
+    disabling project view for now (fix app vs appstate thing)
   {:else if routingState.view === "__sandbox"}
     <Sandbox />
   {:else}

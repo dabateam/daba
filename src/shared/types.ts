@@ -1,6 +1,6 @@
 export type Project = {
   name: string
-  template: string
+  template?: string
   apps: App[]
 }
 
@@ -15,24 +15,12 @@ export type AppState = {
   status: ContainerStatus
 }
 
-export type App = {
-  name: string
-  containerId: string
-  tech: string
-  port: number
-}
-
-export type TemplateApp = {
-  name: string
-  tech: string
-}
-
 export type Template = {
   name: string
   image: string
   description: string
   path: string
-  apps: TemplateApp[]
+  apps: App[]
 }
 
 export type Container = {
@@ -42,3 +30,29 @@ export type Container = {
 }
 
 export type ContainerStatus = "running" | "stopped" | ""
+
+export type ENVVAR = {
+  key: string
+  required: boolean
+  defaultValue: string
+  description: string
+}
+
+export type Technology = {
+  defaultLabel?: string
+  defaultIcon?: string
+  name: string
+  envVars?: ENVVAR[]
+  tags?: string[]
+  repo?: string
+  image?: string
+  dabaRepoFolder?: string
+}
+
+export type App = {
+  name: string
+  icon?: string
+  technology: Technology
+  envVars?: ENVVAR[]
+  ports?: [number, number]
+}

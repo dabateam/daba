@@ -1,6 +1,7 @@
 <script lang="ts">
   import { untrack } from "svelte"
   import TechLoader from "./TechLoader.svelte"
+  import type { Technology } from "../../../../../shared/types"
 
   const {
     tech,
@@ -8,7 +9,7 @@
     completed = false,
     app,
   }: {
-    tech: string
+    tech: Technology
     started?: boolean
     completed?: boolean
     app: string

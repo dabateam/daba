@@ -1,4 +1,5 @@
 <script lang="ts">
+  import type { Technology } from "../../../../../shared/types"
   import { newProjectState } from "../../store.svelte"
   import { cn } from "../../utils"
   import ApproxTechLoader from "./ApproxTechLoader.svelte"
@@ -27,10 +28,11 @@
     })
   })
 
-  const appTechMap = newProjectState.newProject.apps.reduce(
-    (acc, curr) => ({ ...acc, [curr.name]: curr.tech }),
-    {},
-  )
+  const appTechMap: Record<string, Technology> =
+    newProjectState.newProject.apps.reduce(
+      (acc, curr) => ({ ...acc, [curr.name]: curr.technology }),
+      {},
+    )
 
   const startApproxProgress = (app: string) => {
     if (!apps.includes(app)) {

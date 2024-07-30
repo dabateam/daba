@@ -4,7 +4,7 @@ import fs from "fs-extra"
 import path from "node:path"
 import { exec } from "node:child_process"
 import {
-  App,
+  // App,
   AppState,
   ContainerStatus,
   Container,
@@ -79,7 +79,7 @@ const restartApp = async (containerId: string) => {
 
 const createProject = async (
   project: Project,
-): Promise<Project | undefined> => {
+): Promise<(Project & { appsStates: AppState[] }) | undefined> => {
   if (!project.name) {
     console.log("project name is required")
     return undefined
@@ -142,7 +142,7 @@ const createProject = async (
     console.error("error running docker compose", err)
   }
 
-  const containers: App[] = (await docker.listContainers())
+  const containers: AppState[] = (await docker.listContainers())
     .filter(
       (container) =>
         container.Labels["com.docker.compose.project"] === project.name,
@@ -150,10 +150,6 @@ const createProject = async (
     .map((el) => ({
       containerId: el.Id,
       name: el.Labels["com.docker.compose.service"],
-      tech:
-        template.apps.find(
-          (app) => app.name === el.Labels["com.docker.compose.service"],
-        )?.tech || "",
       port:
         el.Ports.map((port) => port.PublicPort).find(
           (port) => port !== undefined,
@@ -163,7 +159,7 @@ const createProject = async (
 
   console.log("successfully create project with containers", containers)
 
-  return { ...project, apps: containers }
+  return { ...project, appsStates: containers }
 }
 
 const getContainersOfProject = async (

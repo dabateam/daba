@@ -85,14 +85,14 @@
               <div class="flex items-center gap-[8px]">
                 <div class="size-[16px] flex items-center justify-center">
                   <img
-                    src={`images/${app.tech}.png`}
+                    src={`images/${app.icon}.png`}
                     alt=""
                     class="object-contain size-full"
                   />
                 </div>
                 <div>{app.name}</div>
               </div>
-              <div class="text-[10px] text-white/50">{app.tech}</div>
+              <div class="text-[10px] text-white/50">{app.icon}</div>
             </div>
           {/each}
         </div>
