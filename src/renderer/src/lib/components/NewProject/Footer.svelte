@@ -58,7 +58,7 @@
   class="h-[56px] shrink-0 flex relative items-center justify-center px-[16px] border-t border-white/5 gap-[8px] text-[11px]"
   style:margin-left={newProjectState.flow === "DIY"
     ? NEW_PROJECT_APPS_WIDTH + "px"
-    : "300px"}
+    : "unset"}
 >
   {#if newProjectState.step === "starter"}
     {#if newProjectState.selectedTemplate}

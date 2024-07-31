@@ -178,6 +178,7 @@ const reset = () => {
   showCancelWarning = false
   step = ""
   show = false
+  currentApp = ""
 }
 
 const cancelNewProject = () => {
