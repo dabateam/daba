@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { newProjectState, routingState } from "../store.svelte"
+  import { store } from "../store.svelte"
 
   let inputRef = $state<HTMLInputElement | null>(null)
 
@@ -16,7 +16,7 @@
   <button
     class="rounded-[4px] mb-[12px] px-[12px] py-[8px] __green_button"
     onclick={() => {
-      newProjectState.showFlowModal = true
+      store.showFlowModal = true
     }}
   >
     Start a new project
@@ -25,7 +25,7 @@
   {#if showSandbox}
     <button
       onclick={() => {
-        routingState.view = "__sandbox"
+        store.view = "__sandbox"
       }}
     >
       Sandbox

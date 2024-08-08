@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { newProjectState } from "../../store.svelte"
+  import { store } from "../../store.svelte"
   import ChooseApps from "./ChooseApps.svelte"
   import ConfigureApp from "./ConfigureApp.svelte"
   import Footer from "./Footer.svelte"
@@ -14,7 +14,7 @@
   <Header />
   <div class="flex-1 flex items-center flex-col shrink-0 overflow-auto">
     <NewProjectApps />
-    {#if newProjectState.step === "loading"}
+    {#if store.step === "loading"}
       <LoadingCreate />
     {/if}
     <Summary />

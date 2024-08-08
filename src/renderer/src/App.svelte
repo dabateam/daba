@@ -7,10 +7,10 @@
   // import Project from "./lib/components/Project.svelte"
   import Sandbox from "./lib/components/Sandbox.svelte"
   import Sidemenu from "./lib/components/Sidemenu.svelte"
-  import { globalState, projectsState, routingState } from "./lib/store.svelte"
+  import { store } from "./lib/store.svelte"
 
   $effect(() => {
-    projectsState.refreshProjectsStates()
+    store.refreshProjectsStates()
   })
 
   let interval = $state(0)
@@ -18,12 +18,12 @@
   const getDockerStatus = async () => {
     const isRunning = await window.api.isDockerRunning()
     if (isRunning) {
-      if (!globalState.dockerRunning) {
+      if (!store.dockerRunning) {
         window.location.reload()
       }
-      globalState.dockerRunning = true
+      store.dockerRunning = true
     } else {
-      globalState.dockerRunning = false
+      store.dockerRunning = false
     }
   }
 
@@ -50,10 +50,10 @@
 
 <div class="flex h-screen w-screen">
   <Sidemenu />
-  {#if routingState.view === "project"}
+  {#if store.view === "project"}
     <!-- <Project /> -->
     disabling project view for now (fix app vs appstate thing)
-  {:else if routingState.view === "__sandbox"}
+  {:else if store.view === "__sandbox"}
     <Sandbox />
   {:else}
     <MainNoProject />

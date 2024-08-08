@@ -1,6 +1,6 @@
 <script lang="ts">
   import { TEMPLATES } from "../../../../../shared/constants"
-  import { newProjectState } from "../../store.svelte"
+  import { store } from "../../store.svelte"
   import { cn } from "../../utils"
 
   let inputRef = $state<HTMLInputElement | null>(null)
@@ -19,12 +19,11 @@
   })
 
   const templateImage = $derived(
-    TEMPLATES.find((t) => t.name === newProjectState.newProject.template)
-      ?.image,
+    TEMPLATES.find((t) => t.name === store.newProject.template)?.image,
   )
 </script>
 
-{#if newProjectState.step === "summary"}
+{#if store.step === "summary"}
   <div>
     <div class="text-[13px] text-center my-[7vh]">Summary</div>
     <div class="flex flex-col gap-[40px]">
@@ -36,7 +35,7 @@
             bind:this={inputRef}
             oninput={(e) => {
               const correctValue = fixName(e.currentTarget.value)
-              newProjectState.newProject.name = correctValue
+              store.newProject.name = correctValue
             }}
             autocorrect="off"
             spellcheck="false"
@@ -44,9 +43,9 @@
               " hover:border-white/15 focus:border-white/15 focus:bg-white/[0.02] border rounded-[4px] h-[32px] px-[12px] border-white/10 cursor-text placeholder:text-[11px] placeholder:text-white/30  w-[270px]",
             )}
             placeholder="Project name"
-            bind:value={newProjectState.newProject.name}
+            bind:value={store.newProject.name}
           />
-          {#if newProjectState.nameAlreadyExists}
+          {#if store.nameAlreadyExists}
             <div
               class="text-[#FF4F3F] text-[10px] absolute -bottom-[20px] left-0"
             >
@@ -58,11 +57,11 @@
       <div>
         <div class="text-[10px] mb-[12px]">Starter</div>
         <div
-          onclick={() => (newProjectState.step = "starter")}
+          onclick={() => (store.step = "starter")}
           class="px-[12px] h-[32px] flex items-center rounded-[4px] border border-white/10 hover:bg-white/[0.02] active:bg-white/[0.03] justify-between"
         >
           <div>
-            {newProjectState.newProject.template}
+            {store.newProject.template}
           </div>
           <div class="h-[16px]">
             {#if templateImage}
@@ -78,7 +77,7 @@
       <div>
         <div class="text-[10px] mb-[16px]">Apps</div>
         <div class="flex flex-col gap-[12px]">
-          {#each newProjectState.newProject.apps as app}
+          {#each store.newProject.apps as app}
             <div
               class="bg-white/[0.03] rounded-[4px] h-[32px] px-[10px] flex items-center justify-between"
             >

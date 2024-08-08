@@ -1,9 +1,9 @@
 <script>
   import Loader from "../assets/Loader.svelte"
-  import { globalState } from "../store.svelte"
+  import { store } from "../store.svelte"
 </script>
 
-{#if !globalState.dockerRunning}
+{#if !store.dockerRunning}
   <div
     class="fixed top-0 left-0 size-full bg-black/30 flex justify-center items-center"
   >

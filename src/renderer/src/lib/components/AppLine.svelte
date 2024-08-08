@@ -22,7 +22,7 @@
 
   let running = $derived.by(() => {
     return (
-      projectsState.currentProjectState?.appsStates.find(
+      store.currentProjectState?.appsStates.find(
         (a) => a.name === app.name,
       )?.status === "running"
     )
@@ -81,7 +81,7 @@
           hideMenu()
           window.api.stopApp(app.containerId).then(() => {
             loading = false
-            projectsState.refreshProjectsStates()
+            store.refreshProjectsStates()
           })
         }}
         class="whitespace-nowrap rounded-[3px] mx-[4px] text-[10px] h-[26px] hover:bg-white/[0.1] active:bg-white/[0.13] px-[6px] flex items-center pr-[16px]"
@@ -97,7 +97,7 @@
           hideMenu()
           window.api.restartApp(app.containerId).then(() => {
             loading = false
-            projectsState.refreshProjectsStates()
+            store.refreshProjectsStates()
           })
         }}
         class="whitespace-nowrap rounded-[3px] mx-[4px] text-[10px] h-[26px] hover:bg-white/[0.1] active:bg-white/[0.13] px-[6px] flex items-center pr-[16px]"
@@ -114,7 +114,7 @@
           hideMenu()
           window.api.startApp(app.containerId).then(() => {
             loading = false
-            projectsState.refreshProjectsStates()
+            store.refreshProjectsStates()
           })
         }}
         class="whitespace-nowrap rounded-[3px] mx-[4px] text-[10px] h-[26px] hover:bg-white/[0.1] active:bg-white/[0.13] px-[6px] flex items-center pr-[16px]"

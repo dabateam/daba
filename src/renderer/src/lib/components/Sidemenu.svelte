@@ -1,7 +1,7 @@
 <script>
   import Home from "../assets/Home.svelte"
   import Projects from "../components/Projects.svelte"
-  import { routingState } from "../store.svelte"
+  import { store } from "../store.svelte"
   import { cn } from "../utils"
 </script>
 
@@ -11,19 +11,19 @@
   <div class="border-b border-[#303030] flex flex-col pb-[16px]">
     <button
       onclick={() => {
-        routingState.view = ""
+        store.view = ""
       }}
       class={cn(
         "flex items-center gap-[8px] h-[32px] px-[12px] mx-[12px] hover:bg-white/[0.02] active:bg-white/[0.03]  rounded-[6px]",
 
-        routingState.view === "" &&
+        store.view === "" &&
           "bg-[#40AFFF]/10 hover:bg-[#40AFFF]/10 active:bg-[#40AFFF]/10 text-[#40AFFF]",
       )}
     >
       <Home
         class={cn(
           "opacity-30",
-          routingState.view === "" && "opacity-50 text-[#40AFFF]",
+          store.view === "" && "opacity-50 text-[#40AFFF]",
         )}
       />
       Home

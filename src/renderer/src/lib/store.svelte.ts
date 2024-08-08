@@ -2,267 +2,147 @@ import { isEqual } from "lodash"
 import type { Project, ProjectState } from "../../../shared/types"
 import { addProjectInDB, getProjectsFromDB, removeProjectInDB } from "./api"
 
-// globalState ========================================
-
-let dockerRunning = $state(true)
-
-export const globalState = {
-  get dockerRunning() {
-    return dockerRunning
-  },
-  set dockerRunning(val) {
-    dockerRunning = val
-  },
-}
-
-// projectsState ======================================
-
-let projects = $state<Project[]>(getProjectsFromDB())
-
-let projectsStates = $state<ProjectState[]>([])
-
-const refreshProjectsStates = async () => {
-  projectsStates = await window.api.getAllProjectsStates(
-    projects.map((p) => p.name),
-  )
-}
-
-const currentProjectState = $derived.by(() => {
-  const curr = currentProject
-  if (curr) {
-    return projectsStates.find((p) => p.projectName === curr.name)
-  }
-})
-
-let deleteLoadings = $state<string[]>([])
-
-const addDeleteLoading = (projectName: string) => {
-  deleteLoadings = deleteLoadings.filter((d) => d !== projectName)
-  deleteLoadings.push(projectName)
-}
-
-const removeDeleteLoading = (projectName: string) => {
-  deleteLoadings = deleteLoadings.filter((d) => d !== projectName)
-}
-
-let showDeleteWarning = $state(false)
-
-const deleteCurrentProject = () => {
-  if (currentProject) {
-    const currentProjectName = currentProject.name
-    view = ""
-    addDeleteLoading(currentProjectName)
-    window.api.deleteProject(currentProjectName).then(() => {
-      removeProject(currentProjectName)
-      refreshProjectsStates()
-    })
-  }
-}
-
-const resetNewProject = () => {
-  newProject = { ...defaultNewProject }
-}
-
-let currentProject = $state<Project | null>(null)
-
-const addProject = (project: Project) => {
-  projects.push(project)
-  addProjectInDB(project)
-}
-
-const removeProject = (projectName: string) => {
-  projects = projects.filter((p) => p.name !== projectName)
-  removeProjectInDB(projectName)
-  removeDeleteLoading(projectName)
-}
-
-export const projectsState = {
-  get projects() {
-    return projects
-  },
-
-  get projectsStates() {
-    return projectsStates
-  },
-
-  get currentProjectState() {
-    return currentProjectState
-  },
-
-  get currentProject() {
-    return currentProject
-  },
-  set currentProject(val) {
-    currentProject = val
-  },
-
-  get deleteLoadings() {
-    return deleteLoadings
-  },
-
-  get showDeleteWarning() {
-    return showDeleteWarning
-  },
-  set showDeleteWarning(val) {
-    showDeleteWarning = val
-  },
-
-  addProject,
-  resetNewProject,
-  removeProject,
-  addDeleteLoading,
-  removeDeleteLoading,
-  refreshProjectsStates,
-  deleteCurrentProject,
-}
-
-// routingState =======================================
+// types
 
 type View = "project" | "__sandbox" | ""
-
-let view = $state<View>("")
-
-export const routingState = {
-  get view() {
-    return view
-  },
-  set view(val) {
-    if (val !== "project") currentProject = null
-    view = val
-  },
-}
-
-// newProjectState ====================================
-
 type Flow = "Starters" | "DIY" | "AI Starter" | "Clone / Import" | ""
+
+// constants
 
 const defaultNewProject: Project = {
   name: "",
   apps: [],
 }
 
-let currentApp = $state<string>("")
+// state
 
-let show = $state(false)
+class Store {
+  // =====================================================
+  // PROJECTS STATE ======================================
+  // =====================================================
 
-let showFlowModal = $state(false)
+  projects = $state<Project[]>(getProjectsFromDB())
+  projectsStates = $state<ProjectState[]>([])
+  deleteLoadings = $state<string[]>([])
+  currentProject = $state<Project | null>(null)
 
-let newProject = $state<Project>({
-  name: "",
-  apps: [],
-})
+  refreshProjectsStates = async () => {
+    this.projectsStates = await window.api.getAllProjectsStates(
+      this.projects.map((p) => p.name),
+    )
+  }
 
-let flow = $state<Flow>("")
+  currentProjectState = $derived.by(() => {
+    const curr = this.currentProject
+    if (curr) {
+      return this.projectsStates.find((p) => p.projectName === curr.name)
+    }
+  })
 
-const nameAlreadyExists = $derived(
-  projects.some((p) => p.name === newProject.name),
-)
+  addDeleteLoading = (projectName: string) => {
+    this.deleteLoadings = this.deleteLoadings.filter((d) => d !== projectName)
+    this.deleteLoadings.push(projectName)
+  }
 
-const doesNameAlreadyExist = () => {
-  return projects.some((p) => p.name === newProject.name)
-}
+  removeDeleteLoading = (projectName: string) => {
+    this.deleteLoadings = this.deleteLoadings.filter((d) => d !== projectName)
+  }
 
-let selectedTemplate = $state("")
+  showDeleteWarning = $state(false)
 
-let showCancelWarning = $state(false)
+  deleteCurrentProject = () => {
+    if (this.currentProject) {
+      const currentProjectName = this.currentProject.name
+      this.view = ""
+      this.addDeleteLoading(currentProjectName)
+      window.api.deleteProject(currentProjectName).then(() => {
+        this.removeProject(currentProjectName)
+        this.refreshProjectsStates()
+      })
+    }
+  }
 
-let step = $state<"apps" | "starter" | "summary" | "loading" | "">("")
+  addProject = (project: Project) => {
+    this.projects.push(project)
+    addProjectInDB(project)
+  }
 
-const reset = () => {
-  newProject = {
+  removeProject = (projectName: string) => {
+    this.projects = this.projects.filter((p) => p.name !== projectName)
+    removeProjectInDB(projectName)
+    this.removeDeleteLoading(projectName)
+  }
+
+  // =====================================================
+  // NEW PROJECT STATE ===================================
+  // =====================================================
+
+  // state
+  newProject = $state<Project>({
     name: "",
     apps: [],
+  })
+
+  currentApp = $state<string>("")
+  show = $state(false)
+  showFlowModal = $state(false)
+  flow = $state<Flow>("")
+
+  selectedTemplate = $state("")
+
+  showCancelWarning = $state(false)
+
+  step = $state<"apps" | "starter" | "summary" | "loading" | "">("")
+
+  // derived state
+  nameAlreadyExists = $derived(
+    this.projects.some((p) => p.name === this.newProject.name),
+  )
+
+  shouldShowCancelWarning = $derived(
+    !isEqual(this.newProject, defaultNewProject),
+  )
+
+  // methods
+
+  doesNameAlreadyExist = () => {
+    return this.projects.some((p) => p.name === this.newProject.name)
   }
-  flow = ""
-  selectedTemplate = ""
-  showCancelWarning = false
-  step = ""
-  show = false
-  currentApp = ""
-}
 
-const cancelNewProject = () => {
-  if (!showCancelWarning && shouldShowCancelWarning) {
-    showCancelWarning = true
-    return
+  reset = () => {
+    this.newProject = {
+      name: "",
+      apps: [],
+    }
+    this.flow = ""
+    this.selectedTemplate = ""
+    this.showCancelWarning = false
+    this.step = ""
+    this.show = false
+    this.currentApp = ""
   }
 
-  newProjectState.reset()
-  routingState.view = ""
+  cancelNewProject = () => {
+    if (!this.showCancelWarning && this.shouldShowCancelWarning) {
+      this.showCancelWarning = true
+      return
+    }
+
+    this.reset()
+    this.view = ""
+  }
+
+  // =====================================================
+  // ROUTING STATE =======================================
+  // =====================================================
+
+  view = $state<View>("")
+
+  // =====================================================
+  // GLOBAL STATE ========================================
+  // =====================================================
+
+  dockerRunning = $state(true)
 }
 
-const shouldShowCancelWarning = $derived(
-  !isEqual(newProject, defaultNewProject),
-)
-
-export const newProjectState = {
-  get newProject() {
-    return newProject
-  },
-  set newProject(val) {
-    newProject = val
-  },
-
-  get showFlowModal() {
-    return showFlowModal
-  },
-  set showFlowModal(val) {
-    showFlowModal = val
-  },
-
-  get selectedTemplate() {
-    return selectedTemplate
-  },
-
-  set selectedTemplate(val) {
-    selectedTemplate = val
-  },
-
-  get currentApp() {
-    return currentApp
-  },
-
-  set currentApp(val) {
-    currentApp = val
-  },
-
-  get flow() {
-    return flow
-  },
-  set flow(val) {
-    flow = val
-  },
-
-  get step() {
-    return step
-  },
-  set step(val) {
-    step = val
-  },
-
-  get show() {
-    return show
-  },
-  set show(val) {
-    show = val
-  },
-
-  get nameAlreadyExists() {
-    return nameAlreadyExists
-  },
-
-  get showCancelWarning() {
-    return showCancelWarning
-  },
-  set showCancelWarning(val) {
-    showCancelWarning = val
-  },
-
-  get shouldShowCancelWarning() {
-    return shouldShowCancelWarning
-  },
-
-  doesNameAlreadyExist,
-  reset,
-  cancelNewProject,
-}
+export const store = new Store()

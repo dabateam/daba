@@ -1,16 +1,14 @@
 <script lang="ts">
   import { TECHNOLOGIES } from "../../../../../shared/constants"
   import Search from "../../assets/Search.svelte"
-  import { newProjectState } from "../../store.svelte"
+  import { store } from "../../store.svelte"
   import { cn } from "../../utils"
 
   const isSelected = (technology: string) =>
-    newProjectState.newProject.apps.find(
-      (a) => a.technology.name === technology,
-    )?.name
+    store.newProject.apps.find((a) => a.technology.name === technology)?.name
 </script>
 
-{#if newProjectState.step === "apps" && !newProjectState.currentApp}
+{#if store.step === "apps" && !store.currentApp}
   <div class="w-[480px] ml-[180px]">
     <div class="text-[14px] text-center mt-[7vh]">Choose one or more apps</div>
     <div class="text-[11px] text-white/40 text-center mt-[16px] mb-[7vh]">
@@ -30,16 +28,13 @@
         <div
           onclick={() => {
             if (
-              newProjectState.newProject.apps.find(
-                (a) => a.technology.name === tech.name,
-              )
+              store.newProject.apps.find((a) => a.technology.name === tech.name)
             )
-              newProjectState.newProject.apps =
-                newProjectState.newProject.apps.filter(
-                  (a) => a.technology.name !== tech.name,
-                )
+              store.newProject.apps = store.newProject.apps.filter(
+                (a) => a.technology.name !== tech.name,
+              )
             else
-              newProjectState.newProject.apps.push({
+              store.newProject.apps.push({
                 name: tech.defaultLabel || "",
                 technology: tech,
               })

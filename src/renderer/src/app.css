@@ -19,6 +19,11 @@ html {
   cursor: default;
   user-select: none;
   font-family: "Inter", sans-serif;
+  caret-color: #40afff;
+}
+
+::selection {
+  background: #2c8bd0;
 }
 
 /* reset */

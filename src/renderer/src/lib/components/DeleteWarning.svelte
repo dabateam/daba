@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { projectsState } from "../store.svelte"
+  import { store } from "../store.svelte"
 
   import { cn } from "../utils"
 
@@ -8,7 +8,7 @@
   $effect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        projectsState.showDeleteWarning = false
+        store.showDeleteWarning = false
       }
     }
     document.addEventListener("keydown", handleEscape)
@@ -16,10 +16,10 @@
   })
 </script>
 
-{#if projectsState.showDeleteWarning}
+{#if store.showDeleteWarning}
   <div
     onclick={(e) => {
-      if (e.target === e.currentTarget) projectsState.showDeleteWarning = false
+      if (e.target === e.currentTarget) store.showDeleteWarning = false
     }}
     class="fixed top-0 left-0 size-full bg-black/30 flex justify-center items-center"
   >
@@ -35,20 +35,20 @@
       <input
         type="text"
         bind:value
-        placeholder={projectsState.currentProject?.name}
+        placeholder={store.currentProject?.name}
         class=" text-center w-[250px] h-[32px] px-[12px] border-white/10 focus:border-[hsla(208,100%,63%,1)] border rounded-[4px] text-[11px] placeholder:text-white/30 my-[28px] hover:border-white/15 cursor-text"
       />
 
       <button
         onclick={() => {
-          if (value === projectsState.currentProject?.name) {
-            projectsState.showDeleteWarning = false
-            projectsState.deleteCurrentProject()
+          if (value === store.currentProject?.name) {
+            store.showDeleteWarning = false
+            store.deleteCurrentProject()
           }
         }}
         class={cn(
           "rounded-[4px] px-[12px] py-[8px] __red_button",
-          value !== projectsState.currentProject?.name &&
+          value !== store.currentProject?.name &&
             "pointer-events-none opacity-70 text-white/60",
         )}>Delete this project</button
       >

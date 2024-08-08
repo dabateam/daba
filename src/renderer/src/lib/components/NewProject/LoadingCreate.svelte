@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Technology } from "../../../../../shared/types"
-  import { newProjectState } from "../../store.svelte"
+  import { store } from "../../store.svelte"
   import { cn } from "../../utils"
   import ApproxTechLoader from "./ApproxTechLoader.svelte"
   import TechLoader from "./TechLoader.svelte"
@@ -9,7 +9,7 @@
 
   let log = $state("")
 
-  const apps = newProjectState.newProject.apps.map((a) => a.name)
+  const apps = store.newProject.apps.map((a) => a.name)
 
   let appsProgressMap: Record<
     string,
@@ -28,11 +28,10 @@
     })
   })
 
-  const appTechMap: Record<string, Technology> =
-    newProjectState.newProject.apps.reduce(
-      (acc, curr) => ({ ...acc, [curr.name]: curr.technology }),
-      {},
-    )
+  const appTechMap: Record<string, Technology> = store.newProject.apps.reduce(
+    (acc, curr) => ({ ...acc, [curr.name]: curr.technology }),
+    {},
+  )
 
   const startApproxProgress = (app: string) => {
     if (!apps.includes(app)) {
@@ -121,7 +120,7 @@
     return false
   }
 
-  $inspect(newProjectState.step, appsProgressMap)
+  $inspect(store.step, appsProgressMap)
 
   console.log("HERE")
 </script>

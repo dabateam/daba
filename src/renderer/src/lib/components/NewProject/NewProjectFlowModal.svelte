@@ -4,36 +4,36 @@
   import Cubes from "../../assets/Cubes.svelte"
   import ImportExistingProject from "../../assets/ImportExistingProject.svelte"
   import Settings from "../../assets/Settings.svelte"
-  import { newProjectState } from "../../store.svelte"
+  import { store } from "../../store.svelte"
   import { cn } from "../../utils"
 
   $effect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        newProjectState.showFlowModal = false
+        store.showFlowModal = false
       }
     }
     document.addEventListener("keydown", handleEscape)
     return () => document.removeEventListener("keydown", handleEscape)
   })
 
-  const chooseFlow = (flow: typeof newProjectState.flow) => {
-    newProjectState.flow = flow
-    newProjectState.showFlowModal = false
-    newProjectState.show = true
-    if (flow === "DIY") newProjectState.step = "apps"
-    else if (flow === "Starters") newProjectState.step = "starter"
+  const chooseFlow = (flow: typeof store.flow) => {
+    store.flow = flow
+    store.showFlowModal = false
+    store.show = true
+    if (flow === "DIY") store.step = "apps"
+    else if (flow === "Starters") store.step = "starter"
   }
 </script>
 
-{#if newProjectState.showFlowModal}
+{#if store.showFlowModal}
   <div
     class="fixed top-0 left-0 size-full flex justify-center items-center pl-[270px]"
   >
     <div
       transition:fade={{ duration: 200 }}
       onclick={(e) => {
-        if (e.target === e.currentTarget) newProjectState.showFlowModal = false
+        if (e.target === e.currentTarget) store.showFlowModal = false
       }}
       class="absolute top-0 left-0 size-full bg-black/30"
     ></div>
@@ -87,8 +87,8 @@
             "opacity-40 border-b border-white/15 last:border-b-0 flex items-center hover:bg-white/[0.02] active:bg-white/[0.03] gap-[20px] py-[28px] px-[24px] pointer-events-none",
           )}
           onclick={() => {
-            newProjectState.flow = "Clone / Import"
-            // routingState.view = "new-project.pick-starter"
+            store.flow = "Clone / Import"
+            // store.view = "new-project.pick-starter"
           }}
         >
           <div
@@ -116,8 +116,8 @@
             "opacity-40 border-b border-white/15 last:border-b-0 flex items-center hover:bg-white/[0.02] active:bg-white/[0.03] gap-[20px] py-[28px] pl-[24px] pr-[52px] pointer-events-none",
           )}
           onclick={() => {
-            newProjectState.flow = "AI Starter"
-            // routingState.view = "new-project.pick-starter"
+            store.flow = "AI Starter"
+            // store.view = "new-project.pick-starter"
           }}
         >
           <div

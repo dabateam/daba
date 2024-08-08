@@ -1,11 +1,11 @@
 <script lang="ts">
   import { TEMPLATES } from "../../../../../shared/constants"
   import Search from "../../assets/Search.svelte"
-  import { newProjectState } from "../../store.svelte"
+  import { store } from "../../store.svelte"
   import { cn } from "../../utils"
 </script>
 
-{#if newProjectState.step === "starter"}
+{#if store.step === "starter"}
   <div class="w-[320px]">
     <div class="text-[14px] text-center my-[7vh]">Pick a starter</div>
     <div class="relative mb-[28px]">
@@ -22,16 +22,16 @@
         <div
           class={cn(
             "w-full rounded-[8px] border border-white/10 p-[20px] flex flex-col active:bg-white/[0.02] hover:bg-white/[0.01]",
-            newProjectState.selectedTemplate === template.name &&
+            store.selectedTemplate === template.name &&
               "ring-[2px] ring-[#40AFFF]/80 border-transparent bg-white/[0.02] hover:bg-white/[0.02]",
-            newProjectState.selectedTemplate &&
-              newProjectState.selectedTemplate !== template.name &&
+            store.selectedTemplate &&
+              store.selectedTemplate !== template.name &&
               "opacity-70 ",
           )}
           onclick={() => {
-            if (newProjectState.selectedTemplate === template.name)
-              newProjectState.selectedTemplate = ""
-            else newProjectState.selectedTemplate = template.name
+            if (store.selectedTemplate === template.name)
+              store.selectedTemplate = ""
+            else store.selectedTemplate = template.name
           }}
         >
           <div>

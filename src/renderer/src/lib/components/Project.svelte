@@ -44,7 +44,7 @@
   }
 </script>
 
-{#if projectsState.currentProject}
+{#if store.currentProject}
   {#snippet menu()}
     <div
       bind:this={menuRef}
@@ -58,16 +58,16 @@
         !menuVisible && "pointer-events-none",
       )}
     >
-      {#if projectsState.currentProjectState?.appsStates.some((app) => app.status === "running")}
+      {#if store.currentProjectState?.appsStates.some((app) => app.status === "running")}
         <div
           onclick={() => {
             loading = true
             hideMenu()
             window.api
-              .stopProject(projectsState.currentProject!.name)
+              .stopProject(store.currentProject!.name)
               .then(() => {
                 loading = false
-                projectsState.refreshProjectsStates()
+                store.refreshProjectsStates()
               })
           }}
           class="rounded-[3px] whitespace-nowrap mx-[4px] text-[10px] h-[26px] hover:bg-white/[0.1] active:bg-white/[0.13] px-[6px] pr-[16px] flex items-center"
@@ -82,10 +82,10 @@
             loading = true
             hideMenu()
             window.api
-              .restartProject(projectsState.currentProject!.name)
+              .restartProject(store.currentProject!.name)
               .then(() => {
                 loading = false
-                projectsState.refreshProjectsStates()
+                store.refreshProjectsStates()
               })
           }}
           class="rounded-[3px] whitespace-nowrap mx-[4px] text-[10px] h-[26px] hover:bg-white/[0.1] active:bg-white/[0.13] px-[6px] pr-[16px] flex items-center"
@@ -101,10 +101,10 @@
             loading = true
             hideMenu()
             window.api
-              .startProject(projectsState.currentProject!.name)
+              .startProject(store.currentProject!.name)
               .then(() => {
                 loading = false
-                projectsState.refreshProjectsStates()
+                store.refreshProjectsStates()
               })
           }}
           class="rounded-[3px] whitespace-nowrap mx-[4px] text-[10px] h-[26px] hover:bg-white/[0.1] active:bg-white/[0.13] px-[6px] pr-[16px] flex items-center"
@@ -119,7 +119,7 @@
       <div
         onclick={() => {
           hideMenu()
-          projectsState.showDeleteWarning = true
+          store.showDeleteWarning = true
         }}
         class="rounded-[3px] whitespace-nowrap mx-[4px] text-[10px] h-[26px] hover:bg-white/[0.1] active:bg-white/[0.13] px-[6px] pr-[16px] flex items-center"
       >
@@ -138,7 +138,7 @@
 
         <div>
           <div class="text-[10px] opacity-50 mb-[8px]">Project</div>
-          <div class="text-[13px]">{projectsState.currentProject.name}</div>
+          <div class="text-[13px]">{store.currentProject.name}</div>
         </div>
         <div
           onclick={showMenu}
@@ -154,7 +154,7 @@
       <div class="rounded-[6px] ring-[1px] ring-[#3A3A3A] text-[11px] relative">
 
         <div class="rounded-[6px] ring-[1px] ring-[#3A3A3A] py-[6px]">
-          {#each projectsState.currentProject.apps as app}
+          {#each store.currentProject.apps as app}
             <AppLine {app} />
           {/each}
         </div>

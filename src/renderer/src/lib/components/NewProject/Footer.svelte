@@ -1,44 +1,36 @@
 <script lang="ts">
   import CaretDown from "../../assets/CaretDown.svelte"
-  import {
-    newProjectState,
-    projectsState,
-    routingState,
-  } from "../../store.svelte"
+  import { store } from "../../store.svelte"
   import { TEMPLATES } from "../../../../../shared/constants"
   import { cn } from "../../utils"
   import { NEW_PROJECT_APPS_WIDTH } from "../../constants"
 
-  const canSubmit = $derived(
-    newProjectState.newProject.name && !newProjectState.nameAlreadyExists,
-  )
+  const canSubmit = $derived(store.newProject.name && !store.nameAlreadyExists)
 
   const createProject = () => {
     if (!canSubmit) return
 
-    const template = TEMPLATES.find(
-      (t) => t.name === newProjectState.newProject.template,
-    )
+    const template = TEMPLATES.find((t) => t.name === store.newProject.template)
 
     if (template) {
-      newProjectState.newProject.apps = template.apps.map((app) => ({
+      store.newProject.apps = template.apps.map((app) => ({
         ...app,
         port: 0,
         containerId: "",
       }))
 
-      newProjectState.step = "loading"
+      store.step = "loading"
       console.log("creating project")
 
-      const newProject = $state.snapshot(newProjectState.newProject)
+      const newProject = $state.snapshot(store.newProject)
       window.api.createProject(newProject).then((project) => {
         if (project) {
-          projectsState.addProject(project)
-          projectsState.currentProject = project
-          projectsState.refreshProjectsStates()
+          store.addProject(project)
+          store.currentProject = project
+          store.refreshProjectsStates()
           console.log("project created", project)
-          newProjectState.reset()
-          routingState.view = "project"
+          store.reset()
+          store.view = "project"
         }
       })
     }
@@ -46,35 +38,32 @@
 
   const generateAndAssignProjectName = (templateName: string) => {
     let counter = 1
-    newProjectState.newProject.name = templateName
-    while (newProjectState.doesNameAlreadyExist()) {
+    store.newProject.name = templateName
+    while (store.doesNameAlreadyExist()) {
       counter++
-      newProjectState.newProject.name = `${templateName}-${counter}`
+      store.newProject.name = `${templateName}-${counter}`
     }
   }
 </script>
 
 <div
   class="h-[56px] shrink-0 flex relative items-center justify-center px-[16px] border-t border-white/5 gap-[8px] text-[11px]"
-  style:margin-left={newProjectState.flow === "DIY"
+  style:margin-left={store.flow === "DIY"
     ? NEW_PROJECT_APPS_WIDTH + "px"
     : "unset"}
 >
-  {#if newProjectState.step === "starter"}
-    {#if newProjectState.selectedTemplate}
+  {#if store.step === "starter"}
+    {#if store.selectedTemplate}
       <button
         onclick={() => {
-          if (
-            newProjectState.selectedTemplate !==
-            newProjectState.newProject.template
-          ) {
+          if (store.selectedTemplate !== store.newProject.template) {
             const template = TEMPLATES.find(
-              (t) => t.name === newProjectState.selectedTemplate,
+              (t) => t.name === store.selectedTemplate,
             )
 
             if (!template) return
 
-            newProjectState.newProject.apps = template.apps.map((a) => ({
+            store.newProject.apps = template.apps.map((a) => ({
               ...a,
               containerId: "",
               port: 0,
@@ -82,8 +71,8 @@
 
             generateAndAssignProjectName(template.name)
           }
-          newProjectState.newProject.template = newProjectState.selectedTemplate
-          newProjectState.step = "summary"
+          store.newProject.template = store.selectedTemplate
+          store.step = "summary"
 
           // todo: handle if change template -> reset apps
         }}
@@ -101,10 +90,10 @@
         Pick a starter
       </button>
     {/if}
-  {:else if newProjectState.step === "summary"}
+  {:else if store.step === "summary"}
     <button
       onclick={() => {
-        newProjectState.step = "starter"
+        store.step = "starter"
       }}
       class="absolute left-[16px] top-[14.5px] flex items-center gap-[8px] text-white/40 rounded-[4px] px-[12px] py-[8px] hover:bg-white/[0.02] active:bg-white/[0.03]"
     >
@@ -120,11 +109,11 @@
     >
       Install and run
     </button>
-  {:else if newProjectState.step === "loading"}
+  {:else if store.step === "loading"}
     <div class="text-white/40 text-[10px]">
       This process might take a few minutes, please don't close this window.
     </div>
-  {:else if newProjectState.step === "apps"}
+  {:else if store.step === "apps"}
     <div class="text-white/40 text-[10px]">hi there</div>
   {/if}
 </div>

@@ -2,6 +2,7 @@ export type Project = {
   name: string
   template?: string
   apps: App[]
+  // location: string
 }
 
 export type ProjectState = {
