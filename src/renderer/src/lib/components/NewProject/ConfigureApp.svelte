@@ -1,8 +1,11 @@
 <script>
   import CaretDown from "../../assets/CaretDown.svelte"
+  import SmallCheck from "../../assets/SmallCheck.svelte"
   import { NEW_PROJECT_APPS_WIDTH } from "../../constants"
   import { store } from "../../store.svelte"
   import { cn } from "../../utils"
+
+  let expose = $state(false)
 </script>
 
 {#if store.currentApp}
@@ -67,7 +70,25 @@
               </div>
             </div>
           </div>
-          <div>expose port</div>
+          <div
+            onclick={() => (expose = !expose)}
+            class="flex items-center gap-[8px] w-fit px-[10px] py-[8px] rounded-[4px] hover:bg-white/[0.02] active:bg-white/[0.03] ml-[-10px]"
+          >
+            <div
+              class={cn(
+                "size-[12px] rounded-[2px] border border-white/10 flex items-center justify-center",
+              )}
+            >
+              {#if expose}
+                <SmallCheck />
+              {/if}
+            </div>
+            <div
+              class={cn("text-[11px] text-white/40", expose && " text-white")}
+            >
+              Expose app
+            </div>
+          </div>
           <div>ports</div>
           <div>info-msg1</div>
           <div>info-msg2</div>
