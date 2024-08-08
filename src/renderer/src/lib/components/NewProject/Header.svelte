@@ -58,11 +58,13 @@
 
   <div
     onclick={() => {
-      if (store.newProject.template) store.step = "summary"
+      if (store.newProject.template || store.newProject.apps.length > 0)
+        store.step = "summary"
     }}
     class={cn(
       "text-white/40 p-[12px] ",
-      !!store.newProject.template && "hover:text-white/60",
+      (!!store.newProject.template || store.newProject.apps.length > 0) &&
+        "hover:text-white/60",
       store.step === "summary" && "text-white hover:text-white",
     )}
   >

@@ -34,9 +34,10 @@ export type ContainerStatus = "running" | "stopped" | ""
 
 export type ENVVAR = {
   key: string
-  required: boolean
-  defaultValue: string
-  description: string
+  required?: boolean
+  defaultValue?: string
+  description?: string
+  value: string
 }
 
 export type Technology = {

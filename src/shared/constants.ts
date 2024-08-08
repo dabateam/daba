@@ -42,6 +42,21 @@ export const TECHNOLOGIES: Technology[] = [
     defaultLabel: "db",
     defaultIcon: "postgres.png",
     name: "Postgres",
+    envVars: [
+      {
+        key: "POSTGRES_PASSWORD",
+        value: "some_randomly_generated_password",
+        description: "Password of the root super user",
+        required: true,
+      },
+      {
+        key: "POSTGRES_USER",
+        value: "postgres",
+        description:
+          "Root user's username - used in conjunction with POSTGRES_PASSWORD",
+        required: true,
+      },
+    ],
   },
   {
     defaultLabel: "api",

@@ -5,8 +5,9 @@ module.exports = {
     extend: {
       fontFamily: {
         mono: ["Hack", "monospace"],
+        sans: ["Inter", "sans-serif"],
       },
     },
   },
   plugins: [],
-};
+}

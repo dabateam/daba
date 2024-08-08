@@ -21,7 +21,9 @@
 </script>
 
 {#if store.show}
-  <div class="fixed top-0 left-0 size-full flex justify-center items-center">
+  <div
+    class="fixed top-0 left-0 size-full flex justify-center items-center p-[50px]"
+  >
     <div
       transition:fade={{ duration: 200 }}
       onclick={(e) => {
@@ -33,7 +35,7 @@
     ></div>
     <div
       transition:scale={{ start: 0.97, duration: 150 }}
-      class="relative size-full max-w-[1100px] max-h-[800px] min-h-[720px] min-w-[800px]
+      class="relative size-full max-w-[1200px] max-h-[800px] min-h-[720px] min-w-[800px]
   text-white bg-[#242424] rounded-[10px] shadow-2xl flex flex-col border border-white/[0.05]"
     >
       <NewProject />

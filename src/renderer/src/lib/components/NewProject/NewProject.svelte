@@ -16,12 +16,15 @@
     <NewProjectApps />
     {#if store.step === "loading"}
       <LoadingCreate />
+    {:else if store.step === "summary"}
+      <Summary />
     {/if}
-    <Summary />
     <PickStarter />
 
     <ChooseApps />
-    <ConfigureApp />
+    {#if store.currentApp && store.step === "apps"}
+      <ConfigureApp />
+    {/if}
   </div>
   <Footer />
 </div>

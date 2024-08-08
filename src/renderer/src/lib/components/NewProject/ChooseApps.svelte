@@ -1,6 +1,7 @@
 <script lang="ts">
   import { TECHNOLOGIES } from "../../../../../shared/constants"
   import Search from "../../assets/Search.svelte"
+  import { NEW_PROJECT_APPS_WIDTH } from "../../constants"
   import { store } from "../../store.svelte"
   import { cn } from "../../utils"
 
@@ -9,7 +10,12 @@
 </script>
 
 {#if store.step === "apps" && !store.currentApp}
-  <div class="w-[480px] ml-[180px]">
+  <div
+    class="w-[480px]"
+    style:margin-left={store.flow === "DIY"
+      ? NEW_PROJECT_APPS_WIDTH + "px"
+      : "unset"}
+  >
     <div class="text-[14px] text-center mt-[7vh]">Choose one or more apps</div>
     <div class="text-[11px] text-white/40 text-center mt-[16px] mb-[7vh]">
       Compose your project's tech stack
@@ -37,6 +43,7 @@
               store.newProject.apps.push({
                 name: tech.defaultLabel || "",
                 technology: tech,
+                envVars: tech.envVars || [],
               })
           }}
           class={cn(

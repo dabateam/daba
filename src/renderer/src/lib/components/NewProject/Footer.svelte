@@ -114,6 +114,25 @@
       This process might take a few minutes, please don't close this window.
     </div>
   {:else if store.step === "apps"}
-    <div class="text-white/40 text-[10px]">hi there</div>
+    <div class="text-white/40 text-[10px]">
+      {#if store.newProject.apps.length === 0}
+        <button
+          class="__green_button_transparent flex items-center gap-[8px] rounded-[4px] px-[12px] py-[8px] text-[#5ae73e]/60 pointer-events-none"
+        >
+          Choose your apps
+        </button>
+      {:else}
+        <button
+          onclick={() => {
+            store.currentApp = ""
+            store.step = "summary"
+          }}
+          class="__green_button_transparent flex items-center gap-[8px] rounded-[4px] px-[12px] py-[8px] text-[#5ae73e]"
+        >
+          Summary
+          <CaretDown class="opacity-50 w-[8px] -rotate-90" />
+        </button>
+      {/if}
+    </div>
   {/if}
 </div>
