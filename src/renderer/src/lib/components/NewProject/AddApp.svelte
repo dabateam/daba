@@ -15,10 +15,7 @@
     ? NEW_PROJECT_APPS_WIDTH + "px"
     : "unset"}
 >
-  <div class="text-[14px] text-center mt-[56px]">Choose one or more apps</div>
-  <div class="text-[11px] text-white/40 text-center mt-[16px] mb-[56px]">
-    Compose your project's tech stack
-  </div>
+  <div class="text-[14px] text-center mt-[56px] mb-[40px]">Add a new app</div>
   <div class="relative mb-[28px]">
     <Search class="absolute top-[50%] -translate-y-[50%] left-[14px]" />
 
@@ -32,24 +29,22 @@
     {#each TECHNOLOGIES as tech}
       <div
         onclick={() => {
-          if (
-            store.newProject.apps.find((a) => a.technology.name === tech.name)
-          )
-            store.newProject.apps = store.newProject.apps.filter(
-              (a) => a.technology.name !== tech.name,
-            )
-          else
-            store.newProject.apps.push({
-              name: tech.defaultLabel || "",
-              technology: tech,
-              envVars: tech.envVars || [],
-            })
+          let label = tech.defaultLabel || ""
+          let count = 1
+          while (store.newProject.apps.find((a) => a.name === label)) {
+            count++
+            label = tech.defaultLabel + "_" + count
+          }
+          store.newProject.apps.push({
+            name: label,
+            technology: tech,
+            envVars: tech.envVars || [],
+          })
+          store.currentApp = label
+          store.showAddApp = false
         }}
         class={cn(
           "active:bg-white/[0.02] hover:bg-white/[0.01] size-[80px] rounded-[8px] border border-white/10 flex items-center justify-center gap-[12px] flex-col",
-
-          isSelected(tech.name) &&
-            "ring-[2px] ring-[#40AFFF]/80 border-transparent bg-white/[0.02] hover:bg-white/[0.02]",
         )}
       >
         <img

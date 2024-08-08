@@ -1,5 +1,6 @@
 <script lang="ts">
   import { store } from "../../store.svelte"
+  import AddApp from "./AddApp.svelte"
   import ChooseApps from "./ChooseApps.svelte"
   import ConfigureApp from "./ConfigureApp.svelte"
   import Footer from "./Footer.svelte"
@@ -21,9 +22,14 @@
     {/if}
     <PickStarter />
 
-    <ChooseApps />
-    {#if store.currentApp && store.step === "apps"}
-      <ConfigureApp />
+    {#if store.step === "apps"}
+      {#if store.currentApp}
+        <ConfigureApp />
+      {:else if store.showAddApp}
+        <AddApp />
+      {:else}
+        <ChooseApps />
+      {/if}
     {/if}
   </div>
   <Footer />

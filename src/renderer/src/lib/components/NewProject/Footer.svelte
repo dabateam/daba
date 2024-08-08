@@ -125,6 +125,7 @@
         <button
           onclick={() => {
             store.currentApp = ""
+            store.showAddApp = false
             store.step = "summary"
           }}
           class="__green_button_transparent flex items-center gap-[8px] rounded-[4px] px-[12px] py-[8px] text-[#5ae73e]"

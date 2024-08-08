@@ -30,7 +30,7 @@
     ? NEW_PROJECT_APPS_WIDTH + "px"
     : "unset"}
 >
-  <div class="text-[13px] text-center my-[7vh]">Summary</div>
+  <div class="text-[13px] text-center my-[56px]">Summary</div>
   <div class="flex flex-col gap-[40px]">
     <div class="relative">
       <div class="text-[10px] mb-[12px]">Project</div>
@@ -90,7 +90,7 @@
               <div class="flex items-center gap-[8px]">
                 <div class="size-[16px] flex items-center justify-center">
                   <img
-                    src={`images/${app.icon}.png`}
+                    src={`images/${app.technology.defaultIcon}`}
                     alt=""
                     class="object-contain size-full"
                   />

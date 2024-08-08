@@ -18,6 +18,7 @@
         onclick={() => {
           store.currentApp = app.name
           store.step = "apps"
+          store.showAddApp = false
         }}
         class={cn(
           "active:bg-white/[0.02] hover:bg-white/[0.01] size-[80px] rounded-[8px] border border-white/10 flex items-center justify-center gap-[12px] flex-col",
@@ -35,11 +36,17 @@
       </div>
     {/each}
     <div
-      class="active:bg-white/[0.02] hover:bg-white/[0.01] size-[80px] rounded-[8px] flex items-center justify-center gap-[12px] flex-col border-dashed"
+      onclick={() => {
+        store.showAddApp = true
+        store.currentApp = ""
+      }}
+      class={cn(
+        "active:bg-white/[0.02] hover:bg-white/[0.01] size-[80px] rounded-[8px] flex items-center justify-center gap-[12px] flex-col border-dashed",
+        store.showAddApp &&
+          "ring-[2px] ring-[#40AFFF]/80 border-transparent bg-white/[0.02] hover:bg-white/[0.02]",
+      )}
     >
-      <div class="text-[11px]">
-        <AddAppPlus />
-      </div>
+      <AddAppPlus />
     </div>
   </div>
 {/if}

@@ -16,7 +16,7 @@
 <div class="size-full" style:padding-left={NEW_PROJECT_APPS_WIDTH + "px"}>
   <div class="flex h-full">
     <div
-      class="flex-1 border-r border-white/5 h-full flex justify-center pt-[60px]"
+      class="flex-1 border-r border-white/5 h-full flex justify-center pt-[58px]"
     >
       <div class="w-[280px] flex flex-col gap-[32px]">
         <div class="flex items-center gap-[12px]">
@@ -116,7 +116,7 @@
         </div>
       </div>
     </div>
-    <div class="px-[60px] h-full flex justify-center pt-[60px]">
+    <div class="px-[58px] h-full flex justify-center pt-[58px]">
       <div class="w-[280px] flex flex-col gap-[32px]">
         <div class="text-[12px] text-white/40">Env variables</div>
 

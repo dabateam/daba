@@ -92,6 +92,8 @@ class Store {
 
   showCancelWarning = $state(false)
 
+  showAddApp = $state(false)
+
   step = $state<"apps" | "starter" | "summary" | "loading" | "">("")
 
   // derived state

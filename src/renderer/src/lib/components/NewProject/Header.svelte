@@ -42,7 +42,12 @@
   {:else if store.flow === "DIY"}
     <div
       onclick={() => {
-        store.step = "apps"
+        if (store.step !== "apps") {
+          store.step = "apps"
+          if (store.newProject.apps.length > 0) {
+            store.currentApp = store.newProject.apps[0].name
+          }
+        }
       }}
       class={cn(
         "text-white/40 p-[12px] hover:text-white/60",
@@ -58,8 +63,11 @@
 
   <div
     onclick={() => {
-      if (store.newProject.template || store.newProject.apps.length > 0)
+      if (store.newProject.template || store.newProject.apps.length > 0) {
         store.step = "summary"
+        store.currentApp = ""
+        store.showAddApp = false
+      }
     }}
     class={cn(
       "text-white/40 p-[12px] ",

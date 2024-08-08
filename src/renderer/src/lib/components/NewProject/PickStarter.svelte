@@ -7,7 +7,7 @@
 
 {#if store.step === "starter"}
   <div class="w-[320px]">
-    <div class="text-[14px] text-center my-[7vh]">Pick a starter</div>
+    <div class="text-[14px] text-center my-[56px]">Pick a starter</div>
     <div class="relative mb-[28px]">
       <Search class="absolute top-[50%] -translate-y-[50%] left-[14px]" />
 
