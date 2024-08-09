@@ -10,39 +10,63 @@
   const createProject = () => {
     if (!canSubmit) return
 
-    const template = TEMPLATES.find((t) => t.name === store.newProject.template)
+    if (store.flow === "Starters") {
+      const template = TEMPLATES.find(
+        (t) => t.name === store.newProject.template,
+      )
 
-    if (template) {
-      store.newProject.apps = template.apps.map((app) => ({
-        ...app,
-        port: 0,
-        containerId: "",
-      }))
+      if (template) {
+        store.newProject.apps = template.apps.map((app) => ({
+          ...app,
+          port: 0,
+          containerId: "",
+        }))
 
+        store.step = "loading"
+
+        const newProject = $state.snapshot(store.newProject)
+        window.api
+          .createProject(newProject)
+          .then((project) => {
+            if (project) {
+              store.addProject(project)
+              store.currentProject = project
+              store.refreshProjectsStates()
+              console.log("project created", project)
+              store.reset()
+              store.view = "project"
+            }
+          })
+          .catch(console.error)
+      }
+    } else if (store.flow === "DIY") {
+      console.log("project to create: ", $state.snapshot(store.newProject))
       store.step = "loading"
-      console.log("creating project")
 
-      const newProject = $state.snapshot(store.newProject)
-      window.api.createProject(newProject).then((project) => {
-        if (project) {
-          store.addProject(project)
-          store.currentProject = project
-          store.refreshProjectsStates()
-          console.log("project created", project)
-          store.reset()
-          store.view = "project"
-        }
-      })
+      window.api
+        .createProjectDIY($state.snapshot(store.newProject))
+        .then((project) => {
+          if (project) {
+            store.addProject(project)
+            store.currentProject = project
+            store.refreshProjectsStates()
+            console.log("project created", project)
+            store.reset()
+            store.view = "project"
+          }
+        })
+        .catch(console.error)
     }
   }
 
   const generateAndAssignProjectName = (templateName: string) => {
     let counter = 1
-    store.newProject.name = templateName
-    while (store.doesNameAlreadyExist()) {
+    let n = templateName
+    while (templateName && store.doesNameAlreadyExist(n)) {
       counter++
-      store.newProject.name = `${templateName}-${counter}`
+      n = `${templateName}-${counter}`
     }
+    store.newProject.name = n
   }
 </script>
 
@@ -93,12 +117,16 @@
   {:else if store.step === "summary"}
     <button
       onclick={() => {
-        store.step = "starter"
+        if (store.flow === "Starters") store.step = "starter"
+        else if (store.flow === "DIY") {
+          store.step = "apps"
+          store.currentApp = store.newProject.apps[0].name
+        }
       }}
       class="absolute left-[16px] top-[14.5px] flex items-center gap-[8px] text-white/40 rounded-[4px] px-[12px] py-[8px] hover:bg-white/[0.02] active:bg-white/[0.03]"
     >
       <CaretDown class="opacity-50 w-[8px] rotate-90" />
-      Pick a starter
+      {store.flow === "Starters" ? "Pick a starter" : "Choose apps"}
     </button>
     <button
       onclick={createProject}

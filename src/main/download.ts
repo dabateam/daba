@@ -7,7 +7,7 @@ import os from "node:os"
 export const getStarter = async (starter: string, projectName: string) => {
   // todo: remove
   const owner = "dabateam"
-  const repo = "starters"
+  const repo = "apps"
   const projectsRoot = path.join(os.homedir(), "Documents", "Projects")
   // ---
 
@@ -36,12 +36,7 @@ export const getStarter = async (starter: string, projectName: string) => {
   console.log(`Repository ${repo} downloaded and extracted to ${projectsRoot}`)
 
   // find the starter inside the extracted folder
-  const starterPath = path.join(
-    projectsRoot,
-    "starters-main",
-    "starters",
-    starter,
-  )
+  const starterPath = path.join(projectsRoot, "apps-main", "starters", starter)
   const starterExists = await fs.pathExists(starterPath)
 
   if (!starterExists) {

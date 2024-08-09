@@ -48,7 +48,10 @@ export type Technology = {
   tags?: string[]
   repo?: string
   image?: string
-  dabaRepoFolder?: string
+  pathInRepo?: string
+  namedVolumes?: string[]
+  volumes?: string[]
+  ports?: string
 }
 
 export type App = {

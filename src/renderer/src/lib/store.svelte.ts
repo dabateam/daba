@@ -107,8 +107,18 @@ class Store {
 
   // methods
 
-  doesNameAlreadyExist = () => {
-    return this.projects.some((p) => p.name === this.newProject.name)
+  doesNameAlreadyExist = (name: string) => {
+    return this.projects.some((p) => p.name === name)
+  }
+
+  setDefaultProjectName = () => {
+    let n = "my_project" // default name
+    let c = 0 // counter
+    while (this.doesNameAlreadyExist(n)) {
+      c++
+      n = `my_project_${c}`
+    }
+    this.newProject.name = n
   }
 
   reset = () => {

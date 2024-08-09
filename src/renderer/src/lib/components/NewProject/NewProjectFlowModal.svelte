@@ -21,8 +21,10 @@
     store.flow = flow
     store.showFlowModal = false
     store.show = true
-    if (flow === "DIY") store.step = "apps"
-    else if (flow === "Starters") store.step = "starter"
+    if (flow === "DIY") {
+      store.step = "apps"
+      store.setDefaultProjectName()
+    } else if (flow === "Starters") store.step = "starter"
   }
 </script>
 

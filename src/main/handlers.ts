@@ -17,6 +17,7 @@ import os from "node:os"
 
 import { execa } from "execa"
 import { getStarter } from "./download"
+import { createProjectDIY } from "./diy"
 
 // function getDockerSocketPath() {
 //   let socketPath = ""
@@ -33,7 +34,7 @@ import { getStarter } from "./download"
 //   return socketPath
 // }
 
-const docker = new Dockerode()
+export const docker = new Dockerode()
 
 // HANDLERS ========================================================
 
@@ -388,6 +389,7 @@ const invokeHandlers = {
   restartApp,
   getAllProjectsStates,
   isDockerRunning,
+  createProjectDIY,
 }
 
 export const setupHandlers = () => {

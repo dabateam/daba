@@ -36,12 +36,17 @@ export const TECHNOLOGIES: Technology[] = [
   {
     defaultLabel: "web",
     defaultIcon: "react.png",
+    repo: "https://github.com/dabateam/apps",
+    pathInRepo: "apps/react",
     name: "React",
+    volumes: ["./{{appName}}:/app", "/app/node_modules"],
+    ports: "5173:5173",
   },
   {
     defaultLabel: "db",
     defaultIcon: "postgres.png",
     name: "Postgres",
+    image: "postgres:16-bookworm",
     envVars: [
       {
         key: "POSTGRES_PASSWORD",
@@ -57,10 +62,15 @@ export const TECHNOLOGIES: Technology[] = [
         required: true,
       },
     ],
+    namedVolumes: ["postgres_data:/var/lib/postgresql/data"],
   },
   {
     defaultLabel: "api",
     defaultIcon: "node.png",
+    repo: "https://github.com/dabateam/apps",
+    pathInRepo: "apps/node-express",
     name: "Node",
+    volumes: ["./{{appName}}:/app", "/app/node_modules"],
+    ports: "3000:3000",
   },
 ]
